@@ -1,0 +1,30 @@
+name: Run Shadow Model
+
+on:
+  schedule:
+    - cron: '0,30 * * * *'   # every 30 minutes
+  workflow_dispatch:           # also allows manual trigger from GitHub UI
+
+jobs:
+  shadow:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+      GH_TOKEN:        ${{ secrets.GH_TOKEN }}
+      GH_REPO:         ${{ github.repository }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas geopandas shapely requests
+
+      - name: Run shadow model
+        run: python shadow_runner.py
