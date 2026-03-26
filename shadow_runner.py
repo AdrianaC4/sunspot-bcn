@@ -12,14 +12,10 @@ import json
 # =========================================================
 # 1. CONFIGURATION
 # =========================================================
-SHEET_ID = os.environ["GOOGLE_SHEET_ID"]
-GH_TOKEN = os.environ["GH_TOKEN"]
-GH_REPO  = os.environ["GH_REPO"]
+GH_TOKEN   = os.environ["GH_TOKEN"]
+GH_REPO    = os.environ["GH_REPO"]
 
-SHEET_URL = (
-    f"https://docs.google.com/spreadsheets/d/{SHEET_ID}"
-    f"/export?format=csv&gid=881521698"
-)
+SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7WBHZA-6IbdOGK41bpMHqvvqohQ5U4tPRmZzXRuYk42V2YlZHCsM9g-GdosZiH8pFJxhKFdlL0S7U/pub?gid=881521698&single=true&output=csv"
 
 # =========================================================
 # 2. LOAD DATA
@@ -32,10 +28,7 @@ buildings_df = pd.read_csv("buildings.csv")
 
 print("Loading sun context from Google Sheets...")
 response = requests.get(SHEET_URL, allow_redirects=True)
-print("Response status:", response.status_code)
-print("First 300 chars:", response.text[:300])
 sun_df = pd.read_csv(StringIO(response.text))
-print("Sun columns found:", list(sun_df.columns))
 
 print("Buildings rows:", len(buildings_df))
 print("Venues rows:",    len(venues_df))
