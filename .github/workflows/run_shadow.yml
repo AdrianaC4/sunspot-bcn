@@ -2,8 +2,8 @@ name: Run Shadow Model
 
 on:
   schedule:
-    - cron: '0,30 * * * *'   # every 30 minutes
-  workflow_dispatch:           # also allows manual trigger from GitHub UI
+    - cron: '0,30 * * * *'
+  workflow_dispatch:
 
 jobs:
   shadow:
@@ -12,19 +12,40 @@ jobs:
       GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
       GH_TOKEN:        ${{ secrets.GH_TOKEN }}
       GH_REPO:         ${{ github.repository }}
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
-          pip install pandas geopandas shapely requests
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            libgdal-dev \
+            gdal-bin \
+            libgeos-dev \
+            libproj-dev \
+            libspatialindex-dev
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install \
+            pandas \
+            geopandas \
+            shapely \
+            pyproj \
+            rtree \
+            requests \
+            fiona
 
       - name: Run shadow model
         run: python shadow_runner.py
