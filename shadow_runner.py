@@ -18,7 +18,7 @@ GH_REPO  = os.environ["GH_REPO"]
 
 SHEET_URL = (
     f"https://docs.google.com/spreadsheets/d/{SHEET_ID}"
-    f"/gviz/tq?tqx=out:csv&sheet=sun_context_barcelona"
+    f"/export?format=csv&gid=881521698"
 )
 
 # =========================================================
@@ -31,10 +31,8 @@ print("Loading buildings.csv from local checkout (LFS)...")
 buildings_df = pd.read_csv("buildings.csv")
 
 print("Loading sun context from Google Sheets...")
-sun_raw = requests.get(SHEET_URL).text
-print("First 500 chars of sheet response:", sun_raw[:500])
-sun_df = pd.read_csv(StringIO(sun_raw))
-print("Sun columns found:", list(sun_df.columns))
+response = requests.get(SHEET_URL, allow_redirects=True)
+sun_df = pd.read_csv(StringIO(response.text))
 
 print("Buildings rows:", len(buildings_df))
 print("Venues rows:",    len(venues_df))
