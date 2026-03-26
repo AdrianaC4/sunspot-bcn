@@ -32,7 +32,9 @@ buildings_df = pd.read_csv("buildings.csv")
 
 print("Loading sun context from Google Sheets...")
 sun_raw = requests.get(SHEET_URL).text
+print("First 500 chars of sheet response:", sun_raw[:500])
 sun_df = pd.read_csv(StringIO(sun_raw))
+print("Sun columns found:", list(sun_df.columns))
 
 print("Buildings rows:", len(buildings_df))
 print("Venues rows:",    len(venues_df))
