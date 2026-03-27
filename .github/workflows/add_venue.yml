@@ -1,0 +1,85 @@
+name: Add Venue
+
+on:
+  workflow_dispatch:
+    inputs:
+      venue_name:
+        description: 'Venue name'
+        required: true
+      amenity_type:
+        description: 'Type (bar/cafe/pub/restaurant)'
+        required: true
+      address:
+        description: 'Address'
+        required: false
+      latitude:
+        description: 'Latitude'
+        required: true
+      longitude:
+        description: 'Longitude'
+        required: true
+
+jobs:
+  add-venue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Add venue to CSV
+        env:
+          VENUE_NAME: ${{ github.event.inputs.venue_name }}
+          AMENITY_TYPE: ${{ github.event.inputs.amenity_type }}
+          ADDRESS: ${{ github.event.inputs.address }}
+          LATITUDE: ${{ github.event.inputs.latitude }}
+          LONGITUDE: ${{ github.event.inputs.longitude }}
+        run: |
+          python - <<'EOF'
+          import pandas as pd
+          import os
+          import uuid
+          from datetime import datetime
+
+          df = pd.read_csv("venues.csv")
+
+          new_row = {
+            "features.properties.@id": f"manual/{uuid.uuid4().hex[:8]}",
+            "Amenity_name": os.environ["VENUE_NAME"],
+            "Amenity_type": os.environ["AMENITY_TYPE"],
+            "Address": os.environ.get("ADDRESS", ""),
+            "Latitude": float(os.environ["LATITUDE"]),
+            "Longitude": float(os.environ["LONGITUDE"]),
+            "Outdoor_seating": "yes",
+            "Terrace_Status": "yes",
+            "timestamp": datetime.utcnow().isoformat(),
+          }
+
+          # Fill missing columns with empty string
+          for col in df.columns:
+            if col not in new_row:
+              new_row[col] = ""
+
+          df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+          df.to_csv("venues.csv", index=False)
+          print(f"✅ Added venue: {os.environ['VENUE_NAME']}")
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.email "sunspot-bot@github.com"
+          git config user.name "SunSpot Bot"
+          git add venues.csv
+          git commit -m "Add venue: ${{ github.event.inputs.venue_name }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
