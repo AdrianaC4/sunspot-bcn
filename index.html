@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="SunSpot BCN"/>
+  <title>SunSpot BCN</title>
+
+  <!-- Leaflet map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Papa Parse for CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --cream:       #FAF6EE;
+      --cream-dark:  #F2EAD8;
+      --amber:       #E8A020;
+      --amber-light: #F5C842;
+      --amber-deep:  #C47B0A;
+      --shadow-blue: #3A6EA8;
+      --shadow-light:#E8F0FA;
+      --text-dark:   #2C1F0E;
+      --text-mid:    #7A6248;
+      --text-light:  #B09878;
+      --card-bg:     #FFFDF7;
+      --border:      #E8DEC8;
+      --sunny-bg:    #FFF8E6;
+      --shadow-bg:   #EEF4FC;
+      --radius:      16px;
+      --radius-sm:   10px;
+      --shadow:      0 4px 24px rgba(44,31,14,0.10);
+      --shadow-sm:   0 2px 10px rgba(44,31,14,0.07);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--cream);
+      padding: 14px 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1.5px solid var(--border);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 100;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 10px; }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--amber-light), var(--amber));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(232,160,32,0.35);
+    }
+
+    .app-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .app-title span { color: var(--amber); }
+
+    .header-right { display: flex; align-items: center; gap: 8px; }
+
+    .refresh-btn {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--cream-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .refresh-btn:active { transform: scale(0.92); background: var(--border); }
+    .refresh-btn.spinning { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Status bar ── */
+    .status-bar {
+      background: var(--cream-dark);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .status-left { display: flex; align-items: center; gap: 6px; }
+
+    .gps-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #ccc;
+      transition: background 0.4s;
+    }
+    .gps-dot.active { background: #4CAF50; box-shadow: 0 0 6px rgba(76,175,80,0.5); }
+    .gps-dot.searching { background: var(--amber); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    .gps-label {
+      font-size: 11.5px;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    .sun-info {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11.5px; color: var(--text-mid); font-weight: 500;
+    }
+
+    .last-update {
+      font-size: 10.5px;
+      color: var(--text-light);
+    }
+
+    /* ── Tab bar ── */
+    .tab-bar {
+      display: flex;
+      background: var(--cream);
+      border-bottom: 1.5px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 11px 0;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab.active {
+      color: var(--amber-deep);
+      border-bottom-color: var(--amber);
+      font-weight: 600;
+    }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      padding: 10px 16px;
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: none;
+      background: var(--cream);
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      flex-shrink: 0;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--cream-dark);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .filter-chip.active {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: white;
+      box-shadow: 0 2px 8px rgba(232,160,32,0.3);
+    }
+
+    /* ── Main content ── */
+    .content {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Map view ── */
+    #map-view { width: 100%; height: 100%; display: none; }
+    #map-view.active { display: block; }
+    #map { width: 100%; height: 100%; }
+
+    /* ── List view ── */
+    #list-view {
+      width: 100%; height: 100%;
+      overflow-y: auto;
+      display: none;
+      padding: 12px 16px 80px;
+      scrollbar-width: none;
+    }
+    #list-view::-webkit-scrollbar { display: none; }
+    #list-view.active { display: block; }
+
+    /* ── Venue card ── */
+    .venue-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .venue-card:active { transform: scale(0.98); box-shadow: none; }
+
+    .venue-status-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .venue-status-icon.sunny { background: var(--sunny-bg); }
+    .venue-status-icon.shadow { background: var(--shadow-bg); }
+
+    .venue-info { flex: 1; min-width: 0; }
+
+    .venue-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .venue-meta {
+      display: flex; align-items: center; gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .venue-type-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--cream-dark);
+      color: var(--text-mid);
+      text-transform: capitalize;
+    }
+
+    .venue-terrace {
+      font-size: 10.5px;
+      color: var(--text-light);
+    }
+
+    .venue-address {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .venue-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .venue-distance {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+    }
+
+    .venue-sun-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .venue-sun-badge.sunny {
+      background: linear-gradient(135deg, #FFF3CC, #FFE082);
+      color: #8B5E00;
+    }
+    .venue-sun-badge.shadow {
+      background: var(--shadow-light);
+      color: var(--shadow-blue);
+    }
+
+    .maps-link {
+      font-size: 10.5px;
+      color: var(--amber-deep);
+      font-weight: 600;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 3px;
+    }
+
+    /* ── Summary bar (above list) ── */
+    .summary-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .summary-chip {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .summary-chip.sunny-chip { background: var(--sunny-bg); border: 1.5px solid #FFE082; }
+    .summary-chip.shadow-chip { background: var(--shadow-bg); border: 1.5px solid #C5D8F0; }
+
+    .summary-count {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      display: block;
+    }
+    .sunny-chip .summary-count { color: var(--amber-deep); }
+    .shadow-chip .summary-count { color: var(--shadow-blue); }
+
+    .summary-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--text-mid);
+    }
+
+    /* ── Distance slider ── */
+    .distance-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px 4px;
+      flex-shrink: 0;
+    }
+
+    .distance-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-mid);
+      white-space: nowrap;
+    }
+
+    .distance-value {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--amber-deep);
+      white-space: nowrap;
+      min-width: 40px;
+    }
+
+    input[type=range] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 2px 6px rgba(232,160,32,0.4);
+      cursor: pointer;
+    }
+
+    /* ── Loading / empty states ── */
+    .loading-state, .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 30px;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .loading-spinner {
+      width: 44px; height: 44px;
+      border: 3px solid var(--border);
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    .empty-icon { font-size: 40px; }
+    .empty-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
+
+    /* ── GPS permission overlay ── */
+    .gps-overlay {
+      position: fixed; inset: 0;
+      background: rgba(250,246,238,0.97);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      z-index: 1000;
+      gap: 16px;
+    }
+    .gps-overlay.hidden { display: none; }
+
+    .gps-overlay-icon {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--amber-light), var(--amber));
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px;
+      box-shadow: 0 8px 32px rgba(232,160,32,0.35);
+      margin-bottom: 8px;
+    }
+
+    .gps-overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .gps-overlay-sub {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .gps-btn {
+      background: linear-gradient(135deg, var(--amber-light), var(--amber));
+      color: white;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(232,160,32,0.4);
+      margin-top: 8px;
+      transition: transform 0.15s;
+    }
+    .gps-btn:active { transform: scale(0.96); }
+
+    .gps-skip {
+      font-size: 12.5px;
+      color: var(--text-light);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ── Leaflet custom markers ── */
+    .custom-marker {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2.5px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+    }
+    .marker-sunny { background: var(--amber); }
+    .marker-shadow { background: var(--shadow-blue); }
+    .marker-user {
+      background: #E53935;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 3px rgba(229,57,53,0.3);
+    }
+
+    /* ── Popup ── */
+    .leaflet-popup-content-wrapper {
+      border-radius: 14px !important;
+      box-shadow: var(--shadow) !important;
+      border: 1.5px solid var(--border) !important;
+      background: var(--card-bg) !important;
+    }
+    .leaflet-popup-content { margin: 14px 16px !important; }
+    .popup-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+    .popup-type {
+      font-size: 11px;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+      text-transform: capitalize;
+    }
+    .popup-status {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .popup-status.sunny { background: var(--sunny-bg); color: #8B5E00; }
+    .popup-status.shadow { background: var(--shadow-bg); color: var(--shadow-blue); }
+    .popup-maps {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--amber-deep);
+      font-weight: 600;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- GPS Permission Overlay -->
+<div class="gps-overlay" id="gps-overlay">
+  <div class="gps-overlay-icon">☀️</div>
+  <div class="gps-overlay-title">Find your sunny terrace</div>
+  <div class="gps-overlay-sub">
+    SunSpot BCN needs your location to show you the nearest sunny terraces in Barcelona right now.
+  </div>
+  <button class="gps-btn" onclick="requestGPS()">📍 Use My Location</button>
+  <span class="gps-skip" onclick="skipGPS()">Use Barcelona city centre instead</span>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo-icon">☀️</div>
+    <div class="app-title">Sun<span>Spot</span> BCN</div>
+  </div>
+  <div class="header-right">
+    <div class="refresh-btn" id="refresh-btn" onclick="loadData()" title="Refresh data">↻</div>
+  </div>
+</div>
+
+<!-- Status bar -->
+<div class="status-bar">
+  <div class="status-left">
+    <div class="gps-dot" id="gps-dot"></div>
+    <span class="gps-label" id="gps-label">Locating...</span>
+  </div>
+  <div class="sun-info" id="sun-info">—</div>
+  <div class="last-update" id="last-update"></div>
+</div>
+
+<!-- Tab bar -->
+<div class="tab-bar">
+  <div class="tab active" id="tab-list" onclick="switchTab('list')">📋 List</div>
+  <div class="tab" id="tab-map" onclick="switchTab('map')">🗺️ Map</div>
+</div>
+
+<!-- Filter chips -->
+<div class="filter-bar">
+  <div class="filter-chip active" data-filter="all" onclick="setFilter('all')">All venues</div>
+  <div class="filter-chip" data-filter="sunny" onclick="setFilter('sunny')">☀️ Sunny only</div>
+  <div class="filter-chip" data-filter="bar" onclick="setFilter('bar')">🍺 Bar</div>
+  <div class="filter-chip" data-filter="cafe" onclick="setFilter('cafe')">☕ Café</div>
+  <div class="filter-chip" data-filter="pub" onclick="setFilter('pub')">🍻 Pub</div>
+  <div class="filter-chip" data-filter="restaurant" onclick="setFilter('restaurant')">🍽️ Restaurant</div>
+</div>
+
+<!-- Distance slider -->
+<div class="distance-row">
+  <span class="distance-label">📍 Within</span>
+  <input type="range" id="distance-slider" min="0.2" max="3" step="0.1" value="1.0" oninput="onDistanceChange(this.value)"/>
+  <span class="distance-value" id="distance-value">1.0 km</span>
+</div>
+
+<!-- Main content -->
+<div class="content">
+
+  <!-- List view -->
+  <div id="list-view" class="active">
+    <div class="loading-state" id="loading-state">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading terraces...</div>
+    </div>
+    <div id="list-content" style="display:none"></div>
+  </div>
+
+  <!-- Map view -->
+  <div id="map-view">
+    <div id="map"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Configuration ────────────────────────────────────────────────────────────
+const GITHUB_USER = "AdrianaC4";
+const GITHUB_REPO = "sunspot-bcn";
+const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
+
+// ── State ────────────────────────────────────────────────────────────────────
+let userLat = 41.3851;
+let userLon = 2.1734;
+let userLocated = false;
+let allVenues = [];
+let filteredVenues = [];
+let activeFilter = "all";
+let maxDistanceKm = 1.0;
+let map = null;
+let userMarker = null;
+let venueMarkers = [];
+let currentTab = "list";
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  initMap();
+  // Check if we already have permission (returning user)
+  if (navigator.permissions) {
+    navigator.permissions.query({ name: 'geolocation' }).then(result => {
+      if (result.state === 'granted') {
+        document.getElementById('gps-overlay').classList.add('hidden');
+        startGPS();
+        loadData();
+      }
+      // else show overlay
+    }).catch(() => {
+      // permissions API not supported, show overlay
+    });
+  }
+});
+
+// ── GPS ───────────────────────────────────────────────────────────────────────
+function requestGPS() {
+  document.getElementById('gps-overlay').classList.add('hidden');
+  startGPS();
+  loadData();
+}
+
+function skipGPS() {
+  document.getElementById('gps-overlay').classList.add('hidden');
+  setGPSStatus('manual', `Barcelona centre`);
+  loadData();
+}
+
+function startGPS() {
+  setGPSStatus('searching', 'Searching...');
+  if (!navigator.geolocation) {
+    setGPSStatus('error', 'GPS not available');
+    return;
+  }
+  navigator.geolocation.watchPosition(
+    (pos) => {
+      userLat = pos.coords.latitude;
+      userLon = pos.coords.longitude;
+      userLocated = true;
+      const acc = Math.round(pos.coords.accuracy);
+      setGPSStatus('active', `±${acc}m accuracy`);
+      updateUserMarker();
+      renderList();
+      renderMap();
+    },
+    (err) => {
+      setGPSStatus('error', 'Location unavailable');
+    },
+    { enableHighAccuracy: true, maximumAge: 30000, timeout: 15000 }
+  );
+}
+
+function setGPSStatus(state, label) {
+  const dot = document.getElementById('gps-dot');
+  const lbl = document.getElementById('gps-label');
+  dot.className = 'gps-dot';
+  if (state === 'active') dot.classList.add('active');
+  else if (state === 'searching') dot.classList.add('searching');
+  lbl.textContent = label;
+}
+
+// ── Data loading ──────────────────────────────────────────────────────────────
+function loadData() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+  document.getElementById('loading-state').style.display = 'flex';
+  document.getElementById('list-content').style.display = 'none';
+
+  const url = DATA_URL + '?t=' + Date.now(); // cache bust
+  Papa.parse(url, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: (results) => {
+      btn.classList.remove('spinning');
+      processData(results.data);
+    },
+    error: (err) => {
+      btn.classList.remove('spinning');
+      showError();
+    }
+  });
+}
+
+function processData(rows) {
+  // Parse and enrich
+  allVenues = rows
+    .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
+    .map(r => ({
+      id:         r.venue_id || '',
+      name:       r.venue_name || 'Unnamed venue',
+      type:       (r.amenity_type || '').toLowerCase().trim(),
+      terrace:    r.terrace_status || '',
+      address:    r.address || '',
+      lat:        parseFloat(r.latitude),
+      lon:        parseFloat(r.longitude),
+      sunny:      parseInt(r.is_sunny_now) === 1,
+      elevation:  parseFloat(r.sun_elevation_deg) || 0,
+      azimuth:    parseFloat(r.sun_azimuth_deg) || 0,
+      cloud:      parseFloat(r.cloud_cover) || 0,
+      updated:    r.last_updated || '',
+    }))
+    .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
+
+  // Update sun info bar
+  if (allVenues.length > 0) {
+    const v = allVenues[0];
+    const elev = v.elevation.toFixed(0);
+    const elevLabel = v.elevation < 15 ? 'Low' : v.elevation < 40 ? 'Mid' : 'High';
+    const cloud = v.cloud.toFixed(0);
+    document.getElementById('sun-info').textContent =
+      `☀️ ${elev}° ${elevLabel}  ☁️ ${cloud}%`;
+
+    if (v.updated) {
+      const d = new Date(v.updated);
+      document.getElementById('last-update').textContent =
+        d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    }
+  }
+
+  applyFilters();
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('list-content').style.display = 'block';
+}
+
+// ── Distance ──────────────────────────────────────────────────────────────────
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+            Math.sin(dLon/2)**2;
+  return R * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+
+function onDistanceChange(val) {
+  maxDistanceKm = parseFloat(val);
+  document.getElementById('distance-value').textContent = `${parseFloat(val).toFixed(1)} km`;
+  applyFilters();
+}
+
+// ── Filters ───────────────────────────────────────────────────────────────────
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.filter === f);
+  });
+  applyFilters();
+}
+
+function applyFilters() {
+  filteredVenues = allVenues
+    .map(v => ({ ...v, distance: haversine(userLat, userLon, v.lat, v.lon) }))
+    .filter(v => v.distance <= maxDistanceKm)
+    .filter(v => {
+      if (activeFilter === 'all') return true;
+      if (activeFilter === 'sunny') return v.sunny;
+      return v.type === activeFilter;
+    })
+    .sort((a, b) => {
+      if (a.sunny !== b.sunny) return b.sunny - a.sunny; // sunny first
+      return a.distance - b.distance;
+    });
+
+  renderList();
+  renderMap();
+}
+
+// ── List rendering ────────────────────────────────────────────────────────────
+function renderList() {
+  const container = document.getElementById('list-content');
+  if (allVenues.length === 0) return;
+
+  const sunnyCount  = filteredVenues.filter(v => v.sunny).length;
+  const shadowCount = filteredVenues.filter(v => !v.sunny).length;
+
+  let html = `
+    <div class="summary-bar">
+      <div class="summary-chip sunny-chip">
+        <span class="summary-count">${sunnyCount}</span>
+        <span class="summary-label">☀️ Sunny now</span>
+      </div>
+      <div class="summary-chip shadow-chip">
+        <span class="summary-count">${shadowCount}</span>
+        <span class="summary-label">🌑 In shadow</span>
+      </div>
+    </div>
+  `;
+
+  if (filteredVenues.length === 0) {
+    html += `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">No venues found</div>
+        <div class="empty-sub">Try increasing the distance or changing the filter.</div>
+      </div>`;
+  } else {
+    filteredVenues.forEach(v => {
+      const distStr = v.distance < 1
+        ? `${(v.distance * 1000).toFixed(0)}m`
+        : `${v.distance.toFixed(2)}km`;
+
+      const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+      const typeLabel = v.type || 'venue';
+      const terraceLabel = v.terrace ? ` · ${v.terrace}` : '';
+
+      html += `
+        <a class="venue-card" href="${mapsUrl}" target="_blank" rel="noopener">
+          <div class="venue-status-icon ${v.sunny ? 'sunny' : 'shadow'}">
+            ${v.sunny ? '☀️' : '🌑'}
+          </div>
+          <div class="venue-info">
+            <div class="venue-name">${escHtml(v.name)}</div>
+            <div class="venue-meta">
+              <span class="venue-type-badge">${escHtml(typeLabel)}</span>
+              ${terraceLabel ? `<span class="venue-terrace">${escHtml(terraceLabel)}</span>` : ''}
+            </div>
+            ${v.address ? `<div class="venue-address">📍 ${escHtml(v.address)}</div>` : ''}
+          </div>
+          <div class="venue-right">
+            <span class="venue-distance">${distStr}</span>
+            <span class="venue-sun-badge ${v.sunny ? 'sunny' : 'shadow'}">
+              ${v.sunny ? 'Sunny' : 'Shadow'}
+            </span>
+            <span class="maps-link">Maps ↗</span>
+          </div>
+        </a>`;
+    });
+  }
+
+  container.innerHTML = html;
+}
+
+// ── Map rendering ──────────────────────────────────────────────────────────────
+function initMap() {
+  map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+}
+
+function updateUserMarker() {
+  if (!map) return;
+  if (userMarker) map.removeLayer(userMarker);
+  const icon = L.divIcon({
+    className: '',
+    html: '<div class="marker-user"></div>',
+    iconSize: [16, 16],
+    iconAnchor: [8, 8]
+  });
+  userMarker = L.marker([userLat, userLon], { icon }).addTo(map);
+  map.setView([userLat, userLon], 15);
+}
+
+function renderMap() {
+  if (!map) return;
+
+  // Clear old markers
+  venueMarkers.forEach(m => map.removeLayer(m));
+  venueMarkers = [];
+
+  // Add user marker
+  updateUserMarker();
+
+  // Add venue markers
+  filteredVenues.forEach(v => {
+    const color = v.sunny ? 'marker-sunny' : 'marker-shadow';
+    const emoji = v.sunny ? '☀️' : '🌑';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="custom-marker ${color}">${emoji}</div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+    const distStr = v.distance < 1
+      ? `${(v.distance * 1000).toFixed(0)}m away`
+      : `${v.distance.toFixed(2)}km away`;
+
+    const marker = L.marker([v.lat, v.lon], { icon })
+      .addTo(map)
+      .bindPopup(`
+        <div class="popup-name">${escHtml(v.name)}</div>
+        <div class="popup-type">${escHtml(v.type || 'venue')} · ${distStr}</div>
+        <span class="popup-status ${v.sunny ? 'sunny' : 'shadow'}">
+          ${v.sunny ? '☀️ Sunny now' : '🌑 In shadow'}
+        </span>
+        <a class="popup-maps" href="${mapsUrl}" target="_blank">Open in Google Maps ↗</a>
+      `);
+
+    venueMarkers.push(marker);
+  });
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-list').classList.toggle('active', tab === 'list');
+  document.getElementById('tab-map').classList.toggle('active', tab === 'map');
+  document.getElementById('list-view').classList.toggle('active', tab === 'list');
+  document.getElementById('map-view').classList.toggle('active', tab === 'map');
+
+  if (tab === 'map') {
+    setTimeout(() => {
+      map.invalidateSize();
+      if (userLocated) map.setView([userLat, userLon], 15);
+      renderMap();
+    }, 50);
+  }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function showError() {
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('list-content').style.display = 'block';
+  document.getElementById('list-content').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <div class="empty-title">Could not load data</div>
+      <div class="empty-sub">Check your internet connection and try refreshing.</div>
+    </div>`;
+}
+</script>
+</body>
+</html>
