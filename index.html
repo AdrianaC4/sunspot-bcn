@@ -8,16 +8,12 @@
   <meta name="apple-mobile-web-app-title" content="SunSpot BCN"/>
   <title>SunSpot BCN</title>
 
-  <!-- Leaflet map -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- Papa Parse for CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
   <style>
-    /* ── Design tokens ── */
     :root {
       --cream:       #FAF6EE;
       --cream-dark:  #F2EAD8;
@@ -37,65 +33,44 @@
       --radius-sm:   10px;
       --shadow:      0 4px 24px rgba(44,31,14,0.10);
       --shadow-sm:   0 2px 10px rgba(44,31,14,0.07);
+      --green:       #2E7D32;
+      --green-bg:    #E8F5E9;
+      --red:         #C62828;
+      --red-bg:      #FFEBEE;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--text-dark);
-      height: 100dvh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      background: var(--cream); color: var(--text-dark);
+      height: 100dvh; overflow: hidden;
+      display: flex; flex-direction: column;
     }
 
     /* ── Header ── */
     .header {
-      background: var(--cream);
-      padding: 14px 20px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1.5px solid var(--border);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 100;
+      background: var(--cream); padding: 14px 20px 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1.5px solid var(--border); flex-shrink: 0;
+      position: relative; z-index: 100;
     }
-
     .header-left { display: flex; align-items: center; gap: 10px; }
-
     .logo-icon {
       width: 36px; height: 36px;
       background: linear-gradient(135deg, var(--amber-light), var(--amber));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      box-shadow: 0 2px 8px rgba(232,160,32,0.35);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; box-shadow: 0 2px 8px rgba(232,160,32,0.35);
     }
-
     .app-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 900;
-      color: var(--text-dark);
-      letter-spacing: -0.3px;
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900;
+      color: var(--text-dark); letter-spacing: -0.3px;
     }
-
     .app-title span { color: var(--amber); }
-
     .header-right { display: flex; align-items: center; gap: 8px; }
-
     .refresh-btn {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      border: 1.5px solid var(--border);
-      background: var(--cream-dark);
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1.5px solid var(--border); background: var(--cream-dark);
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all 0.2s;
+      font-size: 15px; cursor: pointer; transition: all 0.2s;
     }
     .refresh-btn:active { transform: scale(0.92); background: var(--border); }
     .refresh-btn.spinning { animation: spin 1s linear infinite; }
@@ -103,471 +78,199 @@
 
     /* ── Status bar ── */
     .status-bar {
-      background: var(--cream-dark);
-      padding: 8px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
+      background: var(--cream-dark); padding: 8px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border); flex-shrink: 0;
     }
-
     .status-left { display: flex; align-items: center; gap: 6px; }
-
-    .gps-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #ccc;
-      transition: background 0.4s;
-    }
-    .gps-dot.active { background: #4CAF50; box-shadow: 0 0 6px rgba(76,175,80,0.5); }
+    .gps-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; transition: background 0.4s; }
+    .gps-dot.active    { background: #4CAF50; box-shadow: 0 0 6px rgba(76,175,80,0.5); }
     .gps-dot.searching { background: var(--amber); animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-    .gps-label {
-      font-size: 11.5px;
-      color: var(--text-mid);
-      font-weight: 500;
-    }
-
-    .sun-info {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 11.5px; color: var(--text-mid); font-weight: 500;
-    }
-
-    .last-update {
-      font-size: 10.5px;
-      color: var(--text-light);
-    }
+    .gps-label   { font-size: 11.5px; color: var(--text-mid); font-weight: 500; }
+    .sun-info    { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-mid); font-weight: 500; }
+    .last-update { font-size: 10.5px; color: var(--text-light); }
 
     /* ── Tab bar ── */
-    .tab-bar {
-      display: flex;
-      background: var(--cream);
-      border-bottom: 1.5px solid var(--border);
-      flex-shrink: 0;
-    }
-
+    .tab-bar { display: flex; background: var(--cream); border-bottom: 1.5px solid var(--border); flex-shrink: 0; }
     .tab {
-      flex: 1;
-      padding: 11px 0;
-      text-align: center;
-      font-size: 12.5px;
-      font-weight: 500;
-      color: var(--text-light);
-      cursor: pointer;
-      border-bottom: 2.5px solid transparent;
-      transition: all 0.2s;
+      flex: 1; padding: 11px 0; text-align: center;
+      font-size: 12.5px; font-weight: 500; color: var(--text-light);
+      cursor: pointer; border-bottom: 2.5px solid transparent; transition: all 0.2s;
     }
-    .tab.active {
-      color: var(--amber-deep);
-      border-bottom-color: var(--amber);
-      font-weight: 600;
-    }
+    .tab.active { color: var(--amber-deep); border-bottom-color: var(--amber); font-weight: 600; }
 
     /* ── Filter bar ── */
     .filter-bar {
-      padding: 10px 16px;
-      display: flex;
-      gap: 7px;
-      overflow-x: auto;
-      flex-shrink: 0;
-      scrollbar-width: none;
-      background: var(--cream);
+      padding: 10px 16px; display: flex; gap: 7px;
+      overflow-x: auto; flex-shrink: 0; scrollbar-width: none; background: var(--cream);
     }
     .filter-bar::-webkit-scrollbar { display: none; }
-
     .filter-chip {
-      flex-shrink: 0;
-      padding: 5px 13px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border);
-      background: var(--cream-dark);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-mid);
-      cursor: pointer;
-      transition: all 0.18s;
-      white-space: nowrap;
+      flex-shrink: 0; padding: 5px 13px; border-radius: 20px;
+      border: 1.5px solid var(--border); background: var(--cream-dark);
+      font-size: 12px; font-weight: 500; color: var(--text-mid);
+      cursor: pointer; transition: all 0.18s; white-space: nowrap;
     }
-    .filter-chip.active {
-      background: var(--amber);
-      border-color: var(--amber);
-      color: white;
-      box-shadow: 0 2px 8px rgba(232,160,32,0.3);
+    .filter-chip.active { background: var(--amber); border-color: var(--amber); color: white; box-shadow: 0 2px 8px rgba(232,160,32,0.3); }
+
+    /* ── Distance slider ── */
+    .distance-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 16px 4px; flex-shrink: 0;
+    }
+    .distance-label { font-size: 11.5px; font-weight: 600; color: var(--text-mid); white-space: nowrap; }
+    .distance-value { font-size: 11.5px; font-weight: 700; color: var(--amber-deep); white-space: nowrap; min-width: 40px; }
+    input[type=range] { flex: 1; -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--border); outline: none; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--amber); box-shadow: 0 2px 6px rgba(232,160,32,0.4); cursor: pointer;
     }
 
-    /* ── Main content ── */
-    .content {
-      flex: 1;
-      overflow: hidden;
-      position: relative;
-    }
+    /* ── Content ── */
+    .content { flex: 1; overflow: hidden; position: relative; }
 
-    /* ── Map view ── */
     #map-view { width: 100%; height: 100%; display: none; }
     #map-view.active { display: block; }
     #map { width: 100%; height: 100%; }
 
-    /* ── List view ── */
-    #list-view {
-      width: 100%; height: 100%;
-      overflow-y: auto;
-      display: none;
-      padding: 12px 16px 80px;
-      scrollbar-width: none;
-    }
+    #list-view { width: 100%; height: 100%; overflow-y: auto; display: none; padding: 12px 16px 80px; scrollbar-width: none; }
     #list-view::-webkit-scrollbar { display: none; }
     #list-view.active { display: block; }
 
+    #add-view { width: 100%; height: 100%; overflow-y: auto; display: none; padding: 16px 16px 80px; scrollbar-width: none; }
+    #add-view::-webkit-scrollbar { display: none; }
+    #add-view.active { display: block; }
+
     /* ── Venue card ── */
     .venue-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      border: 1.5px solid var(--border);
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: flex-start;
-      gap: 13px;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      text-decoration: none;
-      color: inherit;
+      background: var(--card-bg); border-radius: var(--radius); border: 1.5px solid var(--border);
+      padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm);
+      display: flex; align-items: flex-start; gap: 13px;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+      text-decoration: none; color: inherit;
     }
     .venue-card:active { transform: scale(0.98); box-shadow: none; }
-
-    .venue-status-icon {
-      width: 42px; height: 42px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .venue-status-icon.sunny { background: var(--sunny-bg); }
+    .venue-status-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .venue-status-icon.sunny  { background: var(--sunny-bg); }
     .venue-status-icon.shadow { background: var(--shadow-bg); }
-
     .venue-info { flex: 1; min-width: 0; }
+    .venue-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .venue-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .venue-type-badge { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 20px; background: var(--cream-dark); color: var(--text-mid); text-transform: capitalize; }
+    .venue-terrace { font-size: 10.5px; color: var(--text-light); }
+    .venue-address { font-size: 11px; color: var(--text-light); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .venue-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .venue-distance { font-size: 13px; font-weight: 600; color: var(--text-mid); }
+    .venue-sun-badge { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.3px; text-transform: uppercase; }
+    .venue-sun-badge.sunny  { background: linear-gradient(135deg,#FFF3CC,#FFE082); color: #8B5E00; }
+    .venue-sun-badge.shadow { background: var(--shadow-light); color: var(--shadow-blue); }
+    .maps-link { font-size: 10.5px; color: var(--amber-deep); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 3px; }
 
-    .venue-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-dark);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 3px;
-    }
-
-    .venue-meta {
-      display: flex; align-items: center; gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .venue-type-badge {
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 20px;
-      background: var(--cream-dark);
-      color: var(--text-mid);
-      text-transform: capitalize;
-    }
-
-    .venue-terrace {
-      font-size: 10.5px;
-      color: var(--text-light);
-    }
-
-    .venue-address {
-      font-size: 11px;
-      color: var(--text-light);
-      margin-top: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .venue-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .venue-distance {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-mid);
-    }
-
-    .venue-sun-badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 20px;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
-    .venue-sun-badge.sunny {
-      background: linear-gradient(135deg, #FFF3CC, #FFE082);
-      color: #8B5E00;
-    }
-    .venue-sun-badge.shadow {
-      background: var(--shadow-light);
-      color: var(--shadow-blue);
-    }
-
-    .maps-link {
-      font-size: 10.5px;
-      color: var(--amber-deep);
-      font-weight: 600;
-      text-decoration: none;
-      display: flex; align-items: center; gap: 3px;
-    }
-
-    /* ── Summary bar (above list) ── */
-    .summary-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .summary-chip {
-      flex: 1;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      text-align: center;
-    }
-    .summary-chip.sunny-chip { background: var(--sunny-bg); border: 1.5px solid #FFE082; }
+    /* ── Summary bar ── */
+    .summary-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+    .summary-chip { flex: 1; padding: 10px 12px; border-radius: var(--radius-sm); text-align: center; }
+    .summary-chip.sunny-chip  { background: var(--sunny-bg);  border: 1.5px solid #FFE082; }
     .summary-chip.shadow-chip { background: var(--shadow-bg); border: 1.5px solid #C5D8F0; }
-
-    .summary-count {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 900;
-      display: block;
-    }
-    .sunny-chip .summary-count { color: var(--amber-deep); }
+    .summary-count { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; display: block; }
+    .sunny-chip  .summary-count { color: var(--amber-deep); }
     .shadow-chip .summary-count { color: var(--shadow-blue); }
+    .summary-label { font-size: 10.5px; font-weight: 500; color: var(--text-mid); }
 
-    .summary-label {
-      font-size: 10.5px;
-      font-weight: 500;
-      color: var(--text-mid);
+    /* ── Add venue form ── */
+    .add-header { margin-bottom: 16px; }
+    .add-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--text-dark); margin-bottom: 6px; }
+    .add-subtitle { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+    .form-card { background: var(--card-bg); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 12px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group:last-child { margin-bottom: 0; }
+    .form-label { display: block; font-size: 11.5px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-label span { color: var(--amber); }
+    .form-input, .form-select {
+      width: 100%; padding: 11px 14px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border); background: var(--cream);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-dark);
+      outline: none; transition: border-color 0.2s; -webkit-appearance: none;
     }
+    .form-input:focus, .form-select:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(232,160,32,0.12); }
+    .form-input::placeholder { color: var(--text-light); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .gps-autofill-btn {
+      width: 100%; padding: 10px; border-radius: var(--radius-sm);
+      border: 1.5px dashed var(--amber); background: var(--sunny-bg);
+      color: var(--amber-deep); font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 10px;
+    }
+    .gps-autofill-btn:active { transform: scale(0.98); }
+    .submit-btn {
+      width: 100%; padding: 15px; border-radius: var(--radius); border: none;
+      background: linear-gradient(135deg, var(--amber-light), var(--amber));
+      color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px;
+    }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { background: var(--border); color: var(--text-light); box-shadow: none; cursor: not-allowed; }
+    .form-status { padding: 12px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; margin-top: 12px; display: none; line-height: 1.4; }
+    .form-status.success { background: var(--green-bg); color: var(--green); display: block; }
+    .form-status.error   { background: var(--red-bg);   color: var(--red);   display: block; }
+    .info-box { background: var(--shadow-bg); border: 1.5px solid #C5D8F0; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--shadow-blue); line-height: 1.5; margin-top: 12px; }
 
-    /* ── Distance slider ── */
-    .distance-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 16px 4px;
-      flex-shrink: 0;
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; color: white;
+      z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      white-space: nowrap; max-width: calc(100vw - 40px); text-align: center;
     }
+    .toast.success { background: var(--green); }
+    .toast.error   { background: var(--red); }
+    .toast.info    { background: var(--shadow-blue); }
+    .toast.show    { opacity: 1; }
 
-    .distance-label {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--text-mid);
-      white-space: nowrap;
-    }
-
-    .distance-value {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--amber-deep);
-      white-space: nowrap;
-      min-width: 40px;
-    }
-
-    input[type=range] {
-      flex: 1;
-      -webkit-appearance: none;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--border);
-      outline: none;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: var(--amber);
-      box-shadow: 0 2px 6px rgba(232,160,32,0.4);
-      cursor: pointer;
-    }
-
-    /* ── Loading / empty states ── */
-    .loading-state, .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 30px;
-      text-align: center;
-      gap: 12px;
-    }
-
-    .loading-spinner {
-      width: 44px; height: 44px;
-      border: 3px solid var(--border);
-      border-top-color: var(--amber);
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-    }
-
-    .loading-text {
-      font-size: 14px;
-      color: var(--text-mid);
-      font-weight: 500;
-    }
-
+    /* ── Loading / empty ── */
+    .loading-state, .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 30px; text-align: center; gap: 12px; }
+    .loading-spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    .loading-text { font-size: 14px; color: var(--text-mid); font-weight: 500; }
     .empty-icon { font-size: 40px; }
-    .empty-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
+    .empty-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text-dark); }
     .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 
-    /* ── GPS permission overlay ── */
-    .gps-overlay {
-      position: fixed; inset: 0;
-      background: rgba(250,246,238,0.97);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      text-align: center;
-      z-index: 1000;
-      gap: 16px;
-    }
+    /* ── GPS overlay ── */
+    .gps-overlay { position: fixed; inset: 0; background: rgba(250,246,238,0.97); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 1000; gap: 16px; }
     .gps-overlay.hidden { display: none; }
-
-    .gps-overlay-icon {
-      width: 80px; height: 80px;
-      background: linear-gradient(135deg, var(--amber-light), var(--amber));
-      border-radius: 24px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 38px;
-      box-shadow: 0 8px 32px rgba(232,160,32,0.35);
-      margin-bottom: 8px;
-    }
-
-    .gps-overlay-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 900;
-      color: var(--text-dark);
-      line-height: 1.2;
-    }
-
-    .gps-overlay-sub {
-      font-size: 14px;
-      color: var(--text-mid);
-      line-height: 1.6;
-      max-width: 280px;
-    }
-
-    .gps-btn {
-      background: linear-gradient(135deg, var(--amber-light), var(--amber));
-      color: white;
-      border: none;
-      padding: 16px 36px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 700;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(232,160,32,0.4);
-      margin-top: 8px;
-      transition: transform 0.15s;
-    }
+    .gps-overlay-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--amber-light), var(--amber)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 38px; box-shadow: 0 8px 32px rgba(232,160,32,0.35); margin-bottom: 8px; }
+    .gps-overlay-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--text-dark); line-height: 1.2; }
+    .gps-overlay-sub { font-size: 14px; color: var(--text-mid); line-height: 1.6; max-width: 280px; }
+    .gps-btn { background: linear-gradient(135deg, var(--amber-light), var(--amber)); color: white; border: none; padding: 16px 36px; border-radius: 14px; font-size: 16px; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; box-shadow: 0 4px 16px rgba(232,160,32,0.4); margin-top: 8px; transition: transform 0.15s; }
     .gps-btn:active { transform: scale(0.96); }
+    .gps-skip { font-size: 12.5px; color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
-    .gps-skip {
-      font-size: 12.5px;
-      color: var(--text-light);
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    /* ── Leaflet custom markers ── */
-    .custom-marker {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      border: 2.5px solid white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px;
-    }
-    .marker-sunny { background: var(--amber); }
+    /* ── Markers ── */
+    .custom-marker { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+    .marker-sunny  { background: var(--amber); }
     .marker-shadow { background: var(--shadow-blue); }
-    .marker-user {
-      background: #E53935;
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 3px rgba(229,57,53,0.3);
-    }
+    .marker-user   { background: #E53935; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 3px rgba(229,57,53,0.3); }
 
     /* ── Popup ── */
-    .leaflet-popup-content-wrapper {
-      border-radius: 14px !important;
-      box-shadow: var(--shadow) !important;
-      border: 1.5px solid var(--border) !important;
-      background: var(--card-bg) !important;
-    }
+    .leaflet-popup-content-wrapper { border-radius: 14px !important; box-shadow: var(--shadow) !important; border: 1.5px solid var(--border) !important; background: var(--card-bg) !important; }
     .leaflet-popup-content { margin: 14px 16px !important; }
-    .popup-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-    .popup-type {
-      font-size: 11px;
-      color: var(--text-mid);
-      margin-bottom: 8px;
-      text-transform: capitalize;
-    }
-    .popup-status {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 8px;
-    }
-    .popup-status.sunny { background: var(--sunny-bg); color: #8B5E00; }
+    .popup-name  { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+    .popup-type  { font-size: 11px; color: var(--text-mid); margin-bottom: 8px; text-transform: capitalize; }
+    .popup-status { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; }
+    .popup-status.sunny  { background: var(--sunny-bg);  color: #8B5E00; }
     .popup-status.shadow { background: var(--shadow-bg); color: var(--shadow-blue); }
-    .popup-maps {
-      display: block;
-      margin-top: 6px;
-      font-size: 12px;
-      color: var(--amber-deep);
-      font-weight: 600;
-      text-decoration: none;
-    }
+    .popup-maps  { display: block; margin-top: 6px; font-size: 12px; color: var(--amber-deep); font-weight: 600; text-decoration: none; }
   </style>
 </head>
 <body>
 
-<!-- GPS Permission Overlay -->
+<div class="toast" id="toast"></div>
+
+<!-- GPS Overlay -->
 <div class="gps-overlay" id="gps-overlay">
   <div class="gps-overlay-icon">☀️</div>
   <div class="gps-overlay-title">Find your sunny terrace</div>
-  <div class="gps-overlay-sub">
-    SunSpot BCN needs your location to show you the nearest sunny terraces in Barcelona right now.
-  </div>
+  <div class="gps-overlay-sub">SunSpot BCN needs your location to show the nearest sunny terraces in Barcelona right now.</div>
   <button class="gps-btn" onclick="requestGPS()">📍 Use My Location</button>
   <span class="gps-skip" onclick="skipGPS()">Use Barcelona city centre instead</span>
 </div>
@@ -596,30 +299,30 @@
 <!-- Tab bar -->
 <div class="tab-bar">
   <div class="tab active" id="tab-list" onclick="switchTab('list')">📋 List</div>
-  <div class="tab" id="tab-map" onclick="switchTab('map')">🗺️ Map</div>
+  <div class="tab"        id="tab-map"  onclick="switchTab('map')">🗺️ Map</div>
+  <div class="tab"        id="tab-add"  onclick="switchTab('add')">➕ Add</div>
 </div>
 
-<!-- Filter chips -->
-<div class="filter-bar">
-  <div class="filter-chip active" data-filter="all" onclick="setFilter('all')">All venues</div>
-  <div class="filter-chip" data-filter="sunny" onclick="setFilter('sunny')">☀️ Sunny only</div>
-  <div class="filter-chip" data-filter="bar" onclick="setFilter('bar')">🍺 Bar</div>
-  <div class="filter-chip" data-filter="cafe" onclick="setFilter('cafe')">☕ Café</div>
-  <div class="filter-chip" data-filter="pub" onclick="setFilter('pub')">🍻 Pub</div>
-  <div class="filter-chip" data-filter="restaurant" onclick="setFilter('restaurant')">🍽️ Restaurant</div>
+<!-- Filters (hidden on Add tab) -->
+<div id="filter-section">
+  <div class="filter-bar">
+    <div class="filter-chip active" data-filter="all"        onclick="setFilter('all')">All venues</div>
+    <div class="filter-chip"        data-filter="sunny"      onclick="setFilter('sunny')">☀️ Sunny only</div>
+    <div class="filter-chip"        data-filter="bar"        onclick="setFilter('bar')">🍺 Bar</div>
+    <div class="filter-chip"        data-filter="cafe"       onclick="setFilter('cafe')">☕ Café</div>
+    <div class="filter-chip"        data-filter="pub"        onclick="setFilter('pub')">🍻 Pub</div>
+    <div class="filter-chip"        data-filter="restaurant" onclick="setFilter('restaurant')">🍽️ Restaurant</div>
+  </div>
+  <div class="distance-row">
+    <span class="distance-label">📍 Within</span>
+    <input type="range" id="distance-slider" min="0.2" max="3" step="0.1" value="1.0" oninput="onDistanceChange(this.value)"/>
+    <span class="distance-value" id="distance-value">1.0 km</span>
+  </div>
 </div>
 
-<!-- Distance slider -->
-<div class="distance-row">
-  <span class="distance-label">📍 Within</span>
-  <input type="range" id="distance-slider" min="0.2" max="3" step="0.1" value="1.0" oninput="onDistanceChange(this.value)"/>
-  <span class="distance-value" id="distance-value">1.0 km</span>
-</div>
-
-<!-- Main content -->
+<!-- Content -->
 <div class="content">
 
-  <!-- List view -->
   <div id="list-view" class="active">
     <div class="loading-state" id="loading-state">
       <div class="loading-spinner"></div>
@@ -628,367 +331,376 @@
     <div id="list-content" style="display:none"></div>
   </div>
 
-  <!-- Map view -->
   <div id="map-view">
     <div id="map"></div>
+  </div>
+
+  <div id="add-view">
+    <div class="add-header">
+      <div class="add-title">Add a Venue ➕</div>
+      <div class="add-subtitle">Found a terrace that's missing? Add it here — it will appear on the map after the next automatic update (within 30 minutes).</div>
+    </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label class="form-label" for="f-name">Venue name <span>*</span></label>
+        <input class="form-input" id="f-name" type="text" placeholder="e.g. Bar El Sol" autocomplete="off"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-type">Venue type <span>*</span></label>
+        <select class="form-select" id="f-type">
+          <option value="">Select type...</option>
+          <option value="bar">🍺 Bar</option>
+          <option value="cafe">☕ Café</option>
+          <option value="pub">🍻 Pub</option>
+          <option value="restaurant">🍽️ Restaurant</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-address">Address</label>
+        <input class="form-input" id="f-address" type="text" placeholder="e.g. Carrer de Provença, 123" autocomplete="off"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Coordinates <span>*</span></label>
+        <button class="gps-autofill-btn" onclick="autofillGPS()">📍 Use my current location</button>
+        <div class="form-row">
+          <input class="form-input" id="f-lat" type="number" step="0.000001" placeholder="Latitude"  min="41.0" max="41.6"/>
+          <input class="form-input" id="f-lon" type="number" step="0.000001" placeholder="Longitude" min="1.8"  max="2.5"/>
+        </div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:5px;">
+          💡 Tip: open Google Maps, long-press the venue location, and copy the coordinates shown.
+        </div>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitVenue()">Submit Venue ☀️</button>
+      <div class="form-status" id="form-status"></div>
+    </div>
+    <div class="info-box">
+      ℹ️ Submitted venues are added to the database and will receive a sun/shadow calculation within the next 30 minutes. They will then appear on the map automatically.
+    </div>
   </div>
 
 </div>
 
 <script>
-// ── Configuration ────────────────────────────────────────────────────────────
+// ── Config ────────────────────────────────────────────────────────────────────
 const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
-const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
+const DATA_URL    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
 
-// ── State ────────────────────────────────────────────────────────────────────
-let userLat = 41.3851;
-let userLon = 2.1734;
-let userLocated = false;
-let allVenues = [];
+// ⚠️ Replace with your ADD_VENUE_TOKEN (the ghp_xxx token with repo+workflow scopes)
+const ADD_VENUE_TOKEN = "PASTE_YOUR_ADD_VENUE_TOKEN_HERE";
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let userLat        = 41.3851;
+let userLon        = 2.1734;
+let userLocated    = false;
+let allVenues      = [];
 let filteredVenues = [];
-let activeFilter = "all";
-let maxDistanceKm = 1.0;
-let map = null;
-let userMarker = null;
-let venueMarkers = [];
-let currentTab = "list";
+let activeFilter   = "all";
+let maxDistanceKm  = 1.0;
+let map            = null;
+let userMarker     = null;
+let venueMarkers   = [];
+let currentTab     = "list";
+let radiusCircle   = null;
 
-// ── Init ─────────────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   initMap();
-  // Check if we already have permission (returning user)
   if (navigator.permissions) {
-    navigator.permissions.query({ name: 'geolocation' }).then(result => {
-      if (result.state === 'granted') {
+    navigator.permissions.query({ name: 'geolocation' }).then(r => {
+      if (r.state === 'granted') {
         document.getElementById('gps-overlay').classList.add('hidden');
-        startGPS();
-        loadData();
+        startGPS(); loadData();
       }
-      // else show overlay
-    }).catch(() => {
-      // permissions API not supported, show overlay
-    });
+    }).catch(() => {});
   }
 });
 
 // ── GPS ───────────────────────────────────────────────────────────────────────
 function requestGPS() {
   document.getElementById('gps-overlay').classList.add('hidden');
-  startGPS();
-  loadData();
+  startGPS(); loadData();
 }
-
 function skipGPS() {
   document.getElementById('gps-overlay').classList.add('hidden');
-  setGPSStatus('manual', `Barcelona centre`);
+  setGPSStatus('manual', 'Barcelona centre');
   loadData();
 }
-
 function startGPS() {
   setGPSStatus('searching', 'Searching...');
-  if (!navigator.geolocation) {
-    setGPSStatus('error', 'GPS not available');
-    return;
-  }
+  if (!navigator.geolocation) { setGPSStatus('error', 'GPS not available'); return; }
   navigator.geolocation.watchPosition(
-    (pos) => {
+    pos => {
       userLat = pos.coords.latitude;
       userLon = pos.coords.longitude;
       userLocated = true;
-      const acc = Math.round(pos.coords.accuracy);
-      setGPSStatus('active', `±${acc}m accuracy`);
+      setGPSStatus('active', `±${Math.round(pos.coords.accuracy)}m accuracy`);
       updateUserMarker();
-      renderList();
-      renderMap();
+      applyFilters();
     },
-    (err) => {
-      setGPSStatus('error', 'Location unavailable');
-    },
+    () => setGPSStatus('error', 'Location unavailable'),
     { enableHighAccuracy: true, maximumAge: 30000, timeout: 15000 }
   );
 }
-
 function setGPSStatus(state, label) {
   const dot = document.getElementById('gps-dot');
-  const lbl = document.getElementById('gps-label');
   dot.className = 'gps-dot';
-  if (state === 'active') dot.classList.add('active');
-  else if (state === 'searching') dot.classList.add('searching');
-  lbl.textContent = label;
+  if (state === 'active')    dot.classList.add('active');
+  if (state === 'searching') dot.classList.add('searching');
+  document.getElementById('gps-label').textContent = label;
+}
+function autofillGPS() {
+  if (!navigator.geolocation) { showToast('GPS not available', 'error'); return; }
+  showToast('📍 Getting your location...', 'info');
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      document.getElementById('f-lat').value = pos.coords.latitude.toFixed(6);
+      document.getElementById('f-lon').value = pos.coords.longitude.toFixed(6);
+      showToast('✅ Location filled in!', 'success');
+    },
+    () => showToast('Could not get location. Enter manually.', 'error'),
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
 }
 
-// ── Data loading ──────────────────────────────────────────────────────────────
+// ── Data ──────────────────────────────────────────────────────────────────────
 function loadData() {
-  const btn = document.getElementById('refresh-btn');
-  btn.classList.add('spinning');
+  document.getElementById('refresh-btn').classList.add('spinning');
   document.getElementById('loading-state').style.display = 'flex';
   document.getElementById('list-content').style.display = 'none';
-
-  const url = DATA_URL + '?t=' + Date.now(); // cache bust
-  Papa.parse(url, {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: (results) => {
-      btn.classList.remove('spinning');
-      processData(results.data);
-    },
-    error: (err) => {
-      btn.classList.remove('spinning');
-      showError();
-    }
+  Papa.parse(DATA_URL + '?t=' + Date.now(), {
+    download: true, header: true, skipEmptyLines: true,
+    complete: r => { document.getElementById('refresh-btn').classList.remove('spinning'); processData(r.data); },
+    error:    () => { document.getElementById('refresh-btn').classList.remove('spinning'); showError(); }
   });
 }
-
 function processData(rows) {
-  // Parse and enrich
   allVenues = rows
     .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
     .map(r => ({
-      id:         r.venue_id || '',
-      name:       r.venue_name || 'Unnamed venue',
-      type:       (r.amenity_type || '').toLowerCase().trim(),
-      terrace:    r.terrace_status || '',
-      address:    r.address || '',
-      lat:        parseFloat(r.latitude),
-      lon:        parseFloat(r.longitude),
-      sunny:      parseInt(r.is_sunny_now) === 1,
-      elevation:  parseFloat(r.sun_elevation_deg) || 0,
-      azimuth:    parseFloat(r.sun_azimuth_deg) || 0,
-      cloud:      parseFloat(r.cloud_cover) || 0,
-      updated:    r.last_updated || '',
+      id: r.venue_id||'', name: r.venue_name||'Unnamed venue',
+      type: (r.amenity_type||'').toLowerCase().trim(),
+      terrace: r.terrace_status||'', address: r.address||'',
+      lat: parseFloat(r.latitude), lon: parseFloat(r.longitude),
+      sunny: parseInt(r.is_sunny_now) === 1,
+      elevation: parseFloat(r.sun_elevation_deg)||0,
+      cloud: parseFloat(r.cloud_cover)||0,
+      updated: r.last_updated||''
     }))
     .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
 
-  // Update sun info bar
   if (allVenues.length > 0) {
     const v = allVenues[0];
-    const elev = v.elevation.toFixed(0);
-    const elevLabel = v.elevation < 15 ? 'Low' : v.elevation < 40 ? 'Mid' : 'High';
-    const cloud = v.cloud.toFixed(0);
-    document.getElementById('sun-info').textContent =
-      `☀️ ${elev}° ${elevLabel}  ☁️ ${cloud}%`;
-
+    const lbl = v.elevation < 15 ? 'Low' : v.elevation < 40 ? 'Mid' : 'High';
+    document.getElementById('sun-info').textContent = `☀️ ${v.elevation.toFixed(0)}° ${lbl}  ☁️ ${v.cloud.toFixed(0)}%`;
     if (v.updated) {
       const d = new Date(v.updated);
-      document.getElementById('last-update').textContent =
-        d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('last-update').textContent = d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
     }
   }
-
   applyFilters();
   document.getElementById('loading-state').style.display = 'none';
   document.getElementById('list-content').style.display = 'block';
 }
 
-// ── Distance ──────────────────────────────────────────────────────────────────
-function haversine(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 +
-            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
-            Math.sin(dLon/2)**2;
-  return R * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
+// ── Haversine ─────────────────────────────────────────────────────────────────
+function haversine(la1,lo1,la2,lo2) {
+  const R=6371, dL=(la2-la1)*Math.PI/180, dO=(lo2-lo1)*Math.PI/180;
+  const a=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)**2;
+  return R*2*Math.asin(Math.min(1,Math.sqrt(a)));
 }
 
+// ── Distance change ───────────────────────────────────────────────────────────
 function onDistanceChange(val) {
   maxDistanceKm = parseFloat(val);
   document.getElementById('distance-value').textContent = `${parseFloat(val).toFixed(1)} km`;
   applyFilters();
+  if (currentTab === 'map') zoomMapToRadius();
+}
+
+// ── Radius circle + zoom ───────────────────────────────────────────────────────
+function zoomMapToRadius() {
+  if (!map) return;
+  if (radiusCircle) map.removeLayer(radiusCircle);
+  radiusCircle = L.circle([userLat, userLon], {
+    radius: maxDistanceKm * 1000,
+    color: 'rgba(232,160,32,0.7)',
+    fillColor: 'rgba(232,160,32,0.07)',
+    fillOpacity: 1, weight: 1.5, dashArray: '6,4'
+  }).addTo(map);
+  map.flyToBounds(radiusCircle.getBounds(), { padding: [24,24], animate: true, duration: 0.5 });
 }
 
 // ── Filters ───────────────────────────────────────────────────────────────────
 function setFilter(f) {
   activeFilter = f;
-  document.querySelectorAll('.filter-chip').forEach(c => {
-    c.classList.toggle('active', c.dataset.filter === f);
-  });
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
   applyFilters();
 }
-
 function applyFilters() {
   filteredVenues = allVenues
     .map(v => ({ ...v, distance: haversine(userLat, userLon, v.lat, v.lon) }))
     .filter(v => v.distance <= maxDistanceKm)
-    .filter(v => {
-      if (activeFilter === 'all') return true;
-      if (activeFilter === 'sunny') return v.sunny;
-      return v.type === activeFilter;
-    })
-    .sort((a, b) => {
-      if (a.sunny !== b.sunny) return b.sunny - a.sunny; // sunny first
-      return a.distance - b.distance;
-    });
-
+    .filter(v => activeFilter==='all' ? true : activeFilter==='sunny' ? v.sunny : v.type===activeFilter)
+    .sort((a,b) => a.sunny!==b.sunny ? b.sunny-a.sunny : a.distance-b.distance);
   renderList();
-  renderMap();
+  if (currentTab==='map') renderMap();
 }
 
-// ── List rendering ────────────────────────────────────────────────────────────
+// ── List ──────────────────────────────────────────────────────────────────────
 function renderList() {
-  const container = document.getElementById('list-content');
-  if (allVenues.length === 0) return;
-
-  const sunnyCount  = filteredVenues.filter(v => v.sunny).length;
-  const shadowCount = filteredVenues.filter(v => !v.sunny).length;
-
+  const c = document.getElementById('list-content');
+  if (!allVenues.length) return;
+  const sc = filteredVenues.filter(v=>v.sunny).length;
+  const sh = filteredVenues.filter(v=>!v.sunny).length;
   let html = `
     <div class="summary-bar">
-      <div class="summary-chip sunny-chip">
-        <span class="summary-count">${sunnyCount}</span>
-        <span class="summary-label">☀️ Sunny now</span>
-      </div>
-      <div class="summary-chip shadow-chip">
-        <span class="summary-count">${shadowCount}</span>
-        <span class="summary-label">🌑 In shadow</span>
-      </div>
-    </div>
-  `;
-
-  if (filteredVenues.length === 0) {
-    html += `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div class="empty-title">No venues found</div>
-        <div class="empty-sub">Try increasing the distance or changing the filter.</div>
-      </div>`;
+      <div class="summary-chip sunny-chip"><span class="summary-count">${sc}</span><span class="summary-label">☀️ Sunny now</span></div>
+      <div class="summary-chip shadow-chip"><span class="summary-count">${sh}</span><span class="summary-label">🌑 In shadow</span></div>
+    </div>`;
+  if (!filteredVenues.length) {
+    html += `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No venues found</div><div class="empty-sub">Try increasing the distance or changing the filter.</div></div>`;
   } else {
     filteredVenues.forEach(v => {
-      const distStr = v.distance < 1
-        ? `${(v.distance * 1000).toFixed(0)}m`
-        : `${v.distance.toFixed(2)}km`;
-
-      const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
-      const typeLabel = v.type || 'venue';
-      const terraceLabel = v.terrace ? ` · ${v.terrace}` : '';
-
+      const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m` : `${v.distance.toFixed(2)}km`;
+      const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
       html += `
-        <a class="venue-card" href="${mapsUrl}" target="_blank" rel="noopener">
-          <div class="venue-status-icon ${v.sunny ? 'sunny' : 'shadow'}">
-            ${v.sunny ? '☀️' : '🌑'}
-          </div>
+        <a class="venue-card" href="${m}" target="_blank" rel="noopener">
+          <div class="venue-status-icon ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️':'🌑'}</div>
           <div class="venue-info">
             <div class="venue-name">${escHtml(v.name)}</div>
             <div class="venue-meta">
-              <span class="venue-type-badge">${escHtml(typeLabel)}</span>
-              ${terraceLabel ? `<span class="venue-terrace">${escHtml(terraceLabel)}</span>` : ''}
+              <span class="venue-type-badge">${escHtml(v.type||'venue')}</span>
+              ${v.terrace?`<span class="venue-terrace">· ${escHtml(v.terrace)}</span>`:''}
             </div>
-            ${v.address ? `<div class="venue-address">📍 ${escHtml(v.address)}</div>` : ''}
+            ${v.address?`<div class="venue-address">📍 ${escHtml(v.address)}</div>`:''}
           </div>
           <div class="venue-right">
-            <span class="venue-distance">${distStr}</span>
-            <span class="venue-sun-badge ${v.sunny ? 'sunny' : 'shadow'}">
-              ${v.sunny ? 'Sunny' : 'Shadow'}
-            </span>
+            <span class="venue-distance">${d}</span>
+            <span class="venue-sun-badge ${v.sunny?'sunny':'shadow'}">${v.sunny?'Sunny':'Shadow'}</span>
             <span class="maps-link">Maps ↗</span>
           </div>
         </a>`;
     });
   }
-
-  container.innerHTML = html;
+  c.innerHTML = html;
 }
 
-// ── Map rendering ──────────────────────────────────────────────────────────────
+// ── Map ───────────────────────────────────────────────────────────────────────
 function initMap() {
-  map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
-  }).addTo(map);
+  map = L.map('map',{zoomControl:true}).setView([userLat,userLon],15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(map);
 }
-
 function updateUserMarker() {
   if (!map) return;
   if (userMarker) map.removeLayer(userMarker);
-  const icon = L.divIcon({
-    className: '',
-    html: '<div class="marker-user"></div>',
-    iconSize: [16, 16],
-    iconAnchor: [8, 8]
-  });
-  userMarker = L.marker([userLat, userLon], { icon }).addTo(map);
-  map.setView([userLat, userLon], 15);
+  userMarker = L.marker([userLat,userLon],{ icon: L.divIcon({className:'',html:'<div class="marker-user"></div>',iconSize:[16,16],iconAnchor:[8,8]}) }).addTo(map);
 }
-
 function renderMap() {
   if (!map) return;
-
-  // Clear old markers
-  venueMarkers.forEach(m => map.removeLayer(m));
-  venueMarkers = [];
-
-  // Add user marker
+  venueMarkers.forEach(m=>map.removeLayer(m)); venueMarkers=[];
   updateUserMarker();
-
-  // Add venue markers
   filteredVenues.forEach(v => {
-    const color = v.sunny ? 'marker-sunny' : 'marker-shadow';
-    const emoji = v.sunny ? '☀️' : '🌑';
-    const icon = L.divIcon({
-      className: '',
-      html: `<div class="custom-marker ${color}">${emoji}</div>`,
-      iconSize: [28, 28],
-      iconAnchor: [14, 14]
-    });
-
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
-    const distStr = v.distance < 1
-      ? `${(v.distance * 1000).toFixed(0)}m away`
-      : `${v.distance.toFixed(2)}km away`;
-
-    const marker = L.marker([v.lat, v.lon], { icon })
-      .addTo(map)
-      .bindPopup(`
+    const icon = L.divIcon({className:'',html:`<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,iconSize:[28,28],iconAnchor:[14,14]});
+    const d = v.distance<1?`${(v.distance*1000).toFixed(0)}m away`:`${v.distance.toFixed(2)}km away`;
+    const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+    venueMarkers.push(
+      L.marker([v.lat,v.lon],{icon}).addTo(map).bindPopup(`
         <div class="popup-name">${escHtml(v.name)}</div>
-        <div class="popup-type">${escHtml(v.type || 'venue')} · ${distStr}</div>
-        <span class="popup-status ${v.sunny ? 'sunny' : 'shadow'}">
-          ${v.sunny ? '☀️ Sunny now' : '🌑 In shadow'}
-        </span>
-        <a class="popup-maps" href="${mapsUrl}" target="_blank">Open in Google Maps ↗</a>
-      `);
-
-    venueMarkers.push(marker);
+        <div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div>
+        <span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny now':'🌑 In shadow'}</span>
+        <a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>
+      `)
+    );
   });
+  // Draw radius circle
+  if (radiusCircle) map.removeLayer(radiusCircle);
+  radiusCircle = L.circle([userLat,userLon],{
+    radius: maxDistanceKm*1000,
+    color:'rgba(232,160,32,0.7)', fillColor:'rgba(232,160,32,0.07)',
+    fillOpacity:1, weight:1.5, dashArray:'6,4'
+  }).addTo(map);
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
   currentTab = tab;
-  document.getElementById('tab-list').classList.toggle('active', tab === 'list');
-  document.getElementById('tab-map').classList.toggle('active', tab === 'map');
-  document.getElementById('list-view').classList.toggle('active', tab === 'list');
-  document.getElementById('map-view').classList.toggle('active', tab === 'map');
-
-  if (tab === 'map') {
-    setTimeout(() => {
-      map.invalidateSize();
-      if (userLocated) map.setView([userLat, userLon], 15);
-      renderMap();
-    }, 50);
+  ['list','map','add'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
+    document.getElementById(`${t}-view`).classList.toggle('active', t===tab);
+  });
+  document.getElementById('filter-section').style.display = tab==='add' ? 'none' : '';
+  if (tab==='map') {
+    setTimeout(() => { map.invalidateSize(); updateUserMarker(); renderMap(); zoomMapToRadius(); }, 50);
   }
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function escHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+// ── Add venue ─────────────────────────────────────────────────────────────────
+async function submitVenue() {
+  const name    = document.getElementById('f-name').value.trim();
+  const type    = document.getElementById('f-type').value;
+  const address = document.getElementById('f-address').value.trim();
+  const lat     = document.getElementById('f-lat').value.trim();
+  const lon     = document.getElementById('f-lon').value.trim();
+
+  if (!name) { showToast('Please enter the venue name','error'); return; }
+  if (!type) { showToast('Please select the venue type','error'); return; }
+  if (!lat||!lon) { showToast('Please enter coordinates or use GPS','error'); return; }
+  const latN=parseFloat(lat), lonN=parseFloat(lon);
+  if (isNaN(latN)||isNaN(lonN)) { showToast('Invalid coordinates','error'); return; }
+  if (latN<41.0||latN>41.6) { showToast('Latitude must be within Barcelona (~41.0–41.6)','error'); return; }
+  if (lonN<1.8 ||lonN>2.5)  { showToast('Longitude must be within Barcelona (~1.8–2.5)','error');  return; }
+
+  const btn = document.getElementById('submit-btn');
+  const st  = document.getElementById('form-status');
+  btn.disabled = true; btn.textContent = '⏳ Submitting...';
+  st.className = 'form-status'; st.style.display = 'block';
+  st.textContent = '⏳ Sending to database...';
+
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/actions/workflows/add_venue.yml/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${ADD_VENUE_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ref:'main', inputs:{ venue_name:name, amenity_type:type, address, latitude:lat, longitude:lon } })
+      }
+    );
+    if (res.status === 204) {
+      st.className = 'form-status success';
+      st.textContent = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
+      btn.textContent = '✅ Submitted!';
+      showToast(`✅ ${name} added!`, 'success');
+      ['f-name','f-address','f-lat','f-lon'].forEach(id => document.getElementById(id).value='');
+      document.getElementById('f-type').value='';
+    } else { throw new Error(res.status); }
+  } catch {
+    st.className = 'form-status error';
+    st.textContent = '❌ Submission failed. Check your connection and try again.';
+    btn.disabled = false; btn.textContent = 'Submit Venue ☀️';
+    showToast('Submission failed. Try again.','error');
+  }
 }
 
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 function showError() {
-  document.getElementById('loading-state').style.display = 'none';
-  document.getElementById('list-content').style.display = 'block';
-  document.getElementById('list-content').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-icon">⚠️</div>
-      <div class="empty-title">Could not load data</div>
-      <div class="empty-sub">Check your internet connection and try refreshing.</div>
-    </div>`;
+  document.getElementById('loading-state').style.display='none';
+  document.getElementById('list-content').style.display='block';
+  document.getElementById('list-content').innerHTML=`<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load data</div><div class="empty-sub">Check your internet connection and try refreshing.</div></div>`;
 }
 </script>
 </body>
