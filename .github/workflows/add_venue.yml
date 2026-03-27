@@ -78,8 +78,7 @@ jobs:
         run: |
           git config user.email "sunspot-bot@github.com"
           git config user.name "SunSpot Bot"
+          git remote set-url origin https://x-access-token:${{ secrets.ADD_VENUE_TOKEN }}@github.com/AdrianaC4/sunspot-bcn.git
           git add venues.csv
           git commit -m "Add venue: ${{ github.event.inputs.venue_name }}"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
