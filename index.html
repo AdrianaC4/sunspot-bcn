@@ -478,9 +478,6 @@ const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
 const DATA_URL    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
 
-// ⚠️ Replace with your new ADD_VENUE_TOKEN
-const ADD_VENUE_TOKEN = "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";
-
 // ── State ─────────────────────────────────────────────────────────────────────
 let userLat         = 41.3851;
 let userLon         = 2.1734;
@@ -867,28 +864,21 @@ async function submitVenue() {
   st.textContent = '⏳ Sending to database...';
 
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/actions/workflows/add_venue.yml/dispatches`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${ADD_VENUE_TOKEN}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ref: 'main',
-          inputs: {
-            venue_name:   name,
-            amenity_type: type,
-            address:      address,
-            latitude:     String(geocodedLat),
-            longitude:    String(geocodedLon)
-          }
-        })
-      }
-    );
-    if (res.status === 204) {
+   const res = await fetch(
+  'https://sunspot-add-venue.cavallaro-adri.workers.dev',
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      venue_name:   name,
+      amenity_type: type,
+      address:      address,
+      latitude:     String(geocodedLat),
+      longitude:    String(geocodedLon)
+    })
+  }
+);
+if (res.status === 200) {
       st.className = 'form-status success';
       st.textContent = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
       btn.textContent = '✅ Submitted!';
