@@ -114,7 +114,7 @@
     }
     .filter-chip.active { background: var(--amber); border-color: var(--amber); color: white; box-shadow: 0 2px 8px rgba(232,160,32,0.3); }
 
-    /* ── Distance slider ── */
+    /* ── Distance slider (list only) ── */
     .distance-row {
       display: flex; align-items: center; gap: 10px;
       padding: 6px 16px 4px; flex-shrink: 0;
@@ -127,10 +127,38 @@
       background: var(--amber); box-shadow: 0 2px 6px rgba(232,160,32,0.4); cursor: pointer;
     }
 
+    /* ── Map filter bar (on top of map, floating) ── */
+    .map-filter-bar {
+      position: absolute; top: 10px; left: 0; right: 0;
+      display: flex; gap: 7px; padding: 0 12px;
+      overflow-x: auto; scrollbar-width: none;
+      z-index: 500; pointer-events: none;
+    }
+    .map-filter-bar::-webkit-scrollbar { display: none; }
+    .map-filter-bar .filter-chip { pointer-events: all; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+
+    /* ── Back to location button ── */
+    .locate-btn {
+      position: absolute; bottom: 24px; right: 16px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; cursor: pointer; z-index: 500;
+      transition: all 0.2s;
+    }
+    .locate-btn:active { transform: scale(0.92); }
+    .locate-btn.drifted { border-color: var(--amber); animation: locatePulse 2s infinite; }
+    @keyframes locatePulse {
+      0%,100% { box-shadow: 0 2px 12px rgba(0,0,0,0.18); }
+      50%      { box-shadow: 0 2px 18px rgba(232,160,32,0.5); }
+    }
+
     /* ── Content ── */
     .content { flex: 1; overflow: hidden; position: relative; }
 
-    #map-view { width: 100%; height: 100%; display: none; }
+    #map-view { width: 100%; height: 100%; display: none; position: relative; }
     #map-view.active { display: block; }
     #map { width: 100%; height: 100%; }
 
@@ -194,7 +222,6 @@
     }
     .form-input:focus, .form-select:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(232,160,32,0.12); }
     .form-input::placeholder { color: var(--text-light); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .gps-autofill-btn {
       width: 100%; padding: 10px; border-radius: var(--radius-sm);
       border: 1.5px dashed var(--amber); background: var(--sunny-bg);
@@ -202,14 +229,40 @@
       font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 10px;
     }
     .gps-autofill-btn:active { transform: scale(0.98); }
+
+    /* ── Geocode confirm card ── */
+    .geocode-confirm {
+      background: var(--sunny-bg); border: 1.5px solid var(--amber);
+      border-radius: var(--radius-sm); padding: 14px;
+      margin-top: 10px; display: none;
+    }
+    .geocode-confirm.visible { display: block; }
+    .geocode-confirm-title { font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .geocode-confirm-address { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; line-height: 1.4; }
+    .geocode-confirm-btns { display: flex; gap: 8px; }
+    .geocode-yes { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: none; background: var(--amber); color: white; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .geocode-no  { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--cream); color: var(--text-mid); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
+
     .submit-btn {
       width: 100%; padding: 15px; border-radius: var(--radius); border: none;
       background: linear-gradient(135deg, var(--amber-light), var(--amber));
       color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
       cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px;
+      display: none;
     }
+    .submit-btn.visible { display: block; }
     .submit-btn:active { transform: scale(0.98); }
     .submit-btn:disabled { background: var(--border); color: var(--text-light); box-shadow: none; cursor: not-allowed; }
+
+    .find-btn {
+      width: 100%; padding: 15px; border-radius: var(--radius); border: none;
+      background: linear-gradient(135deg, var(--amber-light), var(--amber));
+      color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px;
+    }
+    .find-btn:active { transform: scale(0.98); }
+    .find-btn:disabled { background: var(--border); color: var(--text-light); box-shadow: none; cursor: not-allowed; }
+
     .form-status { padding: 12px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; margin-top: 12px; display: none; line-height: 1.4; }
     .form-status.success { background: var(--green-bg); color: var(--green); display: block; }
     .form-status.error   { background: var(--red-bg);   color: var(--red);   display: block; }
@@ -303,15 +356,15 @@
   <div class="tab"        id="tab-add"  onclick="switchTab('add')">➕ Add</div>
 </div>
 
-<!-- Filters (hidden on Add tab) -->
-<div id="filter-section">
+<!-- LIST filters (only shown on list tab) -->
+<div id="list-filter-section">
   <div class="filter-bar">
-    <div class="filter-chip active" data-filter="all"        onclick="setFilter('all')">All venues</div>
-    <div class="filter-chip"        data-filter="sunny"      onclick="setFilter('sunny')">☀️ Sunny only</div>
-    <div class="filter-chip"        data-filter="bar"        onclick="setFilter('bar')">🍺 Bar</div>
-    <div class="filter-chip"        data-filter="cafe"       onclick="setFilter('cafe')">☕ Café</div>
-    <div class="filter-chip"        data-filter="pub"        onclick="setFilter('pub')">🍻 Pub</div>
-    <div class="filter-chip"        data-filter="restaurant" onclick="setFilter('restaurant')">🍽️ Restaurant</div>
+    <div class="filter-chip active" data-filter="all"        onclick="setListFilter('all')">All venues</div>
+    <div class="filter-chip"        data-filter="sunny"      onclick="setListFilter('sunny')">☀️ Sunny only</div>
+    <div class="filter-chip"        data-filter="bar"        onclick="setListFilter('bar')">🍺 Bar</div>
+    <div class="filter-chip"        data-filter="cafe"       onclick="setListFilter('cafe')">☕ Café</div>
+    <div class="filter-chip"        data-filter="pub"        onclick="setListFilter('pub')">🍻 Pub</div>
+    <div class="filter-chip"        data-filter="restaurant" onclick="setListFilter('restaurant')">🍽️ Restaurant</div>
   </div>
   <div class="distance-row">
     <span class="distance-label">📍 Within</span>
@@ -323,6 +376,7 @@
 <!-- Content -->
 <div class="content">
 
+  <!-- List view -->
   <div id="list-view" class="active">
     <div class="loading-state" id="loading-state">
       <div class="loading-spinner"></div>
@@ -331,20 +385,39 @@
     <div id="list-content" style="display:none"></div>
   </div>
 
+  <!-- Map view — viewport based, no distance slider -->
   <div id="map-view">
     <div id="map"></div>
+
+    <!-- Floating filter chips on map -->
+    <div class="map-filter-bar" id="map-filter-bar">
+      <div class="filter-chip active" data-mfilter="all"        onclick="setMapFilter('all')">All</div>
+      <div class="filter-chip"        data-mfilter="sunny"      onclick="setMapFilter('sunny')">☀️ Sunny</div>
+      <div class="filter-chip"        data-mfilter="bar"        onclick="setMapFilter('bar')">🍺 Bar</div>
+      <div class="filter-chip"        data-mfilter="cafe"       onclick="setMapFilter('cafe')">☕ Café</div>
+      <div class="filter-chip"        data-mfilter="pub"        onclick="setMapFilter('pub')">🍻 Pub</div>
+      <div class="filter-chip"        data-mfilter="restaurant" onclick="setMapFilter('restaurant')">🍽️ Restaurant</div>
+    </div>
+
+    <!-- Back to my location button -->
+    <div class="locate-btn" id="locate-btn" onclick="flyToUser()" title="Back to my location">📍</div>
   </div>
 
+  <!-- Add venue view -->
   <div id="add-view">
     <div class="add-header">
       <div class="add-title">Add a Venue ➕</div>
       <div class="add-subtitle">Found a terrace that's missing? Add it here — it will appear on the map after the next automatic update (within 30 minutes).</div>
     </div>
     <div class="form-card">
+
+      <!-- Name -->
       <div class="form-group">
         <label class="form-label" for="f-name">Venue name <span>*</span></label>
         <input class="form-input" id="f-name" type="text" placeholder="e.g. Bar El Sol" autocomplete="off"/>
       </div>
+
+      <!-- Type -->
       <div class="form-group">
         <label class="form-label" for="f-type">Venue type <span>*</span></label>
         <select class="form-select" id="f-type">
@@ -355,22 +428,41 @@
           <option value="restaurant">🍽️ Restaurant</option>
         </select>
       </div>
+
+      <!-- Address + geocode -->
       <div class="form-group">
-        <label class="form-label" for="f-address">Address</label>
-        <input class="form-input" id="f-address" type="text" placeholder="e.g. Carrer de Provença, 123" autocomplete="off"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Coordinates <span>*</span></label>
-        <button class="gps-autofill-btn" onclick="autofillGPS()">📍 Use my current location</button>
-        <div class="form-row">
-          <input class="form-input" id="f-lat" type="number" step="0.000001" placeholder="Latitude"  min="41.0" max="41.6"/>
-          <input class="form-input" id="f-lon" type="number" step="0.000001" placeholder="Longitude" min="1.8"  max="2.5"/>
-        </div>
+        <label class="form-label" for="f-address">Address <span>*</span></label>
+        <input class="form-input" id="f-address" type="text"
+          placeholder="e.g. Carrer de Verdi 32, Barcelona"
+          autocomplete="off"
+          oninput="resetGeocode()"/>
         <div style="font-size:11px;color:var(--text-light);margin-top:5px;">
-          💡 Tip: open Google Maps, long-press the venue location, and copy the coordinates shown.
+          💡 Include the street number and "Barcelona" for best results.
         </div>
       </div>
+
+      <!-- OR GPS -->
+      <div class="form-group">
+        <label class="form-label">Or use your current location</label>
+        <button class="gps-autofill-btn" onclick="autofillGPS()">📍 Use my current location</button>
+      </div>
+
+      <!-- Geocode confirm card (appears after address lookup) -->
+      <div class="geocode-confirm" id="geocode-confirm">
+        <div class="geocode-confirm-title">📍 Is this the right location?</div>
+        <div class="geocode-confirm-address" id="geocode-found-address">—</div>
+        <div class="geocode-confirm-btns">
+          <button class="geocode-yes" onclick="confirmGeocode()">✅ Yes, submit</button>
+          <button class="geocode-no"  onclick="resetGeocode()">✏️ Try again</button>
+        </div>
+      </div>
+
+      <!-- Find location button (step 1) -->
+      <button class="find-btn" id="find-btn" onclick="findAddress()">🔍 Find location</button>
+
+      <!-- Submit button (step 2, shown after confirm) -->
       <button class="submit-btn" id="submit-btn" onclick="submitVenue()">Submit Venue ☀️</button>
+
       <div class="form-status" id="form-status"></div>
     </div>
     <div class="info-box">
@@ -386,22 +478,27 @@ const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
 const DATA_URL    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
 
-// ⚠️ Replace with your ADD_VENUE_TOKEN (the ghp_xxx token with repo+workflow scopes)
-const ADD_VENUE_TOKEN = "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";
+// ⚠️ Replace with your new ADD_VENUE_TOKEN
+const ADD_VENUE_TOKEN = "PASTE_YOUR_NEW_ADD_VENUE_TOKEN_HERE";
 
 // ── State ─────────────────────────────────────────────────────────────────────
-let userLat        = 41.3851;
-let userLon        = 2.1734;
-let userLocated    = false;
-let allVenues      = [];
-let filteredVenues = [];
-let activeFilter   = "all";
-let maxDistanceKm  = 1.0;
-let map            = null;
-let userMarker     = null;
-let venueMarkers   = [];
-let currentTab     = "list";
-let radiusCircle   = null;
+let userLat         = 41.3851;
+let userLon         = 2.1734;
+let userLocated     = false;
+let allVenues       = [];
+let listFiltered    = [];
+let mapFiltered     = [];
+let listFilter      = "all";
+let mapFilter       = "all";
+let maxDistanceKm   = 1.0;
+let map             = null;
+let userMarker      = null;
+let venueMarkers    = [];
+let currentTab      = "list";
+let geocodedLat     = null;
+let geocodedLon     = null;
+let geocodedAddress = "";
+let isDrifted       = false;
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
@@ -436,7 +533,7 @@ function startGPS() {
       userLocated = true;
       setGPSStatus('active', `±${Math.round(pos.coords.accuracy)}m accuracy`);
       updateUserMarker();
-      applyFilters();
+      applyListFilters();
     },
     () => setGPSStatus('error', 'Location unavailable'),
     { enableHighAccuracy: true, maximumAge: 30000, timeout: 15000 }
@@ -448,19 +545,6 @@ function setGPSStatus(state, label) {
   if (state === 'active')    dot.classList.add('active');
   if (state === 'searching') dot.classList.add('searching');
   document.getElementById('gps-label').textContent = label;
-}
-function autofillGPS() {
-  if (!navigator.geolocation) { showToast('GPS not available', 'error'); return; }
-  showToast('📍 Getting your location...', 'info');
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      document.getElementById('f-lat').value = pos.coords.latitude.toFixed(6);
-      document.getElementById('f-lon').value = pos.coords.longitude.toFixed(6);
-      showToast('✅ Location filled in!', 'success');
-    },
-    () => showToast('Could not get location. Enter manually.', 'error'),
-    { enableHighAccuracy: true, timeout: 10000 }
-  );
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -498,7 +582,9 @@ function processData(rows) {
       document.getElementById('last-update').textContent = d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
     }
   }
-  applyFilters();
+
+  applyListFilters();
+  applyMapFilters();
   document.getElementById('loading-state').style.display = 'none';
   document.getElementById('list-content').style.display = 'block';
 }
@@ -510,58 +596,66 @@ function haversine(la1,lo1,la2,lo2) {
   return R*2*Math.asin(Math.min(1,Math.sqrt(a)));
 }
 
-// ── Distance change ───────────────────────────────────────────────────────────
+// ── Distance change (list only) ───────────────────────────────────────────────
 function onDistanceChange(val) {
   maxDistanceKm = parseFloat(val);
   document.getElementById('distance-value').textContent = `${parseFloat(val).toFixed(1)} km`;
-  applyFilters();
-  if (currentTab === 'map') zoomMapToRadius();
+  applyListFilters();
 }
 
-// ── Radius circle + zoom ───────────────────────────────────────────────────────
-function zoomMapToRadius() {
-  if (!map) return;
-  if (radiusCircle) map.removeLayer(radiusCircle);
-  radiusCircle = L.circle([userLat, userLon], {
-    radius: maxDistanceKm * 1000,
-    color: 'rgba(232,160,32,0.7)',
-    fillColor: 'rgba(232,160,32,0.07)',
-    fillOpacity: 1, weight: 1.5, dashArray: '6,4'
-  }).addTo(map);
-  map.flyToBounds(radiusCircle.getBounds(), { padding: [24,24], animate: true, duration: 0.5 });
+// ── LIST filters ──────────────────────────────────────────────────────────────
+function setListFilter(f) {
+  listFilter = f;
+  document.querySelectorAll('#list-filter-section .filter-chip').forEach(c =>
+    c.classList.toggle('active', c.dataset.filter === f)
+  );
+  applyListFilters();
 }
-
-// ── Filters ───────────────────────────────────────────────────────────────────
-function setFilter(f) {
-  activeFilter = f;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
-  applyFilters();
-}
-function applyFilters() {
-  filteredVenues = allVenues
+function applyListFilters() {
+  listFiltered = allVenues
     .map(v => ({ ...v, distance: haversine(userLat, userLon, v.lat, v.lon) }))
     .filter(v => v.distance <= maxDistanceKm)
-    .filter(v => activeFilter==='all' ? true : activeFilter==='sunny' ? v.sunny : v.type===activeFilter)
+    .filter(v => listFilter==='all' ? true : listFilter==='sunny' ? v.sunny : v.type===listFilter)
     .sort((a,b) => a.sunny!==b.sunny ? b.sunny-a.sunny : a.distance-b.distance);
   renderList();
-  if (currentTab==='map') renderMap();
 }
 
-// ── List ──────────────────────────────────────────────────────────────────────
+// ── MAP filters (viewport based) ──────────────────────────────────────────────
+function setMapFilter(f) {
+  mapFilter = f;
+  document.querySelectorAll('#map-filter-bar .filter-chip').forEach(c =>
+    c.classList.toggle('active', c.dataset.mfilter === f)
+  );
+  applyMapFilters();
+}
+function applyMapFilters() {
+  // Get current map bounds
+  const bounds = map ? map.getBounds() : null;
+  mapFiltered = allVenues
+    .map(v => ({ ...v, distance: haversine(userLat, userLon, v.lat, v.lon) }))
+    .filter(v => {
+      if (!bounds) return true;
+      return bounds.contains([v.lat, v.lon]);
+    })
+    .filter(v => mapFilter==='all' ? true : mapFilter==='sunny' ? v.sunny : v.type===mapFilter);
+  if (currentTab === 'map') renderMap();
+}
+
+// ── List rendering ─────────────────────────────────────────────────────────────
 function renderList() {
   const c = document.getElementById('list-content');
   if (!allVenues.length) return;
-  const sc = filteredVenues.filter(v=>v.sunny).length;
-  const sh = filteredVenues.filter(v=>!v.sunny).length;
+  const sc = listFiltered.filter(v=>v.sunny).length;
+  const sh = listFiltered.filter(v=>!v.sunny).length;
   let html = `
     <div class="summary-bar">
       <div class="summary-chip sunny-chip"><span class="summary-count">${sc}</span><span class="summary-label">☀️ Sunny now</span></div>
       <div class="summary-chip shadow-chip"><span class="summary-count">${sh}</span><span class="summary-label">🌑 In shadow</span></div>
     </div>`;
-  if (!filteredVenues.length) {
+  if (!listFiltered.length) {
     html += `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No venues found</div><div class="empty-sub">Try increasing the distance or changing the filter.</div></div>`;
   } else {
-    filteredVenues.forEach(v => {
+    listFiltered.forEach(v => {
       const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m` : `${v.distance.toFixed(2)}km`;
       const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
       html += `
@@ -588,24 +682,42 @@ function renderList() {
 
 // ── Map ───────────────────────────────────────────────────────────────────────
 function initMap() {
-  map = L.map('map',{zoomControl:true}).setView([userLat,userLon],15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(map);
+  map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 19
+  }).addTo(map);
+
+  // Re-render markers whenever the user pans or zooms
+  map.on('moveend zoomend', () => {
+    applyMapFilters();
+    checkDrift();
+  });
 }
+
 function updateUserMarker() {
   if (!map) return;
   if (userMarker) map.removeLayer(userMarker);
-  userMarker = L.marker([userLat,userLon],{ icon: L.divIcon({className:'',html:'<div class="marker-user"></div>',iconSize:[16,16],iconAnchor:[8,8]}) }).addTo(map);
+  userMarker = L.marker([userLat, userLon], {
+    icon: L.divIcon({ className:'', html:'<div class="marker-user"></div>', iconSize:[16,16], iconAnchor:[8,8] }),
+    zIndexOffset: 1000
+  }).addTo(map);
 }
+
 function renderMap() {
   if (!map) return;
-  venueMarkers.forEach(m=>map.removeLayer(m)); venueMarkers=[];
+  venueMarkers.forEach(m => map.removeLayer(m));
+  venueMarkers = [];
   updateUserMarker();
-  filteredVenues.forEach(v => {
-    const icon = L.divIcon({className:'',html:`<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,iconSize:[28,28],iconAnchor:[14,14]});
-    const d = v.distance<1?`${(v.distance*1000).toFixed(0)}m away`:`${v.distance.toFixed(2)}km away`;
+  mapFiltered.forEach(v => {
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,
+      iconSize: [28,28], iconAnchor: [14,14]
+    });
+    const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m away` : `${v.distance.toFixed(2)}km away`;
     const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
     venueMarkers.push(
-      L.marker([v.lat,v.lon],{icon}).addTo(map).bindPopup(`
+      L.marker([v.lat, v.lon], { icon }).addTo(map).bindPopup(`
         <div class="popup-name">${escHtml(v.name)}</div>
         <div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div>
         <span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny now':'🌑 In shadow'}</span>
@@ -613,13 +725,28 @@ function renderMap() {
       `)
     );
   });
-  // Draw radius circle
-  if (radiusCircle) map.removeLayer(radiusCircle);
-  radiusCircle = L.circle([userLat,userLon],{
-    radius: maxDistanceKm*1000,
-    color:'rgba(232,160,32,0.7)', fillColor:'rgba(232,160,32,0.07)',
-    fillOpacity:1, weight:1.5, dashArray:'6,4'
-  }).addTo(map);
+}
+
+// ── Back to location button ───────────────────────────────────────────────────
+function flyToUser() {
+  if (!map) return;
+  map.flyTo([userLat, userLon], 16, { animate: true, duration: 0.8 });
+  document.getElementById('locate-btn').classList.remove('drifted');
+  isDrifted = false;
+}
+
+function checkDrift() {
+  if (!map || !userLocated) return;
+  const centre = map.getCenter();
+  const dist   = haversine(userLat, userLon, centre.lat, centre.lng);
+  const btn    = document.getElementById('locate-btn');
+  if (dist > 0.3 && !isDrifted) {
+    isDrifted = true;
+    btn.classList.add('drifted');
+  } else if (dist <= 0.3 && isDrifted) {
+    isDrifted = false;
+    btn.classList.remove('drifted');
+  }
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
@@ -629,27 +756,109 @@ function switchTab(tab) {
     document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
     document.getElementById(`${t}-view`).classList.toggle('active', t===tab);
   });
-  document.getElementById('filter-section').style.display = tab==='add' ? 'none' : '';
-  if (tab==='map') {
-    setTimeout(() => { map.invalidateSize(); updateUserMarker(); renderMap(); zoomMapToRadius(); }, 50);
+
+  // Show list filters only on list tab
+  document.getElementById('list-filter-section').style.display = tab==='list' ? '' : 'none';
+
+  if (tab === 'map') {
+    setTimeout(() => {
+      map.invalidateSize();
+      updateUserMarker();
+      applyMapFilters();
+    }, 50);
   }
 }
 
-// ── Add venue ─────────────────────────────────────────────────────────────────
+// ── Address geocoding (Nominatim) ─────────────────────────────────────────────
+async function findAddress() {
+  const address = document.getElementById('f-address').value.trim();
+  if (!address) { showToast('Please enter an address first', 'error'); return; }
+
+  const btn = document.getElementById('find-btn');
+  btn.disabled = true; btn.textContent = '🔍 Searching...';
+
+  try {
+    const query    = encodeURIComponent(address + ', Barcelona');
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&countrycodes=es`,
+      { headers: { 'Accept-Language': 'en', 'User-Agent': 'SunSpotBCN/1.0' } }
+    );
+    const results = await response.json();
+
+    if (!results || results.length === 0) {
+      showToast('Address not found. Try adding more details.', 'error');
+      btn.disabled = false; btn.textContent = '🔍 Find location';
+      return;
+    }
+
+    const result    = results[0];
+    geocodedLat     = parseFloat(result.lat);
+    geocodedLon     = parseFloat(result.lon);
+    geocodedAddress = result.display_name;
+
+    // Validate it's within Barcelona bounding box
+    if (geocodedLat < 41.0 || geocodedLat > 41.6 || geocodedLon < 1.8 || geocodedLon > 2.5) {
+      showToast('Location found but it seems outside Barcelona. Try again.', 'error');
+      btn.disabled = false; btn.textContent = '🔍 Find location';
+      geocodedLat = null; geocodedLon = null;
+      return;
+    }
+
+    // Show confirmation
+    document.getElementById('geocode-found-address').textContent = geocodedAddress;
+    document.getElementById('geocode-confirm').classList.add('visible');
+    btn.style.display = 'none';
+
+  } catch {
+    showToast('Could not search address. Check your connection.', 'error');
+    btn.disabled = false; btn.textContent = '🔍 Find location';
+  }
+}
+
+function confirmGeocode() {
+  // Hide confirm card, show submit button
+  document.getElementById('geocode-confirm').classList.remove('visible');
+  document.getElementById('submit-btn').classList.add('visible');
+  document.getElementById('find-btn').style.display = 'none';
+  showToast('✅ Location confirmed!', 'success');
+}
+
+function resetGeocode() {
+  geocodedLat = null; geocodedLon = null; geocodedAddress = '';
+  document.getElementById('geocode-confirm').classList.remove('visible');
+  document.getElementById('submit-btn').classList.remove('visible');
+  const btn = document.getElementById('find-btn');
+  btn.style.display = 'block'; btn.disabled = false; btn.textContent = '🔍 Find location';
+  document.getElementById('form-status').className = 'form-status';
+}
+
+function autofillGPS() {
+  if (!navigator.geolocation) { showToast('GPS not available', 'error'); return; }
+  showToast('📍 Getting your location...', 'info');
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      geocodedLat     = pos.coords.latitude;
+      geocodedLon     = pos.coords.longitude;
+      geocodedAddress = `Your current location (${geocodedLat.toFixed(5)}, ${geocodedLon.toFixed(5)})`;
+      document.getElementById('geocode-found-address').textContent = geocodedAddress;
+      document.getElementById('geocode-confirm').classList.add('visible');
+      document.getElementById('find-btn').style.display = 'none';
+      showToast('✅ Location detected!', 'success');
+    },
+    () => showToast('Could not get location. Try entering address manually.', 'error'),
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+// ── Submit venue ──────────────────────────────────────────────────────────────
 async function submitVenue() {
   const name    = document.getElementById('f-name').value.trim();
   const type    = document.getElementById('f-type').value;
   const address = document.getElementById('f-address').value.trim();
-  const lat     = document.getElementById('f-lat').value.trim();
-  const lon     = document.getElementById('f-lon').value.trim();
 
-  if (!name) { showToast('Please enter the venue name','error'); return; }
-  if (!type) { showToast('Please select the venue type','error'); return; }
-  if (!lat||!lon) { showToast('Please enter coordinates or use GPS','error'); return; }
-  const latN=parseFloat(lat), lonN=parseFloat(lon);
-  if (isNaN(latN)||isNaN(lonN)) { showToast('Invalid coordinates','error'); return; }
-  if (latN<41.0||latN>41.6) { showToast('Latitude must be within Barcelona (~41.0–41.6)','error'); return; }
-  if (lonN<1.8 ||lonN>2.5)  { showToast('Longitude must be within Barcelona (~1.8–2.5)','error');  return; }
+  if (!name)            { showToast('Please enter the venue name', 'error'); return; }
+  if (!type)            { showToast('Please select the venue type', 'error'); return; }
+  if (!geocodedLat || !geocodedLon) { showToast('Please confirm the location first', 'error'); return; }
 
   const btn = document.getElementById('submit-btn');
   const st  = document.getElementById('form-status');
@@ -667,7 +876,16 @@ async function submitVenue() {
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ref:'main', inputs:{ venue_name:name, amenity_type:type, address, latitude:lat, longitude:lon } })
+        body: JSON.stringify({
+          ref: 'main',
+          inputs: {
+            venue_name:   name,
+            amenity_type: type,
+            address:      address,
+            latitude:     String(geocodedLat),
+            longitude:    String(geocodedLon)
+          }
+        })
       }
     );
     if (res.status === 204) {
@@ -675,14 +893,17 @@ async function submitVenue() {
       st.textContent = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
       btn.textContent = '✅ Submitted!';
       showToast(`✅ ${name} added!`, 'success');
-      ['f-name','f-address','f-lat','f-lon'].forEach(id => document.getElementById(id).value='');
-      document.getElementById('f-type').value='';
+      // Reset form
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-address').value = '';
+      document.getElementById('f-type').value = '';
+      resetGeocode();
     } else { throw new Error(res.status); }
   } catch {
     st.className = 'form-status error';
     st.textContent = '❌ Submission failed. Check your connection and try again.';
     btn.disabled = false; btn.textContent = 'Submit Venue ☀️';
-    showToast('Submission failed. Try again.','error');
+    showToast('Submission failed. Try again.', 'error');
   }
 }
 
@@ -700,7 +921,12 @@ function escHtml(s) {
 function showError() {
   document.getElementById('loading-state').style.display='none';
   document.getElementById('list-content').style.display='block';
-  document.getElementById('list-content').innerHTML=`<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load data</div><div class="empty-sub">Check your internet connection and try refreshing.</div></div>`;
+  document.getElementById('list-content').innerHTML=`
+    <div class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <div class="empty-title">Could not load data</div>
+      <div class="empty-sub">Check your internet connection and try refreshing.</div>
+    </div>`;
 }
 </script>
 </body>
