@@ -479,7 +479,7 @@ const GITHUB_REPO = "sunspot-bcn";
 const DATA_URL    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
 
 // ⚠️ Replace with your new ADD_VENUE_TOKEN
-const ADD_VENUE_TOKEN = "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";
+const ADD_VENUE_TOKEN = "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";
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let userLat         = 41.3851;
@@ -893,17 +893,19 @@ async function submitVenue() {
       st.textContent = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
       btn.textContent = '✅ Submitted!';
       showToast(`✅ ${name} added!`, 'success');
-      // Reset form
       document.getElementById('f-name').value = '';
       document.getElementById('f-address').value = '';
       document.getElementById('f-type').value = '';
       resetGeocode();
-    } else { throw new Error(res.status); }
-  } catch {
+    } else {
+      const errorText = await res.text();
+      throw new Error(`Status ${res.status}: ${errorText}`);
+    }
+  } catch (err) {
     st.className = 'form-status error';
-    st.textContent = '❌ Submission failed. Check your connection and try again.';
+    st.textContent = '❌ Submission failed. Error: ' + err.message;
     btn.disabled = false; btn.textContent = 'Submit Venue ☀️';
-    showToast('Submission failed. Try again.', 'error');
+    showToast('Submission failed: ' + err.message, 'error');
   }
 }
 
