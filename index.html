@@ -872,7 +872,7 @@ async function submitVenue() {
       {
         method: 'POST',
         headers: {
-          'Authorization': `token ${ADD_VENUE_TOKEN}`,
+          'Authorization': `Bearer ${ADD_VENUE_TOKEN}`,
           'Accept': 'application/vnd.github.v3+json',
           'Content-Type': 'application/json'
         },
