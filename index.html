@@ -145,11 +145,12 @@
 
     /* ── Map filter bar (floating over map) ── */
     .map-filter-bar {
-      position: absolute; top: 10px; left: 0; right: 0;
-      display: flex; gap: 7px; padding: 0 12px;
-      overflow-x: auto; scrollbar-width: none;
-      z-index: 500; pointer-events: none;
+    position: absolute; top: 10px; left: 0; right: 0;
+    display: flex; gap: 7px; padding: 0 12px 0 52px;
+    overflow-x: auto; scrollbar-width: none;
+    z-index: 500; pointer-events: none; 
     }
+        }
     .map-filter-bar::-webkit-scrollbar { display: none; }
     .map-filter-bar .filter-chip { pointer-events: all; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 
