@@ -46,7 +46,6 @@
       display: flex; flex-direction: column;
     }
 
-    /* ── Header ── */
     .header {
       background: var(--cream); padding: 14px 20px 10px;
       display: flex; align-items: center; justify-content: space-between;
@@ -76,7 +75,6 @@
     .refresh-btn.spinning { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Status bar ── */
     .status-bar {
       background: var(--cream-dark); padding: 8px 20px;
       display: flex; align-items: center; justify-content: space-between;
@@ -91,7 +89,6 @@
     .sun-info    { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-mid); font-weight: 500; }
     .last-update { font-size: 10.5px; color: var(--text-light); }
 
-    /* ── Tab bar ── */
     .tab-bar { display: flex; background: var(--cream); border-bottom: 1.5px solid var(--border); flex-shrink: 0; }
     .tab {
       flex: 1; padding: 11px 0; text-align: center;
@@ -100,7 +97,6 @@
     }
     .tab.active { color: var(--amber-deep); border-bottom-color: var(--amber); font-weight: 600; }
 
-    /* ── Filter bar ── */
     .filter-bar {
       padding: 10px 16px; display: flex; gap: 7px;
       overflow-x: auto; flex-shrink: 0; scrollbar-width: none; background: var(--cream);
@@ -114,7 +110,6 @@
     }
     .filter-chip.active { background: var(--amber); border-color: var(--amber); color: white; box-shadow: 0 2px 8px rgba(232,160,32,0.3); }
 
-    /* ── Distance slider (list only) ── */
     .distance-row {
       display: flex; align-items: center; gap: 10px;
       padding: 6px 16px 4px; flex-shrink: 0;
@@ -127,7 +122,6 @@
       background: var(--amber); box-shadow: 0 2px 6px rgba(232,160,32,0.4); cursor: pointer;
     }
 
-    /* ── Map filter bar (on top of map, floating) ── */
     .map-filter-bar {
       position: absolute; top: 10px; left: 0; right: 0;
       display: flex; gap: 7px; padding: 0 12px;
@@ -137,16 +131,13 @@
     .map-filter-bar::-webkit-scrollbar { display: none; }
     .map-filter-bar .filter-chip { pointer-events: all; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 
-    /* ── Back to location button ── */
     .locate-btn {
       position: absolute; bottom: 24px; right: 16px;
       width: 44px; height: 44px; border-radius: 50%;
-      background: var(--card-bg);
-      border: 1.5px solid var(--border);
+      background: var(--card-bg); border: 1.5px solid var(--border);
       box-shadow: 0 2px 12px rgba(0,0,0,0.18);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; cursor: pointer; z-index: 500;
-      transition: all 0.2s;
+      font-size: 20px; cursor: pointer; z-index: 500; transition: all 0.2s;
     }
     .locate-btn:active { transform: scale(0.92); }
     .locate-btn.drifted { border-color: var(--amber); animation: locatePulse 2s infinite; }
@@ -155,7 +146,6 @@
       50%      { box-shadow: 0 2px 18px rgba(232,160,32,0.5); }
     }
 
-    /* ── Content ── */
     .content { flex: 1; overflow: hidden; position: relative; }
 
     #map-view { width: 100%; height: 100%; display: none; position: relative; }
@@ -170,7 +160,6 @@
     #add-view::-webkit-scrollbar { display: none; }
     #add-view.active { display: block; }
 
-    /* ── Venue card ── */
     .venue-card {
       background: var(--card-bg); border-radius: var(--radius); border: 1.5px solid var(--border);
       padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm);
@@ -195,7 +184,6 @@
     .venue-sun-badge.shadow { background: var(--shadow-light); color: var(--shadow-blue); }
     .maps-link { font-size: 10.5px; color: var(--amber-deep); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 3px; }
 
-    /* ── Summary bar ── */
     .summary-bar { display: flex; gap: 8px; margin-bottom: 12px; }
     .summary-chip { flex: 1; padding: 10px 12px; border-radius: var(--radius-sm); text-align: center; }
     .summary-chip.sunny-chip  { background: var(--sunny-bg);  border: 1.5px solid #FFE082; }
@@ -205,7 +193,6 @@
     .shadow-chip .summary-count { color: var(--shadow-blue); }
     .summary-label { font-size: 10.5px; font-weight: 500; color: var(--text-mid); }
 
-    /* ── Add venue form ── */
     .add-header { margin-bottom: 16px; }
     .add-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--text-dark); margin-bottom: 6px; }
     .add-subtitle { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
@@ -230,11 +217,9 @@
     }
     .gps-autofill-btn:active { transform: scale(0.98); }
 
-    /* ── Geocode confirm card ── */
     .geocode-confirm {
       background: var(--sunny-bg); border: 1.5px solid var(--amber);
-      border-radius: var(--radius-sm); padding: 14px;
-      margin-top: 10px; display: none;
+      border-radius: var(--radius-sm); padding: 14px; margin-top: 10px; display: none;
     }
     .geocode-confirm.visible { display: block; }
     .geocode-confirm-title { font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
@@ -268,7 +253,6 @@
     .form-status.error   { background: var(--red-bg);   color: var(--red);   display: block; }
     .info-box { background: var(--shadow-bg); border: 1.5px solid #C5D8F0; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--shadow-blue); line-height: 1.5; margin-top: 12px; }
 
-    /* ── Toast ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
       padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; color: white;
@@ -280,7 +264,6 @@
     .toast.info    { background: var(--shadow-blue); }
     .toast.show    { opacity: 1; }
 
-    /* ── Loading / empty ── */
     .loading-state, .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 30px; text-align: center; gap: 12px; }
     .loading-spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.9s linear infinite; }
     .loading-text { font-size: 14px; color: var(--text-mid); font-weight: 500; }
@@ -288,8 +271,12 @@
     .empty-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text-dark); }
     .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 
-    /* ── GPS overlay ── */
-    .gps-overlay { position: fixed; inset: 0; background: rgba(250,246,238,0.97); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 99999; gap: 16px; pointer-events: all; }
+    /* GPS overlay — highest z-index, always on top */
+    .gps-overlay {
+      position: fixed; inset: 0; background: rgba(250,246,238,0.97);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px; text-align: center; z-index: 99999; gap: 16px; pointer-events: all;
+    }
     .gps-overlay.hidden { display: none; }
     .gps-overlay-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--amber-light), var(--amber)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 38px; box-shadow: 0 8px 32px rgba(232,160,32,0.35); margin-bottom: 8px; }
     .gps-overlay-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--text-dark); line-height: 1.2; }
@@ -298,13 +285,11 @@
     .gps-btn:active { transform: scale(0.96); }
     .gps-skip { font-size: 12.5px; color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
-    /* ── Markers ── */
     .custom-marker { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; }
     .marker-sunny  { background: var(--amber); }
     .marker-shadow { background: var(--shadow-blue); }
     .marker-user   { background: #E53935; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 3px rgba(229,57,53,0.3); }
 
-    /* ── Popup ── */
     .leaflet-popup-content-wrapper { border-radius: 14px !important; box-shadow: var(--shadow) !important; border: 1.5px solid var(--border) !important; background: var(--card-bg) !important; }
     .leaflet-popup-content { margin: 14px 16px !important; }
     .popup-name  { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
@@ -319,7 +304,7 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- GPS Overlay -->
+<!-- GPS Overlay — rendered first, always on top -->
 <div class="gps-overlay" id="gps-overlay">
   <div class="gps-overlay-icon">☀️</div>
   <div class="gps-overlay-title">Find your sunny terrace</div>
@@ -385,11 +370,9 @@
     <div id="list-content" style="display:none"></div>
   </div>
 
-  <!-- Map view — viewport based, no distance slider -->
+  <!-- Map view -->
   <div id="map-view">
     <div id="map"></div>
-
-    <!-- Floating filter chips on map -->
     <div class="map-filter-bar" id="map-filter-bar">
       <div class="filter-chip active" data-mfilter="all"        onclick="setMapFilter('all')">All</div>
       <div class="filter-chip"        data-mfilter="sunny"      onclick="setMapFilter('sunny')">☀️ Sunny</div>
@@ -398,8 +381,6 @@
       <div class="filter-chip"        data-mfilter="pub"        onclick="setMapFilter('pub')">🍻 Pub</div>
       <div class="filter-chip"        data-mfilter="restaurant" onclick="setMapFilter('restaurant')">🍽️ Restaurant</div>
     </div>
-
-    <!-- Back to my location button -->
     <div class="locate-btn" id="locate-btn" onclick="flyToUser()" title="Back to my location">📍</div>
   </div>
 
@@ -410,14 +391,10 @@
       <div class="add-subtitle">Found a terrace that's missing? Add it here — it will appear on the map after the next automatic update (within 30 minutes).</div>
     </div>
     <div class="form-card">
-
-      <!-- Name -->
       <div class="form-group">
         <label class="form-label" for="f-name">Venue name <span>*</span></label>
         <input class="form-input" id="f-name" type="text" placeholder="e.g. Bar El Sol" autocomplete="off"/>
       </div>
-
-      <!-- Type -->
       <div class="form-group">
         <label class="form-label" for="f-type">Venue type <span>*</span></label>
         <select class="form-select" id="f-type">
@@ -428,26 +405,19 @@
           <option value="restaurant">🍽️ Restaurant</option>
         </select>
       </div>
-
-      <!-- Address + geocode -->
       <div class="form-group">
         <label class="form-label" for="f-address">Address <span>*</span></label>
         <input class="form-input" id="f-address" type="text"
           placeholder="e.g. Carrer de Verdi 32, Barcelona"
-          autocomplete="off"
-          oninput="resetGeocode()"/>
+          autocomplete="off" oninput="resetGeocode()"/>
         <div style="font-size:11px;color:var(--text-light);margin-top:5px;">
           💡 Include the street number and "Barcelona" for best results.
         </div>
       </div>
-
-      <!-- OR GPS -->
       <div class="form-group">
         <label class="form-label">Or use your current location</label>
         <button class="gps-autofill-btn" onclick="autofillGPS()">📍 Use my current location</button>
       </div>
-
-      <!-- Geocode confirm card (appears after address lookup) -->
       <div class="geocode-confirm" id="geocode-confirm">
         <div class="geocode-confirm-title">📍 Is this the right location?</div>
         <div class="geocode-confirm-address" id="geocode-found-address">—</div>
@@ -456,13 +426,8 @@
           <button class="geocode-no"  onclick="resetGeocode()">✏️ Try again</button>
         </div>
       </div>
-
-      <!-- Find location button (step 1) -->
       <button class="find-btn" id="find-btn" onclick="findAddress()">🔍 Find location</button>
-
-      <!-- Submit button (step 2, shown after confirm) -->
       <button class="submit-btn" id="submit-btn" onclick="submitVenue()">Submit Venue ☀️</button>
-
       <div class="form-status" id="form-status"></div>
     </div>
     <div class="info-box">
@@ -476,7 +441,7 @@
 // ── Config ────────────────────────────────────────────────────────────────────
 const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
-const DATA_URL = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@main/venue_sun_results.csv`;
+const DATA_URL    = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@main/venue_sun_results.csv`;
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let userLat         = 41.3851;
@@ -499,13 +464,15 @@ let isDrifted       = false;
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  initMap();
+  // Init map AFTER a short delay so the GPS overlay renders and is clickable first
+  setTimeout(() => { initMap(); }, 100);
+
   if (navigator.permissions) {
     navigator.permissions.query({ name: 'geolocation' }).then(r => {
       if (r.state === 'granted') {
         document.getElementById('gps-overlay').classList.add('hidden');
-        enableMap();
-        startGPS(); loadData();
+        startGPS();
+        loadData();
       }
     }).catch(() => {});
   }
@@ -514,17 +481,18 @@ window.addEventListener('load', () => {
 // ── GPS ───────────────────────────────────────────────────────────────────────
 function requestGPS() {
   document.getElementById('gps-overlay').classList.add('hidden');
-  enableMap();
-  startGPS(); loadData();
+  if (!map) { initMap(); }
+  startGPS();
+  loadData();
 }
-}
+
 function skipGPS() {
   document.getElementById('gps-overlay').classList.add('hidden');
-  enableMap();
+  if (!map) { initMap(); }
   setGPSStatus('manual', 'Barcelona centre');
   loadData();
 }
-}
+
 function startGPS() {
   setGPSStatus('searching', 'Searching...');
   if (!navigator.geolocation) { setGPSStatus('error', 'GPS not available'); return; }
@@ -541,6 +509,7 @@ function startGPS() {
     { enableHighAccuracy: true, maximumAge: 30000, timeout: 15000 }
   );
 }
+
 function setGPSStatus(state, label) {
   const dot = document.getElementById('gps-dot');
   dot.className = 'gps-dot';
@@ -556,32 +525,44 @@ function loadData() {
   document.getElementById('list-content').style.display = 'none';
   Papa.parse(DATA_URL + '?t=' + Date.now() + '&r=' + Math.random(), {
     download: true, header: true, skipEmptyLines: true,
-    complete: r => { document.getElementById('refresh-btn').classList.remove('spinning'); processData(r.data); },
-    error:    () => { document.getElementById('refresh-btn').classList.remove('spinning'); showError(); }
+    complete: r => {
+      document.getElementById('refresh-btn').classList.remove('spinning');
+      processData(r.data);
+    },
+    error: () => {
+      document.getElementById('refresh-btn').classList.remove('spinning');
+      showError();
+    }
   });
 }
+
 function processData(rows) {
   allVenues = rows
     .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
     .map(r => ({
-      id: r.venue_id||'', name: r.venue_name||'Unnamed venue',
-      type: (r.amenity_type||'').toLowerCase().trim(),
-      terrace: r.terrace_status||'', address: r.address||'',
-      lat: parseFloat(r.latitude), lon: parseFloat(r.longitude),
-      sunny: parseInt(r.is_sunny_now) === 1,
-      elevation: parseFloat(r.sun_elevation_deg)||0,
-      cloud: parseFloat(r.cloud_cover)||0,
-      updated: r.last_updated||''
+      id:        r.venue_id || '',
+      name:      r.venue_name || 'Unnamed venue',
+      type:      (r.amenity_type || '').toLowerCase().trim(),
+      terrace:   r.terrace_status || '',
+      address:   r.address || '',
+      lat:       parseFloat(r.latitude),
+      lon:       parseFloat(r.longitude),
+      sunny:     parseInt(r.is_sunny_now) === 1,
+      elevation: parseFloat(r.sun_elevation_deg) || 0,
+      cloud:     parseFloat(r.cloud_cover) || 0,
+      updated:   r.last_updated || ''
     }))
     .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
 
   if (allVenues.length > 0) {
     const v = allVenues[0];
     const lbl = v.elevation < 15 ? 'Low' : v.elevation < 40 ? 'Mid' : 'High';
-    document.getElementById('sun-info').textContent = `☀️ ${v.elevation.toFixed(0)}° ${lbl}  ☁️ ${v.cloud.toFixed(0)}%`;
+    document.getElementById('sun-info').textContent =
+      `☀️ ${v.elevation.toFixed(0)}° ${lbl}  ☁️ ${v.cloud.toFixed(0)}%`;
     if (v.updated) {
       const d = new Date(v.updated);
-      document.getElementById('last-update').textContent = d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('last-update').textContent =
+        d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     }
   }
 
@@ -592,10 +573,13 @@ function processData(rows) {
 }
 
 // ── Haversine ─────────────────────────────────────────────────────────────────
-function haversine(la1,lo1,la2,lo2) {
-  const R=6371, dL=(la2-la1)*Math.PI/180, dO=(lo2-lo1)*Math.PI/180;
-  const a=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)**2;
-  return R*2*Math.asin(Math.min(1,Math.sqrt(a)));
+function haversine(la1, lo1, la2, lo2) {
+  const R  = 6371;
+  const dL = (la2 - la1) * Math.PI / 180;
+  const dO = (lo2 - lo1) * Math.PI / 180;
+  const a  = Math.sin(dL/2)**2 +
+             Math.cos(la1*Math.PI/180) * Math.cos(la2*Math.PI/180) * Math.sin(dO/2)**2;
+  return R * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
 }
 
 // ── Distance change (list only) ───────────────────────────────────────────────
@@ -613,12 +597,13 @@ function setListFilter(f) {
   );
   applyListFilters();
 }
+
 function applyListFilters() {
   listFiltered = allVenues
     .map(v => ({ ...v, distance: haversine(userLat, userLon, v.lat, v.lon) }))
     .filter(v => v.distance <= maxDistanceKm)
-    .filter(v => listFilter==='all' ? true : listFilter==='sunny' ? v.sunny : v.type===listFilter)
-    .sort((a,b) => a.sunny!==b.sunny ? b.sunny-a.sunny : a.distance-b.distance);
+    .filter(v => listFilter === 'all' ? true : listFilter === 'sunny' ? v.sunny : v.type === listFilter)
+    .sort((a, b) => a.sunny !== b.sunny ? b.sunny - a.sunny : a.distance - b.distance);
   renderList();
 }
 
@@ -630,16 +615,13 @@ function setMapFilter(f) {
   );
   applyMapFilters();
 }
+
 function applyMapFilters() {
-  // Get current map bounds
   const bounds = map ? map.getBounds() : null;
   mapFiltered = allVenues
     .map(v => ({ ...v, distance: haversine(userLat, userLon, v.lat, v.lon) }))
-    .filter(v => {
-      if (!bounds) return true;
-      return bounds.contains([v.lat, v.lon]);
-    })
-    .filter(v => mapFilter==='all' ? true : mapFilter==='sunny' ? v.sunny : v.type===mapFilter);
+    .filter(v => bounds ? bounds.contains([v.lat, v.lon]) : true)
+    .filter(v => mapFilter === 'all' ? true : mapFilter === 'sunny' ? v.sunny : v.type === mapFilter);
   if (currentTab === 'map') renderMap();
 }
 
@@ -647,33 +629,46 @@ function applyMapFilters() {
 function renderList() {
   const c = document.getElementById('list-content');
   if (!allVenues.length) return;
-  const sc = listFiltered.filter(v=>v.sunny).length;
-  const sh = listFiltered.filter(v=>!v.sunny).length;
+  const sc = listFiltered.filter(v => v.sunny).length;
+  const sh = listFiltered.filter(v => !v.sunny).length;
   let html = `
     <div class="summary-bar">
-      <div class="summary-chip sunny-chip"><span class="summary-count">${sc}</span><span class="summary-label">☀️ Sunny now</span></div>
-      <div class="summary-chip shadow-chip"><span class="summary-count">${sh}</span><span class="summary-label">🌑 In shadow</span></div>
+      <div class="summary-chip sunny-chip">
+        <span class="summary-count">${sc}</span>
+        <span class="summary-label">☀️ Sunny now</span>
+      </div>
+      <div class="summary-chip shadow-chip">
+        <span class="summary-count">${sh}</span>
+        <span class="summary-label">🌑 In shadow</span>
+      </div>
     </div>`;
   if (!listFiltered.length) {
-    html += `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No venues found</div><div class="empty-sub">Try increasing the distance or changing the filter.</div></div>`;
+    html += `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">No venues found</div>
+        <div class="empty-sub">Try increasing the distance or changing the filter.</div>
+      </div>`;
   } else {
     listFiltered.forEach(v => {
-      const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m` : `${v.distance.toFixed(2)}km`;
+      const d = v.distance < 1
+        ? `${(v.distance * 1000).toFixed(0)}m`
+        : `${v.distance.toFixed(2)}km`;
       const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
       html += `
         <a class="venue-card" href="${m}" target="_blank" rel="noopener">
-          <div class="venue-status-icon ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️':'🌑'}</div>
+          <div class="venue-status-icon ${v.sunny ? 'sunny' : 'shadow'}">${v.sunny ? '☀️' : '🌑'}</div>
           <div class="venue-info">
             <div class="venue-name">${escHtml(v.name)}</div>
             <div class="venue-meta">
-              <span class="venue-type-badge">${escHtml(v.type||'venue')}</span>
-              ${v.terrace?`<span class="venue-terrace">· ${escHtml(v.terrace)}</span>`:''}
+              <span class="venue-type-badge">${escHtml(v.type || 'venue')}</span>
+              ${v.terrace ? `<span class="venue-terrace">· ${escHtml(v.terrace)}</span>` : ''}
             </div>
-            ${v.address?`<div class="venue-address">📍 ${escHtml(v.address)}</div>`:''}
+            ${v.address ? `<div class="venue-address">📍 ${escHtml(v.address)}</div>` : ''}
           </div>
           <div class="venue-right">
             <span class="venue-distance">${d}</span>
-            <span class="venue-sun-badge ${v.sunny?'sunny':'shadow'}">${v.sunny?'Sunny':'Shadow'}</span>
+            <span class="venue-sun-badge ${v.sunny ? 'sunny' : 'shadow'}">${v.sunny ? 'Sunny' : 'Shadow'}</span>
             <span class="maps-link">Maps ↗</span>
           </div>
         </a>`;
@@ -684,38 +679,26 @@ function renderList() {
 
 // ── Map ───────────────────────────────────────────────────────────────────────
 function initMap() {
-  // Delay map init until after GPS overlay is dismissed
-  // to prevent Leaflet from intercepting overlay button clicks
-  map = L.map('map', { zoomControl: true, preferCanvas: true }).setView([userLat, userLon], 15);
+  if (map) return; // prevent double init
+  map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors', maxZoom: 19
   }).addTo(map);
-
   map.on('moveend zoomend', () => {
     applyMapFilters();
     checkDrift();
   });
-
-  // Disable map interaction while overlay is visible
-  map.dragging.disable();
-  map.touchZoom.disable();
-  map.scrollWheelZoom.disable();
-  map.keyboard.disable();
-}
-
-function enableMap() {
-  if (!map) return;
-  map.dragging.enable();
-  map.touchZoom.enable();
-  map.scrollWheelZoom.enable();
-  map.keyboard.enable();
 }
 
 function updateUserMarker() {
   if (!map) return;
   if (userMarker) map.removeLayer(userMarker);
   userMarker = L.marker([userLat, userLon], {
-    icon: L.divIcon({ className:'', html:'<div class="marker-user"></div>', iconSize:[16,16], iconAnchor:[8,8] }),
+    icon: L.divIcon({
+      className: '',
+      html: '<div class="marker-user"></div>',
+      iconSize: [16, 16], iconAnchor: [8, 8]
+    }),
     zIndexOffset: 1000
   }).addTo(map);
 }
@@ -728,23 +711,27 @@ function renderMap() {
   mapFiltered.forEach(v => {
     const icon = L.divIcon({
       className: '',
-      html: `<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,
-      iconSize: [28,28], iconAnchor: [14,14]
+      html: `<div class="custom-marker ${v.sunny ? 'marker-sunny' : 'marker-shadow'}">${v.sunny ? '☀️' : '🌑'}</div>`,
+      iconSize: [28, 28], iconAnchor: [14, 14]
     });
-    const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m away` : `${v.distance.toFixed(2)}km away`;
+    const d = v.distance < 1
+      ? `${(v.distance * 1000).toFixed(0)}m away`
+      : `${v.distance.toFixed(2)}km away`;
     const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
     venueMarkers.push(
       L.marker([v.lat, v.lon], { icon }).addTo(map).bindPopup(`
         <div class="popup-name">${escHtml(v.name)}</div>
-        <div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div>
-        <span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny now':'🌑 In shadow'}</span>
+        <div class="popup-type">${escHtml(v.type || 'venue')} · ${d}</div>
+        <span class="popup-status ${v.sunny ? 'sunny' : 'shadow'}">
+          ${v.sunny ? '☀️ Sunny now' : '🌑 In shadow'}
+        </span>
         <a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>
       `)
     );
   });
 }
 
-// ── Back to location button ───────────────────────────────────────────────────
+// ── Back to location ──────────────────────────────────────────────────────────
 function flyToUser() {
   if (!map) return;
   map.flyTo([userLat, userLon], 16, { animate: true, duration: 0.8 });
@@ -769,16 +756,15 @@ function checkDrift() {
 // ── Tab switching ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
   currentTab = tab;
-  ['list','map','add'].forEach(t => {
-    document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
-    document.getElementById(`${t}-view`).classList.toggle('active', t===tab);
+  ['list', 'map', 'add'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+    document.getElementById(`${t}-view`).classList.toggle('active', t === tab);
   });
-
-  // Show list filters only on list tab
-  document.getElementById('list-filter-section').style.display = tab==='list' ? '' : 'none';
+  document.getElementById('list-filter-section').style.display = tab === 'list' ? '' : 'none';
 
   if (tab === 'map') {
     setTimeout(() => {
+      if (!map) { initMap(); }
       map.invalidateSize();
       updateUserMarker();
       applyMapFilters();
@@ -787,6 +773,7 @@ function switchTab(tab) {
       }
     }, 50);
   }
+}
 
 // ── Address geocoding (Nominatim) ─────────────────────────────────────────────
 async function findAddress() {
@@ -794,7 +781,8 @@ async function findAddress() {
   if (!address) { showToast('Please enter an address first', 'error'); return; }
 
   const btn = document.getElementById('find-btn');
-  btn.disabled = true; btn.textContent = '🔍 Searching...';
+  btn.disabled = true;
+  btn.textContent = '🔍 Searching...';
 
   try {
     const query    = encodeURIComponent(address + ', Barcelona');
@@ -806,7 +794,8 @@ async function findAddress() {
 
     if (!results || results.length === 0) {
       showToast('Address not found. Try adding more details.', 'error');
-      btn.disabled = false; btn.textContent = '🔍 Find location';
+      btn.disabled = false;
+      btn.textContent = '🔍 Find location';
       return;
     }
 
@@ -815,27 +804,27 @@ async function findAddress() {
     geocodedLon     = parseFloat(result.lon);
     geocodedAddress = result.display_name;
 
-    // Validate it's within Barcelona bounding box
     if (geocodedLat < 41.0 || geocodedLat > 41.6 || geocodedLon < 1.8 || geocodedLon > 2.5) {
       showToast('Location found but it seems outside Barcelona. Try again.', 'error');
-      btn.disabled = false; btn.textContent = '🔍 Find location';
-      geocodedLat = null; geocodedLon = null;
+      btn.disabled = false;
+      btn.textContent = '🔍 Find location';
+      geocodedLat = null;
+      geocodedLon = null;
       return;
     }
 
-    // Show confirmation
     document.getElementById('geocode-found-address').textContent = geocodedAddress;
     document.getElementById('geocode-confirm').classList.add('visible');
     btn.style.display = 'none';
 
   } catch {
     showToast('Could not search address. Check your connection.', 'error');
-    btn.disabled = false; btn.textContent = '🔍 Find location';
+    btn.disabled = false;
+    btn.textContent = '🔍 Find location';
   }
 }
 
 function confirmGeocode() {
-  // Hide confirm card, show submit button
   document.getElementById('geocode-confirm').classList.remove('visible');
   document.getElementById('submit-btn').classList.add('visible');
   document.getElementById('find-btn').style.display = 'none';
@@ -843,11 +832,15 @@ function confirmGeocode() {
 }
 
 function resetGeocode() {
-  geocodedLat = null; geocodedLon = null; geocodedAddress = '';
+  geocodedLat = null;
+  geocodedLon = null;
+  geocodedAddress = '';
   document.getElementById('geocode-confirm').classList.remove('visible');
   document.getElementById('submit-btn').classList.remove('visible');
   const btn = document.getElementById('find-btn');
-  btn.style.display = 'block'; btn.disabled = false; btn.textContent = '🔍 Find location';
+  btn.style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = '🔍 Find location';
   document.getElementById('form-status').className = 'form-status';
 }
 
@@ -875,67 +868,77 @@ async function submitVenue() {
   const type    = document.getElementById('f-type').value;
   const address = document.getElementById('f-address').value.trim();
 
-  if (!name)            { showToast('Please enter the venue name', 'error'); return; }
-  if (!type)            { showToast('Please select the venue type', 'error'); return; }
-  if (!geocodedLat || !geocodedLon) { showToast('Please confirm the location first', 'error'); return; }
+  if (!name)                       { showToast('Please enter the venue name', 'error'); return; }
+  if (!type)                       { showToast('Please select the venue type', 'error'); return; }
+  if (!geocodedLat || !geocodedLon){ showToast('Please confirm the location first', 'error'); return; }
 
   const btn = document.getElementById('submit-btn');
   const st  = document.getElementById('form-status');
-  btn.disabled = true; btn.textContent = '⏳ Submitting...';
-  st.className = 'form-status'; st.style.display = 'block';
-  st.textContent = '⏳ Sending to database...';
+  btn.disabled    = true;
+  btn.textContent = '⏳ Submitting...';
+  st.className    = 'form-status';
+  st.style.display = 'block';
+  st.textContent  = '⏳ Sending to database...';
 
   try {
-   const res = await fetch(
-  'https://sunspot-add-venue.cavallaro-adri.workers.dev',
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      venue_name:   name,
-      amenity_type: type,
-      address:      address,
-      latitude:     String(geocodedLat),
-      longitude:    String(geocodedLon)
-    })
-  }
-);
-if (res.status === 200) {
-      st.className = 'form-status success';
-      st.textContent = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
+    const res = await fetch(
+      'https://sunspot-add-venue.cavallaro-adri.workers.dev',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          venue_name:   name,
+          amenity_type: type,
+          address:      address,
+          latitude:     String(geocodedLat),
+          longitude:    String(geocodedLon)
+        })
+      }
+    );
+
+    if (res.status === 200) {
+      st.className    = 'form-status success';
+      st.textContent  = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
       btn.textContent = '✅ Submitted!';
       showToast(`✅ ${name} added!`, 'success');
-      document.getElementById('f-name').value = '';
+      document.getElementById('f-name').value    = '';
       document.getElementById('f-address').value = '';
-      document.getElementById('f-type').value = '';
+      document.getElementById('f-type').value    = '';
       resetGeocode();
     } else {
       const errorText = await res.text();
       throw new Error(`Status ${res.status}: ${errorText}`);
     }
   } catch (err) {
-    st.className = 'form-status error';
-    st.textContent = '❌ Submission failed. Error: ' + err.message;
-    btn.disabled = false; btn.textContent = 'Submit Venue ☀️';
+    st.className    = 'form-status error';
+    st.textContent  = '❌ Submission failed. Error: ' + err.message;
+    btn.disabled    = false;
+    btn.textContent = 'Submit Venue ☀️';
     showToast('Submission failed: ' + err.message, 'error');
   }
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
-function showToast(msg, type='info') {
+function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast ${type} show`;
+  t.textContent = msg;
+  t.className   = `toast ${type} show`;
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
+
 function showError() {
-  document.getElementById('loading-state').style.display='none';
-  document.getElementById('list-content').style.display='block';
-  document.getElementById('list-content').innerHTML=`
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('list-content').style.display  = 'block';
+  document.getElementById('list-content').innerHTML = `
     <div class="empty-state">
       <div class="empty-icon">⚠️</div>
       <div class="empty-title">Could not load data</div>
