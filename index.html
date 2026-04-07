@@ -573,7 +573,7 @@ function processData(rows) {
       sunny:       parseInt(r.is_sunny_now) === 1,
       elevation:   parseFloat(r.sun_elevation_deg) || 0,
       cloud:       parseFloat(r.cloud_cover) || 0,
-      temperature: parseFloat(r.temperature_c) || null,
+      temperature: parseFloat(String(r.temperature_c || '').replace(',', '.')) || null,
       updated:     r.last_updated || ''
     }))
     .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
