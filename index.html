@@ -551,10 +551,6 @@ function loadData() {
   document.getElementById('list-content').style.display = 'none';
   Papa.parse(DATA_URL + '?t=' + Date.now() + '&r=' + Math.random(), {
     download: true, header: true, skipEmptyLines: true,
-    downloadRequestHeaders: {
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache'
-    },
     complete: r => { document.getElementById('refresh-btn').classList.remove('spinning'); processData(r.data); },
     error:    () => { document.getElementById('refresh-btn').classList.remove('spinning'); showError(); }
   });
