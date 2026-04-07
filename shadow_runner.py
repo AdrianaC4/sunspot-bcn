@@ -92,7 +92,7 @@ latest_sun        = sun_df.sort_values("timestamp_utc").iloc[-1]
 sun_elevation_deg = float(latest_sun["sun_elevation_deg"])
 sun_azimuth_deg   = float(latest_sun["sun_azimuth_deg"])
 cloud_cover       = float(latest_sun["cloud_cover"])
-temperature_c     = float(latest_sun["temperature_c"]) if "temperature_c" in latest_sun.index else 0.0
+temperature_c     = float(str(latest_sun["temperature_c"]).replace(",", ".")) if "temperature_c" in latest_sun.index else 0.0
 
 print("Sun elevation:", sun_elevation_deg)
 print("Sun azimuth:",   sun_azimuth_deg)
