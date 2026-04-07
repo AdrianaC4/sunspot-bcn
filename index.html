@@ -289,7 +289,7 @@
     .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 
     /* ── GPS overlay ── */
-    .gps-overlay { position: fixed; inset: 0; background: rgba(250,246,238,0.97); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 1000; gap: 16px; }
+    .gps-overlay { position: fixed; inset: 0; background: rgba(250,246,238,0.97); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 99999; gap: 16px; pointer-events: all; }
     .gps-overlay.hidden { display: none; }
     .gps-overlay-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--amber-light), var(--amber)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 38px; box-shadow: 0 8px 32px rgba(232,160,32,0.35); margin-bottom: 8px; }
     .gps-overlay-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--text-dark); line-height: 1.2; }
