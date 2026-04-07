@@ -504,6 +504,7 @@ window.addEventListener('load', () => {
     navigator.permissions.query({ name: 'geolocation' }).then(r => {
       if (r.state === 'granted') {
         document.getElementById('gps-overlay').classList.add('hidden');
+        enableMap();
         startGPS(); loadData();
       }
     }).catch(() => {});
@@ -513,12 +514,16 @@ window.addEventListener('load', () => {
 // ── GPS ───────────────────────────────────────────────────────────────────────
 function requestGPS() {
   document.getElementById('gps-overlay').classList.add('hidden');
+  enableMap();
   startGPS(); loadData();
+}
 }
 function skipGPS() {
   document.getElementById('gps-overlay').classList.add('hidden');
+  enableMap();
   setGPSStatus('manual', 'Barcelona centre');
   loadData();
+}
 }
 function startGPS() {
   setGPSStatus('searching', 'Searching...');
@@ -679,16 +684,31 @@ function renderList() {
 
 // ── Map ───────────────────────────────────────────────────────────────────────
 function initMap() {
-  map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
+  // Delay map init until after GPS overlay is dismissed
+  // to prevent Leaflet from intercepting overlay button clicks
+  map = L.map('map', { zoomControl: true, preferCanvas: true }).setView([userLat, userLon], 15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors', maxZoom: 19
   }).addTo(map);
 
-  // Re-render markers whenever the user pans or zooms
   map.on('moveend zoomend', () => {
     applyMapFilters();
     checkDrift();
   });
+
+  // Disable map interaction while overlay is visible
+  map.dragging.disable();
+  map.touchZoom.disable();
+  map.scrollWheelZoom.disable();
+  map.keyboard.disable();
+}
+
+function enableMap() {
+  if (!map) return;
+  map.dragging.enable();
+  map.touchZoom.enable();
+  map.scrollWheelZoom.enable();
+  map.keyboard.enable();
 }
 
 function updateUserMarker() {
