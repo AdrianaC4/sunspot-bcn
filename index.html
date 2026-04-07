@@ -476,7 +476,7 @@
 // ── Config ────────────────────────────────────────────────────────────────────
 const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
-const DATA_URL    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
+const DATA_URL = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@main/venue_sun_results.csv`;
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let userLat         = 41.3851;
@@ -549,8 +549,12 @@ function loadData() {
   document.getElementById('refresh-btn').classList.add('spinning');
   document.getElementById('loading-state').style.display = 'flex';
   document.getElementById('list-content').style.display = 'none';
-  Papa.parse(DATA_URL + '?t=' + Date.now(), {
+  Papa.parse(DATA_URL + '?t=' + Date.now() + '&r=' + Math.random(), {
     download: true, header: true, skipEmptyLines: true,
+    downloadRequestHeaders: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache'
+    },
     complete: r => { document.getElementById('refresh-btn').classList.remove('spinning'); processData(r.data); },
     error:    () => { document.getElementById('refresh-btn').classList.remove('spinning'); showError(); }
   });
@@ -762,9 +766,11 @@ function switchTab(tab) {
       map.invalidateSize();
       updateUserMarker();
       applyMapFilters();
+      if (userLocated) {
+        map.setView([userLat, userLon], 16);
+      }
     }, 50);
   }
-}
 
 // ── Address geocoding (Nominatim) ─────────────────────────────────────────────
 async function findAddress() {
