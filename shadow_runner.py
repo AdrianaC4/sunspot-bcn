@@ -92,6 +92,7 @@ latest_sun        = sun_df.sort_values("timestamp_utc").iloc[-1]
 sun_elevation_deg = float(latest_sun["sun_elevation_deg"])
 sun_azimuth_deg   = float(latest_sun["sun_azimuth_deg"])
 cloud_cover       = float(latest_sun["cloud_cover"])
+temperature_c     = float(latest_sun["temperature_c"]) if "temperature_c" in latest_sun.index else 0.0
 
 print("Sun elevation:", sun_elevation_deg)
 print("Sun azimuth:",   sun_azimuth_deg)
@@ -173,6 +174,7 @@ for i, (_, venue) in enumerate(venues_gdf.iterrows(), start=1):
             "sun_elevation_deg":   sun_elevation_deg,
             "sun_azimuth_deg":     sun_azimuth_deg,
             "cloud_cover":         cloud_cover,
+            "temperature_c":       temperature_c,
             "last_updated":        str(latest_sun["timestamp_utc"])
         })
     else:
@@ -189,9 +191,10 @@ for i, (_, venue) in enumerate(venues_gdf.iterrows(), start=1):
             "blocker_distance_m":  None,
             "required_height_m":   None,
             "blocker_height_m":    None,
-            "sun_elevation_deg":   sun_elevation_deg,
+           "sun_elevation_deg":   sun_elevation_deg,
             "sun_azimuth_deg":     sun_azimuth_deg,
             "cloud_cover":         cloud_cover,
+            "temperature_c":       temperature_c,
             "last_updated":        str(latest_sun["timestamp_utc"])
         })
 
