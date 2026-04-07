@@ -46,12 +46,12 @@
       display: flex; flex-direction: column;
     }
 
-    /* ── Header — always on top of everything including map ── */
+    /* ── Header — always on top ── */
     .header {
       background: var(--cream); padding: 14px 20px 10px;
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1.5px solid var(--border); flex-shrink: 0;
-      position: relative; z-index: 99998; /* just below GPS overlay */
+      position: relative; z-index: 99998;
     }
     .header-left { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
@@ -71,8 +71,7 @@
       border: 1.5px solid var(--border); background: var(--cream-dark);
       display: flex; align-items: center; justify-content: center;
       font-size: 15px; cursor: pointer; transition: all 0.2s;
-      position: relative; z-index: 99998; /* above map layer */
-      pointer-events: all;
+      position: relative; z-index: 99998; pointer-events: all;
     }
     .refresh-btn:active { transform: scale(0.92); background: var(--border); }
     .refresh-btn.spinning { animation: spin 1s linear infinite; }
@@ -293,7 +292,7 @@
     .empty-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text-dark); }
     .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 
-    /* ── GPS overlay — highest z-index, always on top ── */
+    /* ── GPS overlay ── */
     .gps-overlay {
       position: fixed; inset: 0; background: rgba(250,246,238,0.97);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -365,7 +364,7 @@
   <div class="tab"        id="tab-add"  onclick="switchTab('add')">➕ Add</div>
 </div>
 
-<!-- LIST filters (only shown on list tab) -->
+<!-- LIST filters -->
 <div id="list-filter-section">
   <div class="filter-bar">
     <div class="filter-chip active" data-filter="all"        onclick="setListFilter('all')">All venues</div>
@@ -467,10 +466,6 @@ const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
 const DATA_URL    = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@main/venue_sun_results.csv`;
 
-// Published Google Sheet CSV for live weather context (temperature + cloud cover)
-// This is the same sheet n8n writes to every 15 minutes
-const WEATHER_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7WBHZA-6IbdOGK41bpMHqvvqohQ5U4tPRmZzXRuYk42V2YlZHCsM9g-GdosZiH8pFJxhKFdlL0S7U/pub?gid=881521698&single=true&output=csv";
-
 // ── State ─────────────────────────────────────────────────────────────────────
 let userLat         = 41.3851;
 let userLon         = 2.1734;
@@ -493,7 +488,6 @@ let isDrifted       = false;
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   setTimeout(() => { initMap(); }, 100);
-
   if (navigator.permissions) {
     navigator.permissions.query({ name: 'geolocation' }).then(r => {
       if (r.state === 'granted') {
@@ -551,7 +545,6 @@ function loadData() {
   document.getElementById('loading-state').style.display = 'flex';
   document.getElementById('list-content').style.display  = 'none';
 
-  // Load venue sun results
   Papa.parse(DATA_URL + '?t=' + Date.now() + '&r=' + Math.random(), {
     download: true, header: true, skipEmptyLines: true,
     complete: r => {
@@ -563,64 +556,52 @@ function loadData() {
       showError();
     }
   });
-
-  // Load weather context separately for temperature + cloud cover
-  loadWeather();
 }
 
-// ── Weather loading (temperature + cloud cover from Google Sheet) ─────────────
-function loadWeather() {
-  Papa.parse(WEATHER_URL + '?t=' + Date.now(), {
-    download: true, header: true, skipEmptyLines: true,
-    complete: r => {
-      if (!r.data || r.data.length === 0) return;
-      // Get the latest row (last row = most recent)
-      const latest = r.data[r.data.length - 1];
-      const temp   = parseFloat(latest['temperature_c']);
-      const cloud  = parseFloat(latest['cloud_cover']);
-      const sunEl  = parseFloat(latest['sun_elevation_deg']);
-
-      let parts = [];
-      if (!isNaN(temp))  parts.push(`🌡️ ${temp.toFixed(1)}°C`);
-      if (!isNaN(cloud)) parts.push(`☁️ ${cloud.toFixed(0)}%`);
-
-      if (parts.length > 0) {
-        document.getElementById('sun-info').textContent = parts.join('  ');
-      }
-
-      // Update last-update time
-      const ts = latest['timestamp_utc'] || latest['timestamp_local'] || '';
-      if (ts) {
-        const d = new Date(ts);
-        if (!isNaN(d.getTime())) {
-          document.getElementById('last-update').textContent =
-            d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-        }
-      }
-    },
-    error: () => {
-      // Silently fail — weather display is non-critical
-    }
-  });
-}
-
+// ── Process data + update status bar ─────────────────────────────────────────
 function processData(rows) {
   allVenues = rows
     .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
     .map(r => ({
-      id:        r.venue_id || '',
-      name:      r.venue_name || 'Unnamed venue',
-      type:      (r.amenity_type || '').toLowerCase().trim(),
-      terrace:   r.terrace_status || '',
-      address:   r.address || '',
-      lat:       parseFloat(r.latitude),
-      lon:       parseFloat(r.longitude),
-      sunny:     parseInt(r.is_sunny_now) === 1,
-      elevation: parseFloat(r.sun_elevation_deg) || 0,
-      cloud:     parseFloat(r.cloud_cover) || 0,
-      updated:   r.last_updated || ''
+      id:          r.venue_id || '',
+      name:        r.venue_name || 'Unnamed venue',
+      type:        (r.amenity_type || '').toLowerCase().trim(),
+      terrace:     r.terrace_status || '',
+      address:     r.address || '',
+      lat:         parseFloat(r.latitude),
+      lon:         parseFloat(r.longitude),
+      sunny:       parseInt(r.is_sunny_now) === 1,
+      elevation:   parseFloat(r.sun_elevation_deg) || 0,
+      cloud:       parseFloat(r.cloud_cover) || 0,
+      temperature: parseFloat(r.temperature_c) || null,
+      updated:     r.last_updated || ''
     }))
     .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
+
+  // Update status bar using the first venue's weather data
+  // (all venues share the same sun context so first row is fine)
+  if (allVenues.length > 0) {
+    const v     = allVenues[0];
+    const parts = [];
+
+    if (v.temperature !== null && !isNaN(v.temperature)) {
+      parts.push(`🌡️ ${v.temperature.toFixed(1)}°C`);
+    }
+    if (!isNaN(v.cloud)) {
+      parts.push(`☁️ ${v.cloud.toFixed(0)}%`);
+    }
+
+    document.getElementById('sun-info').textContent =
+      parts.length > 0 ? parts.join('  ') : '—';
+
+    if (v.updated) {
+      const d = new Date(v.updated);
+      if (!isNaN(d.getTime())) {
+        document.getElementById('last-update').textContent =
+          d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+  }
 
   applyListFilters();
   applyMapFilters();
@@ -638,7 +619,7 @@ function haversine(la1, lo1, la2, lo2) {
   return R * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
 }
 
-// ── Distance change (list only) ───────────────────────────────────────────────
+// ── Distance change ───────────────────────────────────────────────────────────
 function onDistanceChange(val) {
   maxDistanceKm = parseFloat(val);
   document.getElementById('distance-value').textContent = `${parseFloat(val).toFixed(1)} km`;
@@ -663,7 +644,7 @@ function applyListFilters() {
   renderList();
 }
 
-// ── MAP filters (viewport based) ──────────────────────────────────────────────
+// ── MAP filters ───────────────────────────────────────────────────────────────
 function setMapFilter(f) {
   mapFilter = f;
   document.querySelectorAll('#map-filter-bar .filter-chip').forEach(c =>
@@ -831,7 +812,7 @@ function switchTab(tab) {
   }
 }
 
-// ── Address geocoding (Nominatim) ─────────────────────────────────────────────
+// ── Address geocoding ─────────────────────────────────────────────────────────
 async function findAddress() {
   const address = document.getElementById('f-address').value.trim();
   if (!address) { showToast('Please enter an address first', 'error'); return; }
@@ -924,8 +905,8 @@ async function submitVenue() {
   const type    = document.getElementById('f-type').value;
   const address = document.getElementById('f-address').value.trim();
 
-  if (!name)                        { showToast('Please enter the venue name', 'error');    return; }
-  if (!type)                        { showToast('Please select the venue type', 'error');   return; }
+  if (!name)                        { showToast('Please enter the venue name', 'error');       return; }
+  if (!type)                        { showToast('Please select the venue type', 'error');      return; }
   if (!geocodedLat || !geocodedLon) { showToast('Please confirm the location first', 'error'); return; }
 
   const btn = document.getElementById('submit-btn');
