@@ -46,11 +46,14 @@
       display: flex; flex-direction: column;
     }
 
+    /* ── Header ── */
     .header {
       background: var(--cream); padding: 14px 20px 10px;
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1.5px solid var(--border); flex-shrink: 0;
-      position: relative; z-index: 100;
+      position: relative;
+      /* Fix 1: ensure header is always above map and all content */
+      z-index: 99998;
     }
     .header-left { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
@@ -70,15 +73,20 @@
       border: 1.5px solid var(--border); background: var(--cream-dark);
       display: flex; align-items: center; justify-content: center;
       font-size: 15px; cursor: pointer; transition: all 0.2s;
+      /* Fix 1: ensure button is clickable above everything */
+      position: relative; z-index: 99998;
+      -webkit-tap-highlight-color: transparent;
     }
     .refresh-btn:active { transform: scale(0.92); background: var(--border); }
     .refresh-btn.spinning { animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── Status bar ── */
     .status-bar {
       background: var(--cream-dark); padding: 8px 20px;
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid var(--border); flex-shrink: 0;
+      position: relative; z-index: 99997;
     }
     .status-left { display: flex; align-items: center; gap: 6px; }
     .gps-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; transition: background 0.4s; }
@@ -89,7 +97,12 @@
     .sun-info    { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-mid); font-weight: 500; }
     .last-update { font-size: 10.5px; color: var(--text-light); }
 
-    .tab-bar { display: flex; background: var(--cream); border-bottom: 1.5px solid var(--border); flex-shrink: 0; }
+    /* ── Tab bar ── */
+    .tab-bar {
+      display: flex; background: var(--cream);
+      border-bottom: 1.5px solid var(--border); flex-shrink: 0;
+      position: relative; z-index: 99997;
+    }
     .tab {
       flex: 1; padding: 11px 0; text-align: center;
       font-size: 12.5px; font-weight: 500; color: var(--text-light);
@@ -97,9 +110,11 @@
     }
     .tab.active { color: var(--amber-deep); border-bottom-color: var(--amber); font-weight: 600; }
 
+    /* ── Filter bar ── */
     .filter-bar {
       padding: 10px 16px; display: flex; gap: 7px;
       overflow-x: auto; flex-shrink: 0; scrollbar-width: none; background: var(--cream);
+      position: relative; z-index: 99996;
     }
     .filter-bar::-webkit-scrollbar { display: none; }
     .filter-chip {
@@ -110,9 +125,11 @@
     }
     .filter-chip.active { background: var(--amber); border-color: var(--amber); color: white; box-shadow: 0 2px 8px rgba(232,160,32,0.3); }
 
+    /* ── Distance slider ── */
     .distance-row {
       display: flex; align-items: center; gap: 10px;
       padding: 6px 16px 4px; flex-shrink: 0;
+      position: relative; z-index: 99996;
     }
     .distance-label { font-size: 11.5px; font-weight: 600; color: var(--text-mid); white-space: nowrap; }
     .distance-value { font-size: 11.5px; font-weight: 700; color: var(--amber-deep); white-space: nowrap; min-width: 40px; }
@@ -122,6 +139,7 @@
       background: var(--amber); box-shadow: 0 2px 6px rgba(232,160,32,0.4); cursor: pointer;
     }
 
+    /* ── Map filter bar (floating on map) ── */
     .map-filter-bar {
       position: absolute; top: 10px; left: 0; right: 0;
       display: flex; gap: 7px; padding: 0 12px;
@@ -131,6 +149,7 @@
     .map-filter-bar::-webkit-scrollbar { display: none; }
     .map-filter-bar .filter-chip { pointer-events: all; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 
+    /* ── Back to location button ── */
     .locate-btn {
       position: absolute; bottom: 24px; right: 16px;
       width: 44px; height: 44px; border-radius: 50%;
@@ -146,6 +165,7 @@
       50%      { box-shadow: 0 2px 18px rgba(232,160,32,0.5); }
     }
 
+    /* ── Content ── */
     .content { flex: 1; overflow: hidden; position: relative; }
 
     #map-view { width: 100%; height: 100%; display: none; position: relative; }
@@ -160,6 +180,7 @@
     #add-view::-webkit-scrollbar { display: none; }
     #add-view.active { display: block; }
 
+    /* ── Venue card ── */
     .venue-card {
       background: var(--card-bg); border-radius: var(--radius); border: 1.5px solid var(--border);
       padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm);
@@ -184,6 +205,7 @@
     .venue-sun-badge.shadow { background: var(--shadow-light); color: var(--shadow-blue); }
     .maps-link { font-size: 10.5px; color: var(--amber-deep); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 3px; }
 
+    /* ── Summary bar ── */
     .summary-bar { display: flex; gap: 8px; margin-bottom: 12px; }
     .summary-chip { flex: 1; padding: 10px 12px; border-radius: var(--radius-sm); text-align: center; }
     .summary-chip.sunny-chip  { background: var(--sunny-bg);  border: 1.5px solid #FFE082; }
@@ -193,6 +215,7 @@
     .shadow-chip .summary-count { color: var(--shadow-blue); }
     .summary-label { font-size: 10.5px; font-weight: 500; color: var(--text-mid); }
 
+    /* ── Add venue form ── */
     .add-header { margin-bottom: 16px; }
     .add-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--text-dark); margin-bottom: 6px; }
     .add-subtitle { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
@@ -217,6 +240,7 @@
     }
     .gps-autofill-btn:active { transform: scale(0.98); }
 
+    /* ── Geocode confirm ── */
     .geocode-confirm {
       background: var(--sunny-bg); border: 1.5px solid var(--amber);
       border-radius: var(--radius-sm); padding: 14px; margin-top: 10px; display: none;
@@ -253,10 +277,11 @@
     .form-status.error   { background: var(--red-bg);   color: var(--red);   display: block; }
     .info-box { background: var(--shadow-bg); border: 1.5px solid #C5D8F0; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--shadow-blue); line-height: 1.5; margin-top: 12px; }
 
+    /* ── Toast ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
       padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; color: white;
-      z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
       white-space: nowrap; max-width: calc(100vw - 40px); text-align: center;
     }
     .toast.success { background: var(--green); }
@@ -264,6 +289,7 @@
     .toast.info    { background: var(--shadow-blue); }
     .toast.show    { opacity: 1; }
 
+    /* ── Loading / empty ── */
     .loading-state, .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 30px; text-align: center; gap: 12px; }
     .loading-spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.9s linear infinite; }
     .loading-text { font-size: 14px; color: var(--text-mid); font-weight: 500; }
@@ -271,11 +297,11 @@
     .empty-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text-dark); }
     .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 
-    /* GPS overlay — highest z-index, always on top */
+    /* ── GPS overlay ── */
     .gps-overlay {
       position: fixed; inset: 0; background: rgba(250,246,238,0.97);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 40px; text-align: center; z-index: 99999; gap: 16px; pointer-events: all;
+      padding: 40px; text-align: center; z-index: 999999; gap: 16px; pointer-events: all;
     }
     .gps-overlay.hidden { display: none; }
     .gps-overlay-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--amber-light), var(--amber)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 38px; box-shadow: 0 8px 32px rgba(232,160,32,0.35); margin-bottom: 8px; }
@@ -285,11 +311,13 @@
     .gps-btn:active { transform: scale(0.96); }
     .gps-skip { font-size: 12.5px; color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
+    /* ── Markers ── */
     .custom-marker { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; }
     .marker-sunny  { background: var(--amber); }
     .marker-shadow { background: var(--shadow-blue); }
     .marker-user   { background: #E53935; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 3px rgba(229,57,53,0.3); }
 
+    /* ── Popup ── */
     .leaflet-popup-content-wrapper { border-radius: 14px !important; box-shadow: var(--shadow) !important; border: 1.5px solid var(--border) !important; background: var(--card-bg) !important; }
     .leaflet-popup-content { margin: 14px 16px !important; }
     .popup-name  { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
@@ -304,7 +332,7 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- GPS Overlay — rendered first, always on top -->
+<!-- GPS Overlay -->
 <div class="gps-overlay" id="gps-overlay">
   <div class="gps-overlay-icon">☀️</div>
   <div class="gps-overlay-title">Find your sunny terrace</div>
@@ -464,7 +492,7 @@ let isDrifted       = false;
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  // Init map AFTER a short delay so the GPS overlay renders and is clickable first
+  // Short delay so GPS overlay renders fully before map initialises
   setTimeout(() => { initMap(); }, 100);
 
   if (navigator.permissions) {
@@ -522,7 +550,7 @@ function setGPSStatus(state, label) {
 function loadData() {
   document.getElementById('refresh-btn').classList.add('spinning');
   document.getElementById('loading-state').style.display = 'flex';
-  document.getElementById('list-content').style.display = 'none';
+  document.getElementById('list-content').style.display  = 'none';
   Papa.parse(DATA_URL + '?t=' + Date.now() + '&r=' + Math.random(), {
     download: true, header: true, skipEmptyLines: true,
     complete: r => {
@@ -540,25 +568,27 @@ function processData(rows) {
   allVenues = rows
     .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
     .map(r => ({
-      id:        r.venue_id || '',
-      name:      r.venue_name || 'Unnamed venue',
-      type:      (r.amenity_type || '').toLowerCase().trim(),
-      terrace:   r.terrace_status || '',
-      address:   r.address || '',
-      lat:       parseFloat(r.latitude),
-      lon:       parseFloat(r.longitude),
-      sunny:     parseInt(r.is_sunny_now) === 1,
-      elevation: parseFloat(r.sun_elevation_deg) || 0,
-      cloud:     parseFloat(r.cloud_cover) || 0,
-      updated:   r.last_updated || ''
+      id:          r.venue_id || '',
+      name:        r.venue_name || 'Unnamed venue',
+      type:        (r.amenity_type || '').toLowerCase().trim(),
+      terrace:     r.terrace_status || '',
+      address:     r.address || '',
+      lat:         parseFloat(r.latitude),
+      lon:         parseFloat(r.longitude),
+      sunny:       parseInt(r.is_sunny_now) === 1,
+      elevation:   parseFloat(r.sun_elevation_deg) || 0,
+      cloud:       parseFloat(r.cloud_cover) || 0,
+      temperature: parseFloat(r.temperature_c) || null,
+      updated:     r.last_updated || ''
     }))
     .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
 
+  // Fix 3: Show temperature instead of sun degree in status bar
   if (allVenues.length > 0) {
     const v = allVenues[0];
-    const lbl = v.elevation < 15 ? 'Low' : v.elevation < 40 ? 'Mid' : 'High';
-    document.getElementById('sun-info').textContent =
-      `☀️ ${v.elevation.toFixed(0)}° ${lbl}  ☁️ ${v.cloud.toFixed(0)}%`;
+    const tempStr = v.temperature !== null ? `🌡️ ${v.temperature.toFixed(0)}°C` : '🌡️ —';
+    const cloudStr = `☁️ ${v.cloud.toFixed(0)}%`;
+    document.getElementById('sun-info').textContent = `${tempStr}  ${cloudStr}`;
     if (v.updated) {
       const d = new Date(v.updated);
       document.getElementById('last-update').textContent =
@@ -569,7 +599,7 @@ function processData(rows) {
   applyListFilters();
   applyMapFilters();
   document.getElementById('loading-state').style.display = 'none';
-  document.getElementById('list-content').style.display = 'block';
+  document.getElementById('list-content').style.display  = 'block';
 }
 
 // ── Haversine ─────────────────────────────────────────────────────────────────
@@ -582,7 +612,7 @@ function haversine(la1, lo1, la2, lo2) {
   return R * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
 }
 
-// ── Distance change (list only) ───────────────────────────────────────────────
+// ── Distance change ───────────────────────────────────────────────────────────
 function onDistanceChange(val) {
   maxDistanceKm = parseFloat(val);
   document.getElementById('distance-value').textContent = `${parseFloat(val).toFixed(1)} km`;
@@ -607,7 +637,7 @@ function applyListFilters() {
   renderList();
 }
 
-// ── MAP filters (viewport based) ──────────────────────────────────────────────
+// ── MAP filters ───────────────────────────────────────────────────────────────
 function setMapFilter(f) {
   mapFilter = f;
   document.querySelectorAll('#map-filter-bar .filter-chip').forEach(c =>
@@ -679,7 +709,7 @@ function renderList() {
 
 // ── Map ───────────────────────────────────────────────────────────────────────
 function initMap() {
-  if (map) return; // prevent double init
+  if (map) return;
   map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors', maxZoom: 19
@@ -781,7 +811,7 @@ async function findAddress() {
   if (!address) { showToast('Please enter an address first', 'error'); return; }
 
   const btn = document.getElementById('find-btn');
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = '🔍 Searching...';
 
   try {
@@ -794,8 +824,7 @@ async function findAddress() {
 
     if (!results || results.length === 0) {
       showToast('Address not found. Try adding more details.', 'error');
-      btn.disabled = false;
-      btn.textContent = '🔍 Find location';
+      btn.disabled = false; btn.textContent = '🔍 Find location';
       return;
     }
 
@@ -806,10 +835,8 @@ async function findAddress() {
 
     if (geocodedLat < 41.0 || geocodedLat > 41.6 || geocodedLon < 1.8 || geocodedLon > 2.5) {
       showToast('Location found but it seems outside Barcelona. Try again.', 'error');
-      btn.disabled = false;
-      btn.textContent = '🔍 Find location';
-      geocodedLat = null;
-      geocodedLon = null;
+      btn.disabled = false; btn.textContent = '🔍 Find location';
+      geocodedLat = null; geocodedLon = null;
       return;
     }
 
@@ -819,8 +846,7 @@ async function findAddress() {
 
   } catch {
     showToast('Could not search address. Check your connection.', 'error');
-    btn.disabled = false;
-    btn.textContent = '🔍 Find location';
+    btn.disabled = false; btn.textContent = '🔍 Find location';
   }
 }
 
@@ -832,15 +858,11 @@ function confirmGeocode() {
 }
 
 function resetGeocode() {
-  geocodedLat = null;
-  geocodedLon = null;
-  geocodedAddress = '';
+  geocodedLat = null; geocodedLon = null; geocodedAddress = '';
   document.getElementById('geocode-confirm').classList.remove('visible');
   document.getElementById('submit-btn').classList.remove('visible');
   const btn = document.getElementById('find-btn');
-  btn.style.display = 'block';
-  btn.disabled = false;
-  btn.textContent = '🔍 Find location';
+  btn.style.display = 'block'; btn.disabled = false; btn.textContent = '🔍 Find location';
   document.getElementById('form-status').className = 'form-status';
 }
 
@@ -868,17 +890,17 @@ async function submitVenue() {
   const type    = document.getElementById('f-type').value;
   const address = document.getElementById('f-address').value.trim();
 
-  if (!name)                       { showToast('Please enter the venue name', 'error'); return; }
-  if (!type)                       { showToast('Please select the venue type', 'error'); return; }
-  if (!geocodedLat || !geocodedLon){ showToast('Please confirm the location first', 'error'); return; }
+  if (!name)                        { showToast('Please enter the venue name', 'error');     return; }
+  if (!type)                        { showToast('Please select the venue type', 'error');    return; }
+  if (!geocodedLat || !geocodedLon) { showToast('Please confirm the location first', 'error'); return; }
 
   const btn = document.getElementById('submit-btn');
   const st  = document.getElementById('form-status');
-  btn.disabled    = true;
-  btn.textContent = '⏳ Submitting...';
-  st.className    = 'form-status';
+  btn.disabled     = true;
+  btn.textContent  = '⏳ Submitting...';
+  st.className     = 'form-status';
   st.style.display = 'block';
-  st.textContent  = '⏳ Sending to database...';
+  st.textContent   = '⏳ Sending to database...';
 
   try {
     const res = await fetch(
@@ -910,10 +932,10 @@ async function submitVenue() {
       throw new Error(`Status ${res.status}: ${errorText}`);
     }
   } catch (err) {
-    st.className    = 'form-status error';
-    st.textContent  = '❌ Submission failed. Error: ' + err.message;
-    btn.disabled    = false;
-    btn.textContent = 'Submit Venue ☀️';
+    st.className     = 'form-status error';
+    st.textContent   = '❌ Submission failed. Error: ' + err.message;
+    btn.disabled     = false;
+    btn.textContent  = 'Submit Venue ☀️';
     showToast('Submission failed: ' + err.message, 'error');
   }
 }
