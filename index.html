@@ -13,187 +13,239 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --cream:#FAF6EE;--cream-dark:#F2EAD8;--amber:#E8A020;--amber-light:#F5C842;
-      --amber-deep:#C47B0A;--shadow-blue:#3A6EA8;--shadow-light:#E8F0FA;
-      --text-dark:#2C1F0E;--text-mid:#7A6248;--text-light:#B09878;
-      --card-bg:#FFFDF7;--border:#E8DEC8;--sunny-bg:#FFF8E6;--shadow-bg:#EEF4FC;
-      --radius:16px;--radius-sm:10px;--shadow:0 4px 24px rgba(44,31,14,0.10);
-      --shadow-sm:0 2px 10px rgba(44,31,14,0.07);--green:#2E7D32;--green-bg:#E8F5E9;
-      --red:#C62828;--red-bg:#FFEBEE;--plan-purple:#7B5EA7;--plan-light:#F3EEFF;
+      --cream:#FAF6EE; --cream-dark:#F2EAD8; --amber:#E8A020; --amber-light:#F5C842;
+      --amber-deep:#C47B0A; --shadow-blue:#3A6EA8; --shadow-light:#E8F0FA;
+      --text-dark:#2C1F0E; --text-mid:#7A6248; --text-light:#B09878;
+      --card-bg:#FFFDF7; --border:#E8DEC8; --sunny-bg:#FFF8E6; --shadow-bg:#EEF4FC;
+      --radius:16px; --radius-sm:10px; --shadow:0 4px 24px rgba(44,31,14,0.10);
+      --shadow-sm:0 2px 10px rgba(44,31,14,0.07); --green:#2E7D32; --green-bg:#E8F5E9;
+      --red:#C62828; --red-bg:#FFEBEE; --plan-purple:#7B5EA7; --plan-light:#F3EEFF;
     }
-    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
-    .header{background:var(--cream);padding:14px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--border);flex-shrink:0;position:relative;z-index:99998;}
-    .header-left{display:flex;align-items:center;gap:10px;}
-    .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--amber-light),var(--amber));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(232,160,32,0.35);}
-    .app-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--text-dark);letter-spacing:-0.3px;}
-    .app-title span{color:var(--amber);}
-    .header-right{display:flex;align-items:center;gap:8px;}
-    .refresh-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all 0.2s;position:relative;z-index:99998;pointer-events:all;}
-    .refresh-btn:active{transform:scale(0.92);background:var(--border);}
-    .refresh-btn.spinning{animation:spin 1s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-    .status-bar{background:var(--cream-dark);padding:8px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;position:relative;z-index:99998;}
-    .status-left{display:flex;align-items:center;gap:6px;}
-    .gps-dot{width:8px;height:8px;border-radius:50%;background:#ccc;transition:background 0.4s;}
-    .gps-dot.active{background:#4CAF50;box-shadow:0 0 6px rgba(76,175,80,0.5);}
-    .gps-dot.searching{background:var(--amber);animation:pulse 1s infinite;}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-    .gps-label{font-size:11.5px;color:var(--text-mid);font-weight:500;}
-    .sun-info{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-mid);font-weight:500;}
-    .last-update{font-size:10.5px;color:var(--text-light);}
-    .tab-bar{display:flex;background:var(--cream);border-bottom:1.5px solid var(--border);flex-shrink:0;position:relative;z-index:99998;}
-    .tab{flex:1;padding:11px 0;text-align:center;font-size:12.5px;font-weight:500;color:var(--text-light);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.2s;}
-    .tab.active{color:var(--amber-deep);border-bottom-color:var(--amber);font-weight:600;}
-    .tab.plan-tab.active{color:var(--plan-purple);border-bottom-color:var(--plan-purple);}
-    .filter-bar{padding:10px 16px;display:flex;gap:7px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;background:var(--cream);position:relative;z-index:99998;}
-    .filter-bar::-webkit-scrollbar{display:none;}
-    .filter-chip{flex-shrink:0;padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--cream-dark);font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
-    .filter-chip.active{background:var(--amber);border-color:var(--amber);color:white;box-shadow:0 2px 8px rgba(232,160,32,0.3);}
-    .filter-chip.shadow-chip-active{background:var(--shadow-blue);border-color:var(--shadow-blue);color:white;box-shadow:0 2px 8px rgba(58,110,168,0.3);}
-    .distance-row{display:flex;align-items:center;gap:10px;padding:6px 16px 4px;flex-shrink:0;position:relative;z-index:99998;}
-    .distance-label{font-size:11.5px;font-weight:600;color:var(--text-mid);white-space:nowrap;}
-    .distance-value{font-size:11.5px;font-weight:700;color:var(--amber-deep);white-space:nowrap;min-width:40px;}
-    input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border);outline:none;}
-    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--amber);box-shadow:0 2px 6px rgba(232,160,32,0.4);cursor:pointer;}
-    .map-filter-bar{position:absolute;top:10px;left:0;right:0;display:flex;gap:7px;padding:0 12px 0 52px;overflow-x:auto;scrollbar-width:none;z-index:500;pointer-events:none;}
-    .map-filter-bar::-webkit-scrollbar{display:none;}
-    .map-filter-bar .filter-chip{pointer-events:all;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
-    .locate-btn{position:absolute;bottom:24px;right:16px;width:44px;height:44px;border-radius:50%;background:var(--card-bg);border:1.5px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;z-index:500;transition:all 0.2s;}
-    .locate-btn:active{transform:scale(0.92);}
-    .locate-btn.drifted{border-color:var(--amber);animation:locatePulse 2s infinite;}
-    @keyframes locatePulse{0%,100%{box-shadow:0 2px 12px rgba(0,0,0,0.18);}50%{box-shadow:0 2px 18px rgba(232,160,32,0.5);}}
-    .content{flex:1;overflow:hidden;position:relative;}
-    #list-view{width:100%;height:100%;overflow-y:auto;display:none;padding:12px 16px 80px;scrollbar-width:none;}
-    #list-view::-webkit-scrollbar{display:none;}
-    #list-view.active{display:block;}
-    #map-view{width:100%;height:100%;display:none;position:relative;}
-    #map-view.active{display:block;}
-    #map{width:100%;height:100%;}
-    #plan-view{width:100%;height:100%;display:none;position:relative;}
-    #plan-view.active{display:block;}
-    #plan-map{width:100%;height:100%;}
-    /* Plan floating panel */
-    .plan-float-panel{position:absolute;top:10px;left:10px;right:10px;background:rgba(255,253,247,0.96);border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow);z-index:500;padding:12px 14px;backdrop-filter:blur(6px);}
-    .date-scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:10px;}
-    .date-scroll::-webkit-scrollbar{display:none;}
-    .date-chip{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:6px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--cream-dark);cursor:pointer;transition:all 0.18s;min-width:46px;}
-    .date-chip.active{background:var(--plan-purple);border-color:var(--plan-purple);box-shadow:0 2px 8px rgba(123,94,167,0.3);}
-    .date-chip-day{font-size:9px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:0.4px;}
-    .date-chip-num{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--text-dark);line-height:1.1;}
-    .date-chip-month{font-size:9px;color:var(--text-light);margin-top:1px;}
-    .date-chip.active .date-chip-day,.date-chip.active .date-chip-num,.date-chip.active .date-chip-month{color:white;}
-    .time-scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:10px;}
-    .time-scroll::-webkit-scrollbar{display:none;}
-    .time-chip{flex-shrink:0;padding:5px 10px;border-radius:20px;border:1.5px solid var(--border);background:var(--cream-dark);font-size:11.5px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
-    .time-chip.active{background:var(--plan-purple);border-color:var(--plan-purple);color:white;box-shadow:0 2px 8px rgba(123,94,167,0.3);}
-    .time-chip.no-sun{opacity:0.4;cursor:default;pointer-events:none;}
-    .plan-weather-row{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--plan-purple);font-weight:600;border-top:1px solid var(--border);padding-top:8px;margin-top:2px;}
-    .plan-weather-left{display:flex;gap:12px;align-items:center;}
-    .plan-summary{display:flex;gap:8px;align-items:center;}
-    .plan-sunny-count{color:var(--amber-deep);font-weight:700;font-size:12px;}
-    .plan-shadow-count{color:var(--shadow-blue);font-weight:700;font-size:12px;}
-    .plan-filter-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-top:8px;border-top:1px solid var(--border);margin-top:8px;}
-    .plan-filter-row::-webkit-scrollbar{display:none;}
-    .plan-filter-row .filter-chip{font-size:11px;padding:4px 10px;}
-    .plan-loading-overlay{position:absolute;inset:0;background:rgba(250,246,238,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:400;}
-    .plan-loading-overlay.hidden{display:none;}
-    .plan-loading-spinner{width:36px;height:36px;border:3px solid rgba(123,94,167,0.2);border-top-color:var(--plan-purple);border-radius:50%;animation:spin 0.9s linear infinite;}
-    .plan-loading-text{font-size:13px;color:var(--plan-purple);font-weight:600;}
-    #add-view{width:100%;height:100%;overflow-y:auto;display:none;padding:16px 16px 80px;scrollbar-width:none;}
-    #add-view::-webkit-scrollbar{display:none;}
-    #add-view.active{display:block;}
-    .venue-card{background:var(--card-bg);border-radius:var(--radius);border:1.5px solid var(--border);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);display:flex;align-items:flex-start;gap:13px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;text-decoration:none;color:inherit;}
-    .venue-card:active{transform:scale(0.98);box-shadow:none;}
-    .venue-status-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;margin-top:1px;}
-    .venue-status-icon.sunny{background:var(--sunny-bg);}
-    .venue-status-icon.shadow{background:var(--shadow-bg);}
-    .venue-info{flex:1;min-width:0;}
-    .venue-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
-    .venue-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-    .venue-type-badge{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--cream-dark);color:var(--text-mid);text-transform:capitalize;}
-    .venue-terrace{font-size:10.5px;color:var(--text-light);}
-    .venue-address{font-size:11px;color:var(--text-light);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .venue-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
-    .venue-distance{font-size:13px;font-weight:600;color:var(--text-mid);}
-    .venue-sun-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:0.3px;text-transform:uppercase;}
-    .venue-sun-badge.sunny{background:linear-gradient(135deg,#FFF3CC,#FFE082);color:#8B5E00;}
-    .venue-sun-badge.shadow{background:var(--shadow-light);color:var(--shadow-blue);}
-    .maps-link{font-size:10.5px;color:var(--amber-deep);font-weight:600;text-decoration:none;display:flex;align-items:center;gap:3px;}
-    .summary-bar{display:flex;gap:8px;margin-bottom:12px;}
-    .summary-chip{flex:1;padding:10px 12px;border-radius:var(--radius-sm);text-align:center;}
-    .summary-chip.sunny-chip{background:var(--sunny-bg);border:1.5px solid #FFE082;}
-    .summary-chip.shadow-chip{background:var(--shadow-bg);border:1.5px solid #C5D8F0;}
-    .summary-count{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;display:block;}
-    .sunny-chip .summary-count{color:var(--amber-deep);}
-    .shadow-chip .summary-count{color:var(--shadow-blue);}
-    .summary-label{font-size:10.5px;font-weight:500;color:var(--text-mid);}
-    .add-header{margin-bottom:16px;}
-    .add-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--text-dark);margin-bottom:6px;}
-    .add-subtitle{font-size:13px;color:var(--text-mid);line-height:1.5;}
-    .form-card{background:var(--card-bg);border-radius:var(--radius);border:1.5px solid var(--border);padding:20px;box-shadow:var(--shadow-sm);margin-bottom:12px;}
-    .form-group{margin-bottom:16px;}
-    .form-group:last-child{margin-bottom:0;}
-    .form-label{display:block;font-size:11.5px;font-weight:600;color:var(--text-mid);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
-    .form-label span{color:var(--amber);}
-    .form-input,.form-select{width:100%;padding:11px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-dark);outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
-    .form-input:focus,.form-select:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(232,160,32,0.12);}
-    .form-input::placeholder{color:var(--text-light);}
-    .gps-autofill-btn{width:100%;padding:10px;border-radius:var(--radius-sm);border:1.5px dashed var(--amber);background:var(--sunny-bg);color:var(--amber-deep);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;margin-bottom:10px;}
-    .gps-autofill-btn:active{transform:scale(0.98);}
-    .geocode-confirm{background:var(--sunny-bg);border:1.5px solid var(--amber);border-radius:var(--radius-sm);padding:14px;margin-top:10px;display:none;}
-    .geocode-confirm.visible{display:block;}
-    .geocode-confirm-title{font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.4px;}
-    .geocode-confirm-address{font-size:14px;font-weight:600;color:var(--text-dark);margin-bottom:12px;line-height:1.4;}
-    .geocode-confirm-btns{display:flex;gap:8px;}
-    .geocode-yes{flex:1;padding:10px;border-radius:var(--radius-sm);border:none;background:var(--amber);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
-    .geocode-no{flex:1;padding:10px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--cream);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
-    .submit-btn{width:100%;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,var(--amber-light),var(--amber));color:white;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(232,160,32,0.35);margin-top:4px;display:none;}
-    .submit-btn.visible{display:block;}
-    .submit-btn:active{transform:scale(0.98);}
-    .submit-btn:disabled{background:var(--border);color:var(--text-light);box-shadow:none;cursor:not-allowed;}
-    .find-btn{width:100%;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,var(--amber-light),var(--amber));color:white;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(232,160,32,0.35);margin-top:4px;}
-    .find-btn:active{transform:scale(0.98);}
-    .find-btn:disabled{background:var(--border);color:var(--text-light);box-shadow:none;cursor:not-allowed;}
-    .form-status{padding:12px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;margin-top:12px;display:none;line-height:1.4;}
-    .form-status.success{background:var(--green-bg);color:var(--green);display:block;}
-    .form-status.error{background:var(--red-bg);color:var(--red);display:block;}
-    .info-box{background:var(--shadow-bg);border:1.5px solid #C5D8F0;border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;color:var(--shadow-blue);line-height:1.5;margin-top:12px;}
-    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;color:white;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap;max-width:calc(100vw - 40px);text-align:center;}
-    .toast.success{background:var(--green);}
-    .toast.error{background:var(--red);}
-    .toast.info{background:var(--shadow-blue);}
-    .toast.show{opacity:1;}
-    .loading-state,.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 30px;text-align:center;gap:12px;}
-    .loading-spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin 0.9s linear infinite;}
-    .loading-text{font-size:14px;color:var(--text-mid);font-weight:500;}
-    .empty-icon{font-size:40px;}
-    .empty-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text-dark);}
-    .empty-sub{font-size:13px;color:var(--text-light);line-height:1.5;}
-    .gps-overlay{position:fixed;inset:0;background:rgba(250,246,238,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;z-index:99999;gap:16px;pointer-events:all;}
-    .gps-overlay.hidden{display:none;}
-    .gps-overlay-icon{width:80px;height:80px;background:linear-gradient(135deg,var(--amber-light),var(--amber));border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 8px 32px rgba(232,160,32,0.35);margin-bottom:8px;}
-    .gps-overlay-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text-dark);line-height:1.2;}
-    .gps-overlay-sub{font-size:14px;color:var(--text-mid);line-height:1.6;max-width:280px;}
-    .gps-btn{background:linear-gradient(135deg,var(--amber-light),var(--amber));color:white;border:none;padding:16px 36px;border-radius:14px;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(232,160,32,0.4);margin-top:8px;transition:transform 0.15s;}
-    .gps-btn:active{transform:scale(0.96);}
-    .gps-skip{font-size:12.5px;color:var(--text-light);cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
-    .custom-marker{width:28px;height:28px;border-radius:50%;border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;font-size:13px;}
-    .marker-sunny{background:var(--amber);}
-    .marker-shadow{background:var(--shadow-blue);}
-    .marker-user{background:#E53935;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px rgba(229,57,53,0.3);}
-    .leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:var(--shadow)!important;border:1.5px solid var(--border)!important;background:var(--card-bg)!important;}
-    .leaflet-popup-content{margin:14px 16px!important;}
-    .popup-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
-    .popup-type{font-size:11px;color:var(--text-mid);margin-bottom:8px;text-transform:capitalize;}
-    .popup-status{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:8px;}
-    .popup-status.sunny{background:var(--sunny-bg);color:#8B5E00;}
-    .popup-status.shadow{background:var(--shadow-bg);color:var(--shadow-blue);}
-    .popup-maps{display:block;margin-top:6px;font-size:12px;color:var(--amber-deep);font-weight:600;text-decoration:none;}
+    * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text-dark); height:100dvh; overflow:hidden; display:flex; flex-direction:column; }
+
+    /* ── Header ── */
+    .header { background:var(--cream); padding:14px 20px 10px; display:flex; align-items:center; justify-content:space-between; border-bottom:1.5px solid var(--border); flex-shrink:0; position:relative; z-index:99998; }
+    .header-left { display:flex; align-items:center; gap:10px; }
+    .logo-icon { width:36px; height:36px; background:linear-gradient(135deg,var(--amber-light),var(--amber)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 2px 8px rgba(232,160,32,0.35); }
+    .app-title { font-family:'Playfair Display',serif; font-size:20px; font-weight:900; color:var(--text-dark); letter-spacing:-0.3px; }
+    .app-title span { color:var(--amber); }
+    .refresh-btn { width:34px; height:34px; border-radius:50%; border:1.5px solid var(--border); background:var(--cream-dark); display:flex; align-items:center; justify-content:center; font-size:15px; cursor:pointer; transition:all 0.2s; position:relative; z-index:99998; pointer-events:all; }
+    .refresh-btn:active { transform:scale(0.92); background:var(--border); }
+    .refresh-btn.spinning { animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* ── Status bar ── */
+    .status-bar { background:var(--cream-dark); padding:8px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); flex-shrink:0; position:relative; z-index:99998; }
+    .status-left { display:flex; align-items:center; gap:6px; }
+    .gps-dot { width:8px; height:8px; border-radius:50%; background:#ccc; transition:background 0.4s; }
+    .gps-dot.active { background:#4CAF50; box-shadow:0 0 6px rgba(76,175,80,0.5); }
+    .gps-dot.searching { background:var(--amber); animation:pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .gps-label { font-size:11.5px; color:var(--text-mid); font-weight:500; }
+    .sun-info { font-size:11.5px; color:var(--text-mid); font-weight:500; }
+    .last-update { font-size:10.5px; color:var(--text-light); }
+
+    /* ── Tab bar ── */
+    .tab-bar { display:flex; background:var(--cream); border-bottom:1.5px solid var(--border); flex-shrink:0; position:relative; z-index:99998; }
+    .tab { flex:1; padding:11px 0; text-align:center; font-size:12.5px; font-weight:500; color:var(--text-light); cursor:pointer; border-bottom:2.5px solid transparent; transition:all 0.2s; }
+    .tab.active { color:var(--amber-deep); border-bottom-color:var(--amber); font-weight:600; }
+    .tab.plan-tab.active { color:var(--plan-purple); border-bottom-color:var(--plan-purple); }
+
+    /* ── Filter chips ── */
+    .filter-bar { padding:10px 16px; display:flex; gap:7px; overflow-x:auto; flex-shrink:0; scrollbar-width:none; background:var(--cream); position:relative; z-index:99998; }
+    .filter-bar::-webkit-scrollbar { display:none; }
+    .filter-chip { flex-shrink:0; padding:5px 13px; border-radius:20px; border:1.5px solid var(--border); background:var(--cream-dark); font-size:12px; font-weight:500; color:var(--text-mid); cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+    .filter-chip.active { background:var(--amber); border-color:var(--amber); color:white; box-shadow:0 2px 8px rgba(232,160,32,0.3); }
+    .filter-chip.shadow-chip-active { background:var(--shadow-blue); border-color:var(--shadow-blue); color:white; box-shadow:0 2px 8px rgba(58,110,168,0.3); }
+
+    /* ── Distance slider ── */
+    .distance-row { display:flex; align-items:center; gap:10px; padding:6px 16px 4px; flex-shrink:0; position:relative; z-index:99998; }
+    .distance-label { font-size:11.5px; font-weight:600; color:var(--text-mid); white-space:nowrap; }
+    .distance-value { font-size:11.5px; font-weight:700; color:var(--amber-deep); white-space:nowrap; min-width:40px; }
+    input[type=range] { flex:1; -webkit-appearance:none; height:4px; border-radius:2px; background:var(--border); outline:none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--amber); box-shadow:0 2px 6px rgba(232,160,32,0.4); cursor:pointer; }
+
+    /* ── Map floating filter bar — offset right to clear +/- controls ── */
+    .map-filter-bar { position:absolute; top:10px; left:0; right:0; display:flex; gap:7px; padding:0 12px 0 52px; overflow-x:auto; scrollbar-width:none; z-index:500; pointer-events:none; }
+    .map-filter-bar::-webkit-scrollbar { display:none; }
+    .map-filter-bar .filter-chip { pointer-events:all; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+
+    /* ── Back to location button (shared style) ── */
+    .locate-btn { position:absolute; bottom:24px; right:16px; width:44px; height:44px; border-radius:50%; background:var(--card-bg); border:1.5px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.18); display:flex; align-items:center; justify-content:center; font-size:20px; cursor:pointer; z-index:500; transition:all 0.2s; }
+    .locate-btn:active { transform:scale(0.92); }
+    .locate-btn.drifted { border-color:var(--amber); animation:locatePulse 2s infinite; }
+    @keyframes locatePulse { 0%,100%{box-shadow:0 2px 12px rgba(0,0,0,0.18);} 50%{box-shadow:0 2px 18px rgba(232,160,32,0.5);} }
+
+    /* ── Content ── */
+    .content { flex:1; overflow:hidden; position:relative; }
+    #list-view { width:100%; height:100%; overflow-y:auto; display:none; padding:12px 16px 80px; scrollbar-width:none; }
+    #list-view::-webkit-scrollbar { display:none; }
+    #list-view.active { display:block; }
+    #map-view { width:100%; height:100%; display:none; position:relative; }
+    #map-view.active { display:block; }
+    #map { width:100%; height:100%; }
+    #plan-view { width:100%; height:100%; display:none; position:relative; }
+    #plan-view.active { display:block; }
+    #plan-map { width:100%; height:100%; }
+    #add-view { width:100%; height:100%; overflow-y:auto; display:none; padding:16px 16px 80px; scrollbar-width:none; }
+    #add-view::-webkit-scrollbar { display:none; }
+    #add-view.active { display:block; }
+
+    /* ════════════════════════════════════════════
+       PLAN FLOATING PANEL — compact design
+       Sits in top-left, clear of +/- controls
+    ════════════════════════════════════════════ */
+    .plan-float-panel {
+      position:absolute; top:10px; left:52px; right:10px;
+      background:rgba(255,253,247,0.96);
+      border-radius:14px; border:1.5px solid var(--border);
+      box-shadow:var(--shadow); z-index:500;
+      padding:10px 12px 8px;
+      backdrop-filter:blur(8px);
+    }
+
+    /* Date row — compact single-line chips */
+    .date-scroll { display:flex; gap:5px; overflow-x:auto; scrollbar-width:none; margin-bottom:8px; }
+    .date-scroll::-webkit-scrollbar { display:none; }
+    .date-chip { flex-shrink:0; display:flex; flex-direction:column; align-items:center; padding:4px 8px; border-radius:8px; border:1.5px solid var(--border); background:var(--cream-dark); cursor:pointer; transition:all 0.18s; min-width:38px; }
+    .date-chip.active { background:var(--plan-purple); border-color:var(--plan-purple); box-shadow:0 2px 6px rgba(123,94,167,0.3); }
+    .date-chip-day { font-size:8px; font-weight:700; color:var(--text-light); text-transform:uppercase; letter-spacing:0.3px; }
+    .date-chip-num { font-family:'Playfair Display',serif; font-size:14px; font-weight:900; color:var(--text-dark); line-height:1.1; }
+    .date-chip.active .date-chip-day, .date-chip.active .date-chip-num { color:white; }
+
+    /* Time row — compact chips */
+    .time-scroll { display:flex; gap:5px; overflow-x:auto; scrollbar-width:none; margin-bottom:8px; }
+    .time-scroll::-webkit-scrollbar { display:none; }
+    .time-chip { flex-shrink:0; padding:4px 9px; border-radius:16px; border:1.5px solid var(--border); background:var(--cream-dark); font-size:11px; font-weight:600; color:var(--text-mid); cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+    .time-chip.active { background:var(--plan-purple); border-color:var(--plan-purple); color:white; box-shadow:0 2px 6px rgba(123,94,167,0.3); }
+    .time-chip.no-sun { opacity:0.4; cursor:default; pointer-events:none; }
+
+    /* Weather + summary row */
+    .plan-info-row { display:flex; align-items:center; justify-content:space-between; font-size:10.5px; font-weight:600; color:var(--plan-purple); border-top:1px solid var(--border); padding-top:6px; margin-bottom:6px; }
+    .plan-sunny-count { color:var(--amber-deep); }
+    .plan-shadow-count { color:var(--shadow-blue); }
+
+    /* Plan filter chips — offset from left to match, small size */
+    .plan-filter-row { display:flex; gap:5px; overflow-x:auto; scrollbar-width:none; }
+    .plan-filter-row::-webkit-scrollbar { display:none; }
+    .plan-filter-row .filter-chip { font-size:11px; padding:3px 9px; }
+
+    /* Plan loading overlay */
+    .plan-loading-overlay { position:absolute; inset:0; background:rgba(250,246,238,0.82); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; z-index:400; }
+    .plan-loading-overlay.hidden { display:none; }
+    .plan-loading-spinner { width:32px; height:32px; border:3px solid rgba(123,94,167,0.2); border-top-color:var(--plan-purple); border-radius:50%; animation:spin 0.9s linear infinite; }
+    .plan-loading-text { font-size:13px; color:var(--plan-purple); font-weight:600; }
+
+    /* ── Venue card ── */
+    .venue-card { background:var(--card-bg); border-radius:var(--radius); border:1.5px solid var(--border); padding:14px 16px; margin-bottom:10px; box-shadow:var(--shadow-sm); display:flex; align-items:flex-start; gap:13px; cursor:pointer; transition:transform 0.15s,box-shadow 0.15s; text-decoration:none; color:inherit; }
+    .venue-card:active { transform:scale(0.98); box-shadow:none; }
+    .venue-status-icon { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; margin-top:1px; }
+    .venue-status-icon.sunny { background:var(--sunny-bg); }
+    .venue-status-icon.shadow { background:var(--shadow-bg); }
+    .venue-info { flex:1; min-width:0; }
+    .venue-name { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px; }
+    .venue-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+    .venue-type-badge { font-size:10.5px; font-weight:600; padding:2px 8px; border-radius:20px; background:var(--cream-dark); color:var(--text-mid); text-transform:capitalize; }
+    .venue-terrace { font-size:10.5px; color:var(--text-light); }
+    .venue-address { font-size:11px; color:var(--text-light); margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .venue-right { display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0; }
+    .venue-distance { font-size:13px; font-weight:600; color:var(--text-mid); }
+    .venue-sun-badge { font-size:10px; font-weight:700; padding:3px 9px; border-radius:20px; letter-spacing:0.3px; text-transform:uppercase; }
+    .venue-sun-badge.sunny { background:linear-gradient(135deg,#FFF3CC,#FFE082); color:#8B5E00; }
+    .venue-sun-badge.shadow { background:var(--shadow-light); color:var(--shadow-blue); }
+    .maps-link { font-size:10.5px; color:var(--amber-deep); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:3px; }
+
+    /* ── Summary bar ── */
+    .summary-bar { display:flex; gap:8px; margin-bottom:12px; }
+    .summary-chip { flex:1; padding:10px 12px; border-radius:var(--radius-sm); text-align:center; }
+    .summary-chip.sunny-chip { background:var(--sunny-bg); border:1.5px solid #FFE082; }
+    .summary-chip.shadow-chip { background:var(--shadow-bg); border:1.5px solid #C5D8F0; }
+    .summary-count { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; display:block; }
+    .sunny-chip .summary-count { color:var(--amber-deep); }
+    .shadow-chip .summary-count { color:var(--shadow-blue); }
+    .summary-label { font-size:10.5px; font-weight:500; color:var(--text-mid); }
+
+    /* ── Add form ── */
+    .add-header { margin-bottom:16px; }
+    .add-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:var(--text-dark); margin-bottom:6px; }
+    .add-subtitle { font-size:13px; color:var(--text-mid); line-height:1.5; }
+    .form-card { background:var(--card-bg); border-radius:var(--radius); border:1.5px solid var(--border); padding:20px; box-shadow:var(--shadow-sm); margin-bottom:12px; }
+    .form-group { margin-bottom:16px; }
+    .form-group:last-child { margin-bottom:0; }
+    .form-label { display:block; font-size:11.5px; font-weight:600; color:var(--text-mid); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+    .form-label span { color:var(--amber); }
+    .form-input, .form-select { width:100%; padding:11px 14px; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text-dark); outline:none; transition:border-color 0.2s; -webkit-appearance:none; }
+    .form-input:focus, .form-select:focus { border-color:var(--amber); box-shadow:0 0 0 3px rgba(232,160,32,0.12); }
+    .form-input::placeholder { color:var(--text-light); }
+    .gps-autofill-btn { width:100%; padding:10px; border-radius:var(--radius-sm); border:1.5px dashed var(--amber); background:var(--sunny-bg); color:var(--amber-deep); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; margin-bottom:10px; }
+    .gps-autofill-btn:active { transform:scale(0.98); }
+    .geocode-confirm { background:var(--sunny-bg); border:1.5px solid var(--amber); border-radius:var(--radius-sm); padding:14px; margin-top:10px; display:none; }
+    .geocode-confirm.visible { display:block; }
+    .geocode-confirm-title { font-size:12px; font-weight:600; color:var(--text-mid); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.4px; }
+    .geocode-confirm-address { font-size:14px; font-weight:600; color:var(--text-dark); margin-bottom:12px; line-height:1.4; }
+    .geocode-confirm-btns { display:flex; gap:8px; }
+    .geocode-yes { flex:1; padding:10px; border-radius:var(--radius-sm); border:none; background:var(--amber); color:white; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
+    .geocode-no { flex:1; padding:10px; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--cream); color:var(--text-mid); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; }
+    .submit-btn { width:100%; padding:15px; border-radius:var(--radius); border:none; background:linear-gradient(135deg,var(--amber-light),var(--amber)); color:white; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 16px rgba(232,160,32,0.35); margin-top:4px; display:none; }
+    .submit-btn.visible { display:block; }
+    .submit-btn:active { transform:scale(0.98); }
+    .submit-btn:disabled { background:var(--border); color:var(--text-light); box-shadow:none; cursor:not-allowed; }
+    .find-btn { width:100%; padding:15px; border-radius:var(--radius); border:none; background:linear-gradient(135deg,var(--amber-light),var(--amber)); color:white; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 16px rgba(232,160,32,0.35); margin-top:4px; }
+    .find-btn:active { transform:scale(0.98); }
+    .find-btn:disabled { background:var(--border); color:var(--text-light); box-shadow:none; cursor:not-allowed; }
+    .form-status { padding:12px 14px; border-radius:var(--radius-sm); font-size:13px; font-weight:500; margin-top:12px; display:none; line-height:1.4; }
+    .form-status.success { background:var(--green-bg); color:var(--green); display:block; }
+    .form-status.error { background:var(--red-bg); color:var(--red); display:block; }
+    .info-box { background:var(--shadow-bg); border:1.5px solid #C5D8F0; border-radius:var(--radius-sm); padding:12px 14px; font-size:12px; color:var(--shadow-blue); line-height:1.5; margin-top:12px; }
+
+    /* ── Toast ── */
+    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); padding:12px 20px; border-radius:12px; font-size:13px; font-weight:600; color:white; z-index:9999; opacity:0; pointer-events:none; transition:opacity 0.3s; white-space:nowrap; max-width:calc(100vw - 40px); text-align:center; }
+    .toast.success { background:var(--green); }
+    .toast.error { background:var(--red); }
+    .toast.info { background:var(--shadow-blue); }
+    .toast.show { opacity:1; }
+
+    /* ── Loading / empty ── */
+    .loading-state, .empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 30px; text-align:center; gap:12px; }
+    .loading-spinner { width:44px; height:44px; border:3px solid var(--border); border-top-color:var(--amber); border-radius:50%; animation:spin 0.9s linear infinite; }
+    .loading-text { font-size:14px; color:var(--text-mid); font-weight:500; }
+    .empty-icon { font-size:40px; }
+    .empty-title { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--text-dark); }
+    .empty-sub { font-size:13px; color:var(--text-light); line-height:1.5; }
+
+    /* ── GPS overlay ── */
+    .gps-overlay { position:fixed; inset:0; background:rgba(250,246,238,0.97); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; text-align:center; z-index:99999; gap:16px; pointer-events:all; }
+    .gps-overlay.hidden { display:none; }
+    .gps-overlay-icon { width:80px; height:80px; background:linear-gradient(135deg,var(--amber-light),var(--amber)); border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:38px; box-shadow:0 8px 32px rgba(232,160,32,0.35); margin-bottom:8px; }
+    .gps-overlay-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:var(--text-dark); line-height:1.2; }
+    .gps-overlay-sub { font-size:14px; color:var(--text-mid); line-height:1.6; max-width:280px; }
+    .gps-btn { background:linear-gradient(135deg,var(--amber-light),var(--amber)); color:white; border:none; padding:16px 36px; border-radius:14px; font-size:16px; font-weight:700; font-family:'DM Sans',sans-serif; cursor:pointer; box-shadow:0 4px 16px rgba(232,160,32,0.4); margin-top:8px; transition:transform 0.15s; }
+    .gps-btn:active { transform:scale(0.96); }
+    .gps-skip { font-size:12.5px; color:var(--text-light); cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+
+    /* ── Markers ── */
+    .custom-marker { width:28px; height:28px; border-radius:50%; border:2.5px solid white; box-shadow:0 2px 8px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; font-size:13px; }
+    .marker-sunny { background:var(--amber); }
+    .marker-shadow { background:var(--shadow-blue); }
+    .marker-user { background:#E53935; width:16px; height:16px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 3px rgba(229,57,53,0.3); }
+
+    /* ── Popup ── */
+    .leaflet-popup-content-wrapper { border-radius:14px!important; box-shadow:var(--shadow)!important; border:1.5px solid var(--border)!important; background:var(--card-bg)!important; }
+    .leaflet-popup-content { margin:14px 16px!important; }
+    .popup-name { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--text-dark); margin-bottom:4px; }
+    .popup-type { font-size:11px; color:var(--text-mid); margin-bottom:8px; text-transform:capitalize; }
+    .popup-status { font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; display:inline-block; margin-bottom:8px; }
+    .popup-status.sunny { background:var(--sunny-bg); color:#8B5E00; }
+    .popup-status.shadow { background:var(--shadow-bg); color:var(--shadow-blue); }
+    .popup-maps { display:block; margin-top:6px; font-size:12px; color:var(--amber-deep); font-weight:600; text-decoration:none; }
   </style>
 </head>
 <body>
+
 <div class="toast" id="toast"></div>
+
+<!-- GPS Overlay -->
 <div class="gps-overlay" id="gps-overlay">
   <div class="gps-overlay-icon">☀️</div>
   <div class="gps-overlay-title">Find your sunny terrace</div>
@@ -201,6 +253,8 @@
   <button class="gps-btn" onclick="requestGPS()">📍 Use My Location</button>
   <span class="gps-skip" onclick="skipGPS()">Use Barcelona city centre instead</span>
 </div>
+
+<!-- Header -->
 <div class="header">
   <div class="header-left">
     <div class="logo-icon">☀️</div>
@@ -210,6 +264,8 @@
     <div class="refresh-btn" id="refresh-btn" onclick="loadData()" title="Refresh data">↻</div>
   </div>
 </div>
+
+<!-- Status bar -->
 <div class="status-bar">
   <div class="status-left">
     <div class="gps-dot" id="gps-dot"></div>
@@ -218,21 +274,25 @@
   <div class="sun-info" id="sun-info">—</div>
   <div class="last-update" id="last-update"></div>
 </div>
+
+<!-- Tab bar -->
 <div class="tab-bar">
-  <div class="tab active" id="tab-list" onclick="switchTab('list')">📋 List</div>
-  <div class="tab" id="tab-map" onclick="switchTab('map')">🗺️ Map</div>
+  <div class="tab active"   id="tab-list" onclick="switchTab('list')">📋 List</div>
+  <div class="tab"          id="tab-map"  onclick="switchTab('map')">🗺️ Map</div>
   <div class="tab plan-tab" id="tab-plan" onclick="switchTab('plan')">🔮 Plan</div>
-  <div class="tab" id="tab-add" onclick="switchTab('add')">➕ Add</div>
+  <div class="tab"          id="tab-add"  onclick="switchTab('add')">➕ Add</div>
 </div>
+
+<!-- LIST filters -->
 <div id="list-filter-section">
   <div class="filter-bar">
-    <div class="filter-chip active" data-filter="all" onclick="setListFilter('all')">All venues</div>
-    <div class="filter-chip" data-filter="sunny" onclick="setListFilter('sunny')">☀️ Sunny only</div>
-    <div class="filter-chip" data-filter="shadow" onclick="setListFilter('shadow')">🌑 Shadow only</div>
-    <div class="filter-chip" data-filter="bar" onclick="setListFilter('bar')">🍺 Bar</div>
-    <div class="filter-chip" data-filter="cafe" onclick="setListFilter('cafe')">☕ Café</div>
-    <div class="filter-chip" data-filter="pub" onclick="setListFilter('pub')">🍻 Pub</div>
-    <div class="filter-chip" data-filter="restaurant" onclick="setListFilter('restaurant')">🍽️ Restaurant</div>
+    <div class="filter-chip active" data-filter="all"        onclick="setListFilter('all')">All venues</div>
+    <div class="filter-chip"        data-filter="sunny"      onclick="setListFilter('sunny')">☀️ Sunny only</div>
+    <div class="filter-chip"        data-filter="shadow"     onclick="setListFilter('shadow')">🌑 Shadow only</div>
+    <div class="filter-chip"        data-filter="bar"        onclick="setListFilter('bar')">🍺 Bar</div>
+    <div class="filter-chip"        data-filter="cafe"       onclick="setListFilter('cafe')">☕ Café</div>
+    <div class="filter-chip"        data-filter="pub"        onclick="setListFilter('pub')">🍻 Pub</div>
+    <div class="filter-chip"        data-filter="restaurant" onclick="setListFilter('restaurant')">🍽️ Restaurant</div>
   </div>
   <div class="distance-row">
     <span class="distance-label">📍 Within</span>
@@ -240,7 +300,11 @@
     <span class="distance-value" id="distance-value">1.0 km</span>
   </div>
 </div>
+
+<!-- Content -->
 <div class="content">
+
+  <!-- List view -->
   <div id="list-view" class="active">
     <div class="loading-state" id="loading-state">
       <div class="loading-spinner"></div>
@@ -248,45 +312,66 @@
     </div>
     <div id="list-content" style="display:none"></div>
   </div>
+
+  <!-- Map view (real-time) -->
   <div id="map-view">
     <div id="map"></div>
     <div class="map-filter-bar" id="map-filter-bar">
-      <div class="filter-chip active" data-mfilter="all" onclick="setMapFilter('all')">All</div>
-      <div class="filter-chip" data-mfilter="sunny" onclick="setMapFilter('sunny')">☀️ Sunny</div>
-      <div class="filter-chip" data-mfilter="shadow" onclick="setMapFilter('shadow')">🌑 Shadow</div>
-      <div class="filter-chip" data-mfilter="bar" onclick="setMapFilter('bar')">🍺 Bar</div>
-      <div class="filter-chip" data-mfilter="cafe" onclick="setMapFilter('cafe')">☕ Café</div>
-      <div class="filter-chip" data-mfilter="pub" onclick="setMapFilter('pub')">🍻 Pub</div>
-      <div class="filter-chip" data-mfilter="restaurant" onclick="setMapFilter('restaurant')">🍽️ Restaurant</div>
+      <div class="filter-chip active" data-mfilter="all"        onclick="setMapFilter('all')">All</div>
+      <div class="filter-chip"        data-mfilter="sunny"      onclick="setMapFilter('sunny')">☀️ Sunny</div>
+      <div class="filter-chip"        data-mfilter="shadow"     onclick="setMapFilter('shadow')">🌑 Shadow</div>
+      <div class="filter-chip"        data-mfilter="bar"        onclick="setMapFilter('bar')">🍺 Bar</div>
+      <div class="filter-chip"        data-mfilter="cafe"       onclick="setMapFilter('cafe')">☕ Café</div>
+      <div class="filter-chip"        data-mfilter="pub"        onclick="setMapFilter('pub')">🍻 Pub</div>
+      <div class="filter-chip"        data-mfilter="restaurant" onclick="setMapFilter('restaurant')">🍽️ Restaurant</div>
     </div>
     <div class="locate-btn" id="locate-btn" onclick="flyToUser()" title="Back to my location">📍</div>
   </div>
+
+  <!-- Plan view (forecast full-screen map) -->
   <div id="plan-view">
     <div id="plan-map"></div>
+
+    <!-- Loading overlay -->
     <div class="plan-loading-overlay hidden" id="plan-loading">
       <div class="plan-loading-spinner"></div>
       <div class="plan-loading-text">Loading forecast...</div>
     </div>
-    <div class="plan-float-panel" id="plan-float-panel">
+
+    <!-- Compact floating panel — starts at left:52px to clear +/- zoom buttons -->
+    <div class="plan-float-panel">
+
+      <!-- Date chips (compact) -->
       <div class="date-scroll" id="date-scroll"></div>
+
+      <!-- Time chips (compact) -->
       <div class="time-scroll" id="time-scroll">
-        <div class="time-chip no-sun">Loading hours...</div>
+        <div class="time-chip no-sun">Loading...</div>
       </div>
-      <div class="plan-weather-row" id="plan-weather-row">
-        <div class="plan-weather-left" id="plan-weather-info">—</div>
-        <div class="plan-summary" id="plan-summary"></div>
+
+      <!-- Weather + summary -->
+      <div class="plan-info-row">
+        <span id="plan-weather-info">—</span>
+        <span id="plan-summary"></span>
       </div>
+
+      <!-- Filter chips -->
       <div class="plan-filter-row" id="plan-filter-row">
-        <div class="filter-chip active" data-pfilter="all" onclick="setPlanFilter('all')">All</div>
-        <div class="filter-chip" data-pfilter="sunny" onclick="setPlanFilter('sunny')">☀️ Sunny</div>
-        <div class="filter-chip" data-pfilter="shadow" onclick="setPlanFilter('shadow')">🌑 Shadow</div>
-        <div class="filter-chip" data-pfilter="bar" onclick="setPlanFilter('bar')">🍺 Bar</div>
-        <div class="filter-chip" data-pfilter="cafe" onclick="setPlanFilter('cafe')">☕ Café</div>
-        <div class="filter-chip" data-pfilter="pub" onclick="setPlanFilter('pub')">🍻 Pub</div>
-        <div class="filter-chip" data-pfilter="restaurant" onclick="setPlanFilter('restaurant')">🍽️ Restaurant</div>
+        <div class="filter-chip active" data-pfilter="all"        onclick="setPlanFilter('all')">All</div>
+        <div class="filter-chip"        data-pfilter="sunny"      onclick="setPlanFilter('sunny')">☀️ Sunny</div>
+        <div class="filter-chip"        data-pfilter="shadow"     onclick="setPlanFilter('shadow')">🌑 Shadow</div>
+        <div class="filter-chip"        data-pfilter="bar"        onclick="setPlanFilter('bar')">🍺 Bar</div>
+        <div class="filter-chip"        data-pfilter="cafe"       onclick="setPlanFilter('cafe')">☕ Café</div>
+        <div class="filter-chip"        data-pfilter="pub"        onclick="setPlanFilter('pub')">🍻 Pub</div>
+        <div class="filter-chip"        data-pfilter="restaurant" onclick="setPlanFilter('restaurant')">🍽️ Restaurant</div>
       </div>
     </div>
+
+    <!-- Back to my location button (plan map) -->
+    <div class="locate-btn" id="plan-locate-btn" onclick="flyToPlanUser()" title="Back to my location">📍</div>
   </div>
+
+  <!-- Add venue view -->
   <div id="add-view">
     <div class="add-header">
       <div class="add-title">Add a Venue ➕</div>
@@ -321,7 +406,7 @@
         <div class="geocode-confirm-address" id="geocode-found-address">—</div>
         <div class="geocode-confirm-btns">
           <button class="geocode-yes" onclick="confirmGeocode()">✅ Yes, submit</button>
-          <button class="geocode-no" onclick="resetGeocode()">✏️ Try again</button>
+          <button class="geocode-no"  onclick="resetGeocode()">✏️ Try again</button>
         </div>
       </div>
       <button class="find-btn" id="find-btn" onclick="findAddress()">🔍 Find location</button>
@@ -330,365 +415,483 @@
     </div>
     <div class="info-box">ℹ️ Submitted venues are added to the database and will receive a sun/shadow calculation within the next 30 minutes. They will then appear on the map automatically.</div>
   </div>
-</div>
-<script>
-const GITHUB_USER='AdrianaC4',GITHUB_REPO='sunspot-bcn';
-const DATA_URL=`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
-const FORECAST_BASE=`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
-let userLat=41.3851,userLon=2.1734,userLocated=false;
-let allVenues=[],listFiltered=[],mapFiltered=[];
-let listFilter='all',mapFilter='all',planFilter='all';
-let maxDistanceKm=1.0;
-let map=null,planMap=null,userMarker=null,planUserMarker=null;
-let venueMarkers=[],planMarkers=[];
-let currentTab='list';
-let geocodedLat=null,geocodedLon=null,geocodedAddress='';
-let isDrifted=false;
-let planSelectedDate=null,planSelectedHour=null,planAllVenues=[],planCache={};
 
-window.addEventListener('load',()=>{
-  setTimeout(()=>{initMap();initPlanMap();},100);
+</div>
+
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const GITHUB_USER   = "AdrianaC4";
+const GITHUB_REPO   = "sunspot-bcn";
+const DATA_URL      = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
+const FORECAST_BASE = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let userLat=41.3851, userLon=2.1734, userLocated=false;
+let allVenues=[], listFiltered=[], mapFiltered=[];
+let listFilter='all', mapFilter='all', planFilter='all';
+let maxDistanceKm=1.0;
+let map=null, planMap=null, userMarker=null, planUserMarker=null;
+let venueMarkers=[], planMarkers=[];
+let currentTab='list';
+let geocodedLat=null, geocodedLon=null, geocodedAddress='';
+let isDrifted=false, isPlanDrifted=false;
+let planSelectedDate=null, planSelectedHour=null, planAllVenues=[], planCache={};
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => { initMap(); initPlanMap(); }, 100);
   buildDatePicker();
-  if(navigator.permissions){
-    navigator.permissions.query({name:'geolocation'}).then(r=>{
-      if(r.state==='granted'){document.getElementById('gps-overlay').classList.add('hidden');startGPS();loadData();}
-    }).catch(()=>{});
+  if (navigator.permissions) {
+    navigator.permissions.query({ name: 'geolocation' }).then(r => {
+      if (r.state === 'granted') {
+        document.getElementById('gps-overlay').classList.add('hidden');
+        startGPS(); loadData();
+      }
+    }).catch(() => {});
   }
 });
 
-function requestGPS(){document.getElementById('gps-overlay').classList.add('hidden');if(!map)initMap();if(!planMap)initPlanMap();startGPS();loadData();}
-function skipGPS(){document.getElementById('gps-overlay').classList.add('hidden');if(!map)initMap();if(!planMap)initPlanMap();setGPSStatus('manual','Barcelona centre');loadData();}
-function startGPS(){
-  setGPSStatus('searching','Searching...');
-  if(!navigator.geolocation){setGPSStatus('error','GPS not available');return;}
-  navigator.geolocation.watchPosition(pos=>{
-    userLat=pos.coords.latitude;userLon=pos.coords.longitude;userLocated=true;
-    setGPSStatus('active',`±${Math.round(pos.coords.accuracy)}m accuracy`);
-    updateUserMarker();updatePlanUserMarker();applyListFilters();
-  },()=>setGPSStatus('error','Location unavailable'),{enableHighAccuracy:true,maximumAge:30000,timeout:15000});
+// ── GPS ───────────────────────────────────────────────────────────────────────
+function requestGPS() {
+  document.getElementById('gps-overlay').classList.add('hidden');
+  if (!map) initMap(); if (!planMap) initPlanMap();
+  startGPS(); loadData();
 }
-function setGPSStatus(state,label){
-  const dot=document.getElementById('gps-dot');dot.className='gps-dot';
-  if(state==='active')dot.classList.add('active');
-  if(state==='searching')dot.classList.add('searching');
-  document.getElementById('gps-label').textContent=label;
+function skipGPS() {
+  document.getElementById('gps-overlay').classList.add('hidden');
+  if (!map) initMap(); if (!planMap) initPlanMap();
+  setGPSStatus('manual', 'Barcelona centre'); loadData();
+}
+function startGPS() {
+  setGPSStatus('searching', 'Searching...');
+  if (!navigator.geolocation) { setGPSStatus('error', 'GPS not available'); return; }
+  navigator.geolocation.watchPosition(
+    pos => {
+      userLat = pos.coords.latitude; userLon = pos.coords.longitude; userLocated = true;
+      setGPSStatus('active', `±${Math.round(pos.coords.accuracy)}m accuracy`);
+      updateUserMarker(); updatePlanUserMarker(); applyListFilters();
+    },
+    () => setGPSStatus('error', 'Location unavailable'),
+    { enableHighAccuracy: true, maximumAge: 30000, timeout: 15000 }
+  );
+}
+function setGPSStatus(state, label) {
+  const dot = document.getElementById('gps-dot');
+  dot.className = 'gps-dot';
+  if (state === 'active')    dot.classList.add('active');
+  if (state === 'searching') dot.classList.add('searching');
+  document.getElementById('gps-label').textContent = label;
 }
 
-function loadData(){
+// ── Data ──────────────────────────────────────────────────────────────────────
+function loadData() {
   document.getElementById('refresh-btn').classList.add('spinning');
-  document.getElementById('loading-state').style.display='flex';
-  document.getElementById('list-content').style.display='none';
-  Papa.parse(DATA_URL+'?t='+Date.now()+'&r='+Math.random(),{
-    download:true,header:true,skipEmptyLines:true,
-    complete:r=>{document.getElementById('refresh-btn').classList.remove('spinning');processData(r.data);},
-    error:()=>{document.getElementById('refresh-btn').classList.remove('spinning');showError();}
+  document.getElementById('loading-state').style.display = 'flex';
+  document.getElementById('list-content').style.display  = 'none';
+  Papa.parse(DATA_URL + '?t=' + Date.now() + '&r=' + Math.random(), {
+    download: true, header: true, skipEmptyLines: true,
+    complete: r => { document.getElementById('refresh-btn').classList.remove('spinning'); processData(r.data); },
+    error:    () => { document.getElementById('refresh-btn').classList.remove('spinning'); showError(); }
   });
 }
+function processData(rows) {
+  allVenues = rows
+    .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
+    .map(r => ({
+      id: r.venue_id||'', name: r.venue_name||'Unnamed venue',
+      type: (r.amenity_type||'').toLowerCase().trim(),
+      terrace: r.terrace_status||'', address: r.address||'',
+      lat: parseFloat(r.latitude), lon: parseFloat(r.longitude),
+      sunny: parseInt(r.is_sunny_now) === 1,
+      cloud: parseFloat(r.cloud_cover)||0,
+      temperature: parseFloat(String(r.temperature_c||'').replace(',','.'))||null,
+      updated: r.last_updated||''
+    }))
+    .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
 
-function processData(rows){
-  allVenues=rows.filter(r=>r.latitude&&r.longitude&&r.is_sunny_now!=='').map(r=>({
-    id:r.venue_id||'',name:r.venue_name||'Unnamed venue',
-    type:(r.amenity_type||'').toLowerCase().trim(),
-    terrace:r.terrace_status||'',address:r.address||'',
-    lat:parseFloat(r.latitude),lon:parseFloat(r.longitude),
-    sunny:parseInt(r.is_sunny_now)===1,
-    elevation:parseFloat(r.sun_elevation_deg)||0,
-    cloud:parseFloat(r.cloud_cover)||0,
-    temperature:parseFloat(String(r.temperature_c||'').replace(',','.'))||null,
-    updated:r.last_updated||''
-  })).filter(v=>!isNaN(v.lat)&&!isNaN(v.lon));
-  if(allVenues.length>0){
-    const v=allVenues[0],parts=[];
-    if(v.temperature!==null&&!isNaN(v.temperature))parts.push(`🌡️ ${v.temperature.toFixed(1)}°C`);
-    if(!isNaN(v.cloud))parts.push(`☁️ ${v.cloud.toFixed(0)}%`);
-    document.getElementById('sun-info').textContent=parts.length>0?parts.join('  '):'—';
-    if(v.updated){const d=new Date(v.updated);if(!isNaN(d.getTime()))document.getElementById('last-update').textContent=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+  if (allVenues.length > 0) {
+    const v = allVenues[0], parts = [];
+    if (v.temperature !== null && !isNaN(v.temperature)) parts.push(`🌡️ ${v.temperature.toFixed(1)}°C`);
+    if (!isNaN(v.cloud)) parts.push(`☁️ ${v.cloud.toFixed(0)}%`);
+    document.getElementById('sun-info').textContent = parts.length > 0 ? parts.join('  ') : '—';
+    if (v.updated) {
+      const d = new Date(v.updated);
+      if (!isNaN(d.getTime())) document.getElementById('last-update').textContent = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+    }
   }
-  applyListFilters();applyMapFilters();
-  document.getElementById('loading-state').style.display='none';
-  document.getElementById('list-content').style.display='block';
+  applyListFilters(); applyMapFilters();
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('list-content').style.display  = 'block';
 }
 
-function haversine(la1,lo1,la2,lo2){
-  const R=6371,dL=(la2-la1)*Math.PI/180,dO=(lo2-lo1)*Math.PI/180;
-  const a=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)**2;
+// ── Haversine ─────────────────────────────────────────────────────────────────
+function haversine(la1,lo1,la2,lo2) {
+  const R=6371, dL=(la2-la1)*Math.PI/180, dO=(lo2-lo1)*Math.PI/180;
+  const a = Math.sin(dL/2)**2 + Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)**2;
   return R*2*Math.asin(Math.min(1,Math.sqrt(a)));
 }
 
-function onDistanceChange(val){
-  maxDistanceKm=parseFloat(val);
-  document.getElementById('distance-value').textContent=`${parseFloat(val).toFixed(1)} km`;
+function onDistanceChange(val) {
+  maxDistanceKm = parseFloat(val);
+  document.getElementById('distance-value').textContent = `${parseFloat(val).toFixed(1)} km`;
   applyListFilters();
 }
 
-function setListFilter(f){
-  listFilter=f;
-  document.querySelectorAll('#list-filter-section .filter-chip').forEach(c=>{
+// ── LIST filters ──────────────────────────────────────────────────────────────
+function setListFilter(f) {
+  listFilter = f;
+  document.querySelectorAll('#list-filter-section .filter-chip').forEach(c => {
     c.classList.remove('active','shadow-chip-active');
-    if(c.dataset.filter===f)c.classList.add(f==='shadow'?'shadow-chip-active':'active');
+    if (c.dataset.filter === f) c.classList.add(f==='shadow' ? 'shadow-chip-active' : 'active');
   });
   applyListFilters();
 }
-function applyListFilters(){
-  listFiltered=allVenues.map(v=>({...v,distance:haversine(userLat,userLon,v.lat,v.lon)}))
-    .filter(v=>v.distance<=maxDistanceKm)
-    .filter(v=>listFilter==='all'?true:listFilter==='sunny'?v.sunny:listFilter==='shadow'?!v.sunny:v.type===listFilter)
-    .sort((a,b)=>a.distance-b.distance);
+function applyListFilters() {
+  listFiltered = allVenues
+    .map(v => ({ ...v, distance: haversine(userLat,userLon,v.lat,v.lon) }))
+    .filter(v => v.distance <= maxDistanceKm)
+    .filter(v => listFilter==='all' ? true : listFilter==='sunny' ? v.sunny : listFilter==='shadow' ? !v.sunny : v.type===listFilter)
+    .sort((a,b) => a.distance - b.distance);
   renderList();
 }
 
-function setMapFilter(f){
-  mapFilter=f;
-  document.querySelectorAll('#map-filter-bar .filter-chip').forEach(c=>{
+// ── MAP filters ───────────────────────────────────────────────────────────────
+function setMapFilter(f) {
+  mapFilter = f;
+  document.querySelectorAll('#map-filter-bar .filter-chip').forEach(c => {
     c.classList.remove('active','shadow-chip-active');
-    if(c.dataset.mfilter===f)c.classList.add(f==='shadow'?'shadow-chip-active':'active');
+    if (c.dataset.mfilter === f) c.classList.add(f==='shadow' ? 'shadow-chip-active' : 'active');
   });
   applyMapFilters();
 }
-function applyMapFilters(){
-  const bounds=map?map.getBounds():null;
-  mapFiltered=allVenues.map(v=>({...v,distance:haversine(userLat,userLon,v.lat,v.lon)}))
-    .filter(v=>bounds?bounds.contains([v.lat,v.lon]):true)
-    .filter(v=>mapFilter==='all'?true:mapFilter==='sunny'?v.sunny:mapFilter==='shadow'?!v.sunny:v.type===mapFilter);
-  if(currentTab==='map')renderMap();
+function applyMapFilters() {
+  const bounds = map ? map.getBounds() : null;
+  mapFiltered = allVenues
+    .map(v => ({ ...v, distance: haversine(userLat,userLon,v.lat,v.lon) }))
+    .filter(v => bounds ? bounds.contains([v.lat,v.lon]) : true)
+    .filter(v => mapFilter==='all' ? true : mapFilter==='sunny' ? v.sunny : mapFilter==='shadow' ? !v.sunny : v.type===mapFilter);
+  if (currentTab === 'map') renderMap();
 }
 
-function setPlanFilter(f){
-  planFilter=f;
-  document.querySelectorAll('#plan-filter-row .filter-chip').forEach(c=>{
+// ── PLAN filters ──────────────────────────────────────────────────────────────
+function setPlanFilter(f) {
+  planFilter = f;
+  document.querySelectorAll('#plan-filter-row .filter-chip').forEach(c => {
     c.classList.remove('active','shadow-chip-active');
-    if(c.dataset.pfilter===f)c.classList.add(f==='shadow'?'shadow-chip-active':'active');
+    if (c.dataset.pfilter === f) c.classList.add(f==='shadow' ? 'shadow-chip-active' : 'active');
   });
   renderPlanMap();
 }
 
-function renderList(){
-  const c=document.getElementById('list-content');
-  if(!allVenues.length)return;
-  const sc=listFiltered.filter(v=>v.sunny).length,sh=listFiltered.filter(v=>!v.sunny).length;
-  let html=`<div class="summary-bar"><div class="summary-chip sunny-chip"><span class="summary-count">${sc}</span><span class="summary-label">☀️ Sunny now</span></div><div class="summary-chip shadow-chip"><span class="summary-count">${sh}</span><span class="summary-label">🌑 In shadow</span></div></div>`;
-  if(!listFiltered.length){
-    html+=`<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No venues found</div><div class="empty-sub">Try increasing the distance or changing the filter.</div></div>`;
-  }else{
-    listFiltered.forEach(v=>{
-      const d=v.distance<1?`${(v.distance*1000).toFixed(0)}m`:`${v.distance.toFixed(2)}km`;
-      const m=`https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
-      html+=`<a class="venue-card" href="${m}" target="_blank" rel="noopener">
+// ── List rendering ─────────────────────────────────────────────────────────────
+function renderList() {
+  const c = document.getElementById('list-content');
+  if (!allVenues.length) return;
+  const sc = listFiltered.filter(v=>v.sunny).length, sh = listFiltered.filter(v=>!v.sunny).length;
+  let html = `<div class="summary-bar">
+    <div class="summary-chip sunny-chip"><span class="summary-count">${sc}</span><span class="summary-label">☀️ Sunny now</span></div>
+    <div class="summary-chip shadow-chip"><span class="summary-count">${sh}</span><span class="summary-label">🌑 In shadow</span></div>
+  </div>`;
+  if (!listFiltered.length) {
+    html += `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No venues found</div><div class="empty-sub">Try increasing the distance or changing the filter.</div></div>`;
+  } else {
+    listFiltered.forEach(v => {
+      const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m` : `${v.distance.toFixed(2)}km`;
+      const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+      html += `<a class="venue-card" href="${m}" target="_blank" rel="noopener">
         <div class="venue-status-icon ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️':'🌑'}</div>
         <div class="venue-info">
           <div class="venue-name">${escHtml(v.name)}</div>
           <div class="venue-meta"><span class="venue-type-badge">${escHtml(v.type||'venue')}</span>${v.terrace?`<span class="venue-terrace">· ${escHtml(v.terrace)}</span>`:''}</div>
           ${v.address?`<div class="venue-address">📍 ${escHtml(v.address)}</div>`:''}
         </div>
-        <div class="venue-right"><span class="venue-distance">${d}</span><span class="venue-sun-badge ${v.sunny?'sunny':'shadow'}">${v.sunny?'Sunny':'Shadow'}</span><span class="maps-link">Maps ↗</span></div>
+        <div class="venue-right">
+          <span class="venue-distance">${d}</span>
+          <span class="venue-sun-badge ${v.sunny?'sunny':'shadow'}">${v.sunny?'Sunny':'Shadow'}</span>
+          <span class="maps-link">Maps ↗</span>
+        </div>
       </a>`;
     });
   }
-  c.innerHTML=html;
+  c.innerHTML = html;
 }
 
-function initMap(){
-  if(map)return;
-  map=L.map('map',{zoomControl:true}).setView([userLat,userLon],15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(map);
-  map.on('moveend zoomend',()=>{applyMapFilters();checkDrift();});
+// ── Real-time map ─────────────────────────────────────────────────────────────
+function initMap() {
+  if (map) return;
+  map = L.map('map', { zoomControl: true }).setView([userLat, userLon], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap contributors', maxZoom:19 }).addTo(map);
+  map.on('moveend zoomend', () => { applyMapFilters(); checkDrift(); });
 }
-function updateUserMarker(){
-  if(!map)return;
-  if(userMarker)map.removeLayer(userMarker);
-  userMarker=L.marker([userLat,userLon],{icon:L.divIcon({className:'',html:'<div class="marker-user"></div>',iconSize:[16,16],iconAnchor:[8,8]}),zIndexOffset:1000}).addTo(map);
+function updateUserMarker() {
+  if (!map) return;
+  if (userMarker) map.removeLayer(userMarker);
+  userMarker = L.marker([userLat,userLon], { icon: L.divIcon({ className:'', html:'<div class="marker-user"></div>', iconSize:[16,16], iconAnchor:[8,8] }), zIndexOffset:1000 }).addTo(map);
 }
-function renderMap(){
-  if(!map)return;
-  venueMarkers.forEach(m=>map.removeLayer(m));venueMarkers=[];
+function renderMap() {
+  if (!map) return;
+  venueMarkers.forEach(m => map.removeLayer(m)); venueMarkers = [];
   updateUserMarker();
-  mapFiltered.forEach(v=>{
-    const icon=L.divIcon({className:'',html:`<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,iconSize:[28,28],iconAnchor:[14,14]});
-    const d=v.distance<1?`${(v.distance*1000).toFixed(0)}m away`:`${v.distance.toFixed(2)}km away`;
-    const m=`https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
-    venueMarkers.push(L.marker([v.lat,v.lon],{icon}).addTo(map).bindPopup(`<div class="popup-name">${escHtml(v.name)}</div><div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div><span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny now':'🌑 In shadow'}</span><a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>`));
+  mapFiltered.forEach(v => {
+    const icon = L.divIcon({ className:'', html:`<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`, iconSize:[28,28], iconAnchor:[14,14] });
+    const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m away` : `${v.distance.toFixed(2)}km away`;
+    const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+    venueMarkers.push(L.marker([v.lat,v.lon],{icon}).addTo(map).bindPopup(`
+      <div class="popup-name">${escHtml(v.name)}</div>
+      <div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div>
+      <span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny now':'🌑 In shadow'}</span>
+      <a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>
+    `));
   });
 }
-function flyToUser(){if(!map)return;map.flyTo([userLat,userLon],16,{animate:true,duration:0.8});document.getElementById('locate-btn').classList.remove('drifted');isDrifted=false;}
-function checkDrift(){
-  if(!map||!userLocated)return;
-  const centre=map.getCenter(),dist=haversine(userLat,userLon,centre.lat,centre.lng);
-  const btn=document.getElementById('locate-btn');
-  if(dist>0.3&&!isDrifted){isDrifted=true;btn.classList.add('drifted');}
-  else if(dist<=0.3&&isDrifted){isDrifted=false;btn.classList.remove('drifted');}
+function flyToUser() {
+  if (!map) return;
+  map.flyTo([userLat,userLon], 16, { animate:true, duration:0.8 });
+  document.getElementById('locate-btn').classList.remove('drifted');
+  isDrifted = false;
+}
+function checkDrift() {
+  if (!map || !userLocated) return;
+  const centre = map.getCenter(), dist = haversine(userLat,userLon,centre.lat,centre.lng);
+  const btn = document.getElementById('locate-btn');
+  if (dist > 0.3 && !isDrifted)      { isDrifted = true;  btn.classList.add('drifted'); }
+  else if (dist <= 0.3 && isDrifted) { isDrifted = false; btn.classList.remove('drifted'); }
 }
 
-function initPlanMap(){
-  if(planMap)return;
-  planMap=L.map('plan-map',{zoomControl:true}).setView([userLat,userLon],15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(planMap);
+// ── Plan map ──────────────────────────────────────────────────────────────────
+function initPlanMap() {
+  if (planMap) return;
+  planMap = L.map('plan-map', { zoomControl: true }).setView([userLat, userLon], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap contributors', maxZoom:19 }).addTo(planMap);
+  planMap.on('moveend zoomend', checkPlanDrift);
 }
-function updatePlanUserMarker(){
-  if(!planMap)return;
-  if(planUserMarker)planMap.removeLayer(planUserMarker);
-  planUserMarker=L.marker([userLat,userLon],{icon:L.divIcon({className:'',html:'<div class="marker-user"></div>',iconSize:[16,16],iconAnchor:[8,8]}),zIndexOffset:1000}).addTo(planMap);
+function updatePlanUserMarker() {
+  if (!planMap) return;
+  if (planUserMarker) planMap.removeLayer(planUserMarker);
+  planUserMarker = L.marker([userLat,userLon], { icon: L.divIcon({ className:'', html:'<div class="marker-user"></div>', iconSize:[16,16], iconAnchor:[8,8] }), zIndexOffset:1000 }).addTo(planMap);
 }
-function renderPlanMap(){
-  if(!planMap||planAllVenues.length===0)return;
-  const filtered=planAllVenues.filter(v=>planFilter==='all'?true:planFilter==='sunny'?v.sunny:planFilter==='shadow'?!v.sunny:v.type===planFilter);
-  planMarkers.forEach(m=>planMap.removeLayer(m));planMarkers=[];
+function renderPlanMap() {
+  if (!planMap || planAllVenues.length === 0) return;
+  const filtered = planAllVenues.filter(v =>
+    planFilter==='all' ? true : planFilter==='sunny' ? v.sunny : planFilter==='shadow' ? !v.sunny : v.type===planFilter
+  );
+  planMarkers.forEach(m => planMap.removeLayer(m)); planMarkers = [];
   updatePlanUserMarker();
-  const sc=planAllVenues.filter(v=>v.sunny).length,sh=planAllVenues.filter(v=>!v.sunny).length;
-  document.getElementById('plan-summary').innerHTML=`<span class="plan-sunny-count">☀️ ${sc}</span><span class="plan-shadow-count">🌑 ${sh}</span>`;
-  filtered.forEach(v=>{
-    const icon=L.divIcon({className:'',html:`<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,iconSize:[28,28],iconAnchor:[14,14]});
-    const d=v.distance<1?`${(v.distance*1000).toFixed(0)}m away`:`${v.distance.toFixed(2)}km away`;
-    const m=`https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
-    planMarkers.push(L.marker([v.lat,v.lon],{icon}).addTo(planMap).bindPopup(`<div class="popup-name">${escHtml(v.name)}</div><div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div><span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny':'🌑 Shadow'}</span><a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>`));
+  const sc = planAllVenues.filter(v=>v.sunny).length, sh = planAllVenues.filter(v=>!v.sunny).length;
+  document.getElementById('plan-summary').innerHTML =
+    `<span class="plan-sunny-count">☀️ ${sc}</span>&nbsp;&nbsp;<span class="plan-shadow-count">🌑 ${sh}</span>`;
+  filtered.forEach(v => {
+    const icon = L.divIcon({ className:'', html:`<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`, iconSize:[28,28], iconAnchor:[14,14] });
+    const d = v.distance<1 ? `${(v.distance*1000).toFixed(0)}m away` : `${v.distance.toFixed(2)}km away`;
+    const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+    planMarkers.push(L.marker([v.lat,v.lon],{icon}).addTo(planMap).bindPopup(`
+      <div class="popup-name">${escHtml(v.name)}</div>
+      <div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div>
+      <span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny':'🌑 Shadow'}</span>
+      <a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>
+    `));
   });
 }
-
-function switchTab(tab){
-  currentTab=tab;
-  ['list','map','plan','add'].forEach(t=>{
-    document.getElementById(`tab-${t}`).classList.toggle('active',t===tab);
-    document.getElementById(`${t}-view`).classList.toggle('active',t===tab);
-  });
-  document.getElementById('list-filter-section').style.display=tab==='list'?'':'none';
-  if(tab==='map'){setTimeout(()=>{if(!map)initMap();map.invalidateSize();updateUserMarker();applyMapFilters();if(userLocated)map.setView([userLat,userLon],16);},50);}
-  if(tab==='plan'){setTimeout(()=>{if(!planMap)initPlanMap();planMap.invalidateSize();updatePlanUserMarker();if(userLocated)planMap.setView([userLat,userLon],15);if(planSelectedDate&&planSelectedHour!==null)renderPlanMap();},50);}
+function flyToPlanUser() {
+  if (!planMap) return;
+  planMap.flyTo([userLat,userLon], 15, { animate:true, duration:0.8 });
+  document.getElementById('plan-locate-btn').classList.remove('drifted');
+  isPlanDrifted = false;
+}
+function checkPlanDrift() {
+  if (!planMap || !userLocated) return;
+  const centre = planMap.getCenter(), dist = haversine(userLat,userLon,centre.lat,centre.lng);
+  const btn = document.getElementById('plan-locate-btn');
+  if (dist > 0.3 && !isPlanDrifted)      { isPlanDrifted = true;  btn.classList.add('drifted'); }
+  else if (dist <= 0.3 && isPlanDrifted) { isPlanDrifted = false; btn.classList.remove('drifted'); }
 }
 
-function buildDatePicker(){
-  const container=document.getElementById('date-scroll');container.innerHTML='';
-  const today=new Date();
-  const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  for(let i=0;i<7;i++){
-    const d=new Date(today);d.setDate(today.getDate()+i);
-    const dateStr=d.toISOString().split('T')[0];
-    const chip=document.createElement('div');
-    chip.className='date-chip'+(i===0?' active':'');chip.dataset.date=dateStr;
-    chip.innerHTML=`<span class="date-chip-day">${i===0?'Today':dayNames[d.getDay()]}</span><span class="date-chip-num">${d.getDate()}</span><span class="date-chip-month">${monthNames[d.getMonth()]}</span>`;
-    chip.onclick=()=>selectDate(dateStr);container.appendChild(chip);
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  ['list','map','plan','add'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
+    document.getElementById(`${t}-view`).classList.toggle('active', t===tab);
+  });
+  document.getElementById('list-filter-section').style.display = tab==='list' ? '' : 'none';
+  if (tab === 'map') {
+    setTimeout(() => {
+      if (!map) initMap();
+      map.invalidateSize(); updateUserMarker(); applyMapFilters();
+      if (userLocated) map.setView([userLat,userLon], 16);
+    }, 50);
+  }
+  if (tab === 'plan') {
+    setTimeout(() => {
+      if (!planMap) initPlanMap();
+      planMap.invalidateSize(); updatePlanUserMarker();
+      if (userLocated) planMap.setView([userLat,userLon], 15);
+      if (planSelectedDate && planSelectedHour !== null) renderPlanMap();
+    }, 50);
+  }
+}
+
+// ── Date picker ───────────────────────────────────────────────────────────────
+function buildDatePicker() {
+  const container  = document.getElementById('date-scroll');
+  container.innerHTML = '';
+  const today      = new Date();
+  const dayNames   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today); d.setDate(today.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0];
+    const chip = document.createElement('div');
+    chip.className    = 'date-chip' + (i===0 ? ' active' : '');
+    chip.dataset.date = dateStr;
+    chip.innerHTML    = `<span class="date-chip-day">${i===0?'Now':dayNames[d.getDay()]}</span><span class="date-chip-num">${d.getDate()}</span>`;
+    chip.onclick = () => selectDate(dateStr);
+    container.appendChild(chip);
   }
   selectDate(today.toISOString().split('T')[0]);
 }
 
-function selectDate(dateStr){
-  planSelectedDate=dateStr;planSelectedHour=null;planAllVenues=[];
-  document.querySelectorAll('.date-chip').forEach(c=>c.classList.toggle('active',c.dataset.date===dateStr));
+function selectDate(dateStr) {
+  planSelectedDate = dateStr; planSelectedHour = null; planAllVenues = [];
+  document.querySelectorAll('.date-chip').forEach(c => c.classList.toggle('active', c.dataset.date===dateStr));
   buildTimePicker(dateStr);
 }
 
-function buildTimePicker(dateStr){
-  const container=document.getElementById('time-scroll');container.innerHTML='<div class="time-chip no-sun">Loading...</div>';
-  loadForecastDay(dateStr).then(rows=>{
-    if(!rows||rows.length===0){container.innerHTML='<div class="time-chip no-sun">No data</div>';return;}
-    const hours=[...new Set(rows.map(r=>r.hour))].sort();
-    container.innerHTML='';
-    hours.forEach((h,idx)=>{
-      const chip=document.createElement('div');chip.className='time-chip';chip.dataset.hour=h;
-      chip.textContent=h.split('T')[1]||h;chip.onclick=()=>selectHour(h);
-      container.appendChild(chip);if(idx===0)selectHour(h);
+function buildTimePicker(dateStr) {
+  const container = document.getElementById('time-scroll');
+  container.innerHTML = '<div class="time-chip no-sun">Loading...</div>';
+  loadForecastDay(dateStr).then(rows => {
+    if (!rows || rows.length === 0) { container.innerHTML = '<div class="time-chip no-sun">No data</div>'; return; }
+    const hours = [...new Set(rows.map(r => r.hour))].sort();
+    container.innerHTML = '';
+    hours.forEach((h, idx) => {
+      const chip = document.createElement('div');
+      chip.className = 'time-chip'; chip.dataset.hour = h;
+      chip.textContent = h.split('T')[1] || h;
+      chip.onclick = () => selectHour(h);
+      container.appendChild(chip);
+      if (idx === 0) selectHour(h);
     });
-  }).catch(()=>{container.innerHTML='<div class="time-chip no-sun">Error</div>';});
+  }).catch(() => { container.innerHTML = '<div class="time-chip no-sun">Error</div>'; });
 }
 
-function selectHour(hourStr){
-  planSelectedHour=hourStr;
-  document.querySelectorAll('.time-chip').forEach(c=>c.classList.toggle('active',c.dataset.hour===hourStr));
+function selectHour(hourStr) {
+  planSelectedHour = hourStr;
+  document.querySelectorAll('.time-chip').forEach(c => c.classList.toggle('active', c.dataset.hour===hourStr));
   loadPlanResults();
 }
 
-async function loadForecastDay(dateStr){
-  if(planCache[dateStr])return planCache[dateStr];
-  const url=`${FORECAST_BASE}forecast_${dateStr}.csv?t=${Date.now()}`;
-  return new Promise((resolve,reject)=>{
-    Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>{planCache[dateStr]=r.data;resolve(r.data);},error:reject});
+async function loadForecastDay(dateStr) {
+  if (planCache[dateStr]) return planCache[dateStr];
+  const url = `${FORECAST_BASE}forecast_${dateStr}.csv?t=${Date.now()}`;
+  return new Promise((resolve, reject) => {
+    Papa.parse(url, { download:true, header:true, skipEmptyLines:true, complete: r => { planCache[dateStr]=r.data; resolve(r.data); }, error: reject });
   });
 }
 
-async function loadPlanResults(){
-  if(!planSelectedDate||planSelectedHour===null)return;
+async function loadPlanResults() {
+  if (!planSelectedDate || planSelectedHour === null) return;
   document.getElementById('plan-loading').classList.remove('hidden');
-  planAllVenues=[];planMarkers.forEach(m=>planMap&&planMap.removeLayer(m));planMarkers=[];
-  document.getElementById('plan-summary').innerHTML='';
-  document.getElementById('plan-weather-info').textContent='—';
-  try{
-    const rows=await loadForecastDay(planSelectedDate);
-    if(!rows||rows.length===0){document.getElementById('plan-loading').classList.add('hidden');return;}
-    const hourRows=rows.filter(r=>r.hour===planSelectedHour);
-    if(hourRows.length===0){
+  planAllVenues = []; planMarkers.forEach(m => planMap && planMap.removeLayer(m)); planMarkers = [];
+  document.getElementById('plan-summary').innerHTML = '';
+  document.getElementById('plan-weather-info').textContent = '—';
+  try {
+    const rows = await loadForecastDay(planSelectedDate);
+    if (!rows || rows.length === 0) { document.getElementById('plan-loading').classList.add('hidden'); return; }
+    const hourRows = rows.filter(r => r.hour === planSelectedHour);
+    if (hourRows.length === 0) {
       document.getElementById('plan-loading').classList.add('hidden');
-      document.getElementById('plan-weather-info').textContent='🌙 No sun at this time';return;
+      document.getElementById('plan-weather-info').textContent = '🌙 No sun at this time'; return;
     }
-    planAllVenues=hourRows.filter(r=>r.latitude&&r.longitude).map(r=>({
-      id:r.venue_id||'',name:r.venue_name||'Unnamed venue',
-      type:(r.amenity_type||'').toLowerCase().trim(),
-      terrace:r.terrace_status||'',address:r.address||'',
-      lat:parseFloat(r.latitude),lon:parseFloat(r.longitude),
-      sunny:parseInt(r.is_sunny)===1,
-      cloud:parseFloat(r.cloud_cover)||0,
-      temperature:parseFloat(String(r.temperature_c||'').replace(',','.'))||null,
-      distance:haversine(userLat,userLon,parseFloat(r.latitude),parseFloat(r.longitude))
-    })).filter(v=>!isNaN(v.lat)&&!isNaN(v.lon));
-    const fr=hourRows[0],temp=parseFloat(String(fr.temperature_c||'').replace(',','.')),cloud=parseFloat(fr.cloud_cover||0);
-    const parts=[];if(!isNaN(temp))parts.push(`🌡️ ${temp.toFixed(1)}°C`);parts.push(`☁️ ${cloud.toFixed(0)}% cloud`);
-    document.getElementById('plan-weather-info').textContent=parts.join('  ');
+    planAllVenues = hourRows.filter(r => r.latitude && r.longitude).map(r => ({
+      id: r.venue_id||'', name: r.venue_name||'Unnamed venue',
+      type: (r.amenity_type||'').toLowerCase().trim(),
+      terrace: r.terrace_status||'', address: r.address||'',
+      lat: parseFloat(r.latitude), lon: parseFloat(r.longitude),
+      sunny: parseInt(r.is_sunny) === 1,
+      cloud: parseFloat(r.cloud_cover)||0,
+      temperature: parseFloat(String(r.temperature_c||'').replace(',','.'))||null,
+      distance: haversine(userLat,userLon,parseFloat(r.latitude),parseFloat(r.longitude))
+    })).filter(v => !isNaN(v.lat) && !isNaN(v.lon));
+
+    const fr = hourRows[0];
+    const temp = parseFloat(String(fr.temperature_c||'').replace(',','.'));
+    const cloud = parseFloat(fr.cloud_cover||0);
+    const parts = [];
+    if (!isNaN(temp)) parts.push(`🌡️ ${temp.toFixed(1)}°C`);
+    parts.push(`☁️ ${cloud.toFixed(0)}%`);
+    document.getElementById('plan-weather-info').textContent = parts.join('  ');
     renderPlanMap();
-  }catch(err){document.getElementById('plan-weather-info').textContent='⚠️ Could not load forecast';}
-  finally{document.getElementById('plan-loading').classList.add('hidden');}
+  } catch(err) {
+    document.getElementById('plan-weather-info').textContent = '⚠️ Could not load';
+  } finally {
+    document.getElementById('plan-loading').classList.add('hidden');
+  }
 }
 
-async function findAddress(){
-  const address=document.getElementById('f-address').value.trim();
-  if(!address){showToast('Please enter an address first','error');return;}
-  const btn=document.getElementById('find-btn');btn.disabled=true;btn.textContent='🔍 Searching...';
-  try{
-    const query=encodeURIComponent(address+', Barcelona');
-    const response=await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&countrycodes=es`,{headers:{'Accept-Language':'en','User-Agent':'SunSpotBCN/1.0'}});
-    const results=await response.json();
-    if(!results||results.length===0){showToast('Address not found. Try adding more details.','error');btn.disabled=false;btn.textContent='🔍 Find location';return;}
-    const result=results[0];geocodedLat=parseFloat(result.lat);geocodedLon=parseFloat(result.lon);geocodedAddress=result.display_name;
-    if(geocodedLat<41.0||geocodedLat>41.6||geocodedLon<1.8||geocodedLon>2.5){showToast('Location found but it seems outside Barcelona. Try again.','error');btn.disabled=false;btn.textContent='🔍 Find location';geocodedLat=null;geocodedLon=null;return;}
-    document.getElementById('geocode-found-address').textContent=geocodedAddress;
-    document.getElementById('geocode-confirm').classList.add('visible');btn.style.display='none';
-  }catch{showToast('Could not search address. Check your connection.','error');btn.disabled=false;btn.textContent='🔍 Find location';}
+// ── Add venue ─────────────────────────────────────────────────────────────────
+async function findAddress() {
+  const address = document.getElementById('f-address').value.trim();
+  if (!address) { showToast('Please enter an address first','error'); return; }
+  const btn = document.getElementById('find-btn');
+  btn.disabled = true; btn.textContent = '🔍 Searching...';
+  try {
+    const query = encodeURIComponent(address + ', Barcelona');
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&countrycodes=es`, { headers: { 'Accept-Language':'en', 'User-Agent':'SunSpotBCN/1.0' } });
+    const results = await response.json();
+    if (!results || results.length === 0) { showToast('Address not found. Try adding more details.','error'); btn.disabled=false; btn.textContent='🔍 Find location'; return; }
+    const result = results[0];
+    geocodedLat = parseFloat(result.lat); geocodedLon = parseFloat(result.lon); geocodedAddress = result.display_name;
+    if (geocodedLat < 41.0 || geocodedLat > 41.6 || geocodedLon < 1.8 || geocodedLon > 2.5) {
+      showToast('Location found but it seems outside Barcelona. Try again.','error');
+      btn.disabled=false; btn.textContent='🔍 Find location'; geocodedLat=null; geocodedLon=null; return;
+    }
+    document.getElementById('geocode-found-address').textContent = geocodedAddress;
+    document.getElementById('geocode-confirm').classList.add('visible');
+    btn.style.display = 'none';
+  } catch { showToast('Could not search address. Check your connection.','error'); btn.disabled=false; btn.textContent='🔍 Find location'; }
 }
-function confirmGeocode(){document.getElementById('geocode-confirm').classList.remove('visible');document.getElementById('submit-btn').classList.add('visible');document.getElementById('find-btn').style.display='none';showToast('✅ Location confirmed!','success');}
-function resetGeocode(){
-  geocodedLat=null;geocodedLon=null;geocodedAddress='';
-  document.getElementById('geocode-confirm').classList.remove('visible');document.getElementById('submit-btn').classList.remove('visible');
-  const btn=document.getElementById('find-btn');btn.style.display='block';btn.disabled=false;btn.textContent='🔍 Find location';
-  document.getElementById('form-status').className='form-status';
+function confirmGeocode() { document.getElementById('geocode-confirm').classList.remove('visible'); document.getElementById('submit-btn').classList.add('visible'); document.getElementById('find-btn').style.display='none'; showToast('✅ Location confirmed!','success'); }
+function resetGeocode() {
+  geocodedLat=null; geocodedLon=null; geocodedAddress='';
+  document.getElementById('geocode-confirm').classList.remove('visible');
+  document.getElementById('submit-btn').classList.remove('visible');
+  const btn = document.getElementById('find-btn'); btn.style.display='block'; btn.disabled=false; btn.textContent='🔍 Find location';
+  document.getElementById('form-status').className = 'form-status';
 }
-function autofillGPS(){
-  if(!navigator.geolocation){showToast('GPS not available','error');return;}
+function autofillGPS() {
+  if (!navigator.geolocation) { showToast('GPS not available','error'); return; }
   showToast('📍 Getting your location...','info');
-  navigator.geolocation.getCurrentPosition(pos=>{
-    geocodedLat=pos.coords.latitude;geocodedLon=pos.coords.longitude;
+  navigator.geolocation.getCurrentPosition(pos => {
+    geocodedLat=pos.coords.latitude; geocodedLon=pos.coords.longitude;
     geocodedAddress=`Your current location (${geocodedLat.toFixed(5)}, ${geocodedLon.toFixed(5)})`;
-    document.getElementById('geocode-found-address').textContent=geocodedAddress;
-    document.getElementById('geocode-confirm').classList.add('visible');document.getElementById('find-btn').style.display='none';
+    document.getElementById('geocode-found-address').textContent = geocodedAddress;
+    document.getElementById('geocode-confirm').classList.add('visible');
+    document.getElementById('find-btn').style.display = 'none';
     showToast('✅ Location detected!','success');
-  },()=>showToast('Could not get location. Try entering address manually.','error'),{enableHighAccuracy:true,timeout:10000});
+  }, () => showToast('Could not get location. Try entering address manually.','error'), { enableHighAccuracy:true, timeout:10000 });
 }
-async function submitVenue(){
-  const name=document.getElementById('f-name').value.trim(),type=document.getElementById('f-type').value,address=document.getElementById('f-address').value.trim();
-  if(!name){showToast('Please enter the venue name','error');return;}
-  if(!type){showToast('Please select the venue type','error');return;}
-  if(!geocodedLat||!geocodedLon){showToast('Please confirm the location first','error');return;}
-  const btn=document.getElementById('submit-btn'),st=document.getElementById('form-status');
-  btn.disabled=true;btn.textContent='⏳ Submitting...';st.className='form-status';st.style.display='block';st.textContent='⏳ Sending to database...';
-  try{
-    const res=await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({venue_name:name,amenity_type:type,address,latitude:String(geocodedLat),longitude:String(geocodedLon)})});
-    if(res.status===200){
-      st.className='form-status success';st.textContent='✅ Venue submitted! It will appear on the map within 30 minutes.';btn.textContent='✅ Submitted!';
+async function submitVenue() {
+  const name=document.getElementById('f-name').value.trim(), type=document.getElementById('f-type').value, address=document.getElementById('f-address').value.trim();
+  if (!name) { showToast('Please enter the venue name','error'); return; }
+  if (!type) { showToast('Please select the venue type','error'); return; }
+  if (!geocodedLat||!geocodedLon) { showToast('Please confirm the location first','error'); return; }
+  const btn=document.getElementById('submit-btn'), st=document.getElementById('form-status');
+  btn.disabled=true; btn.textContent='⏳ Submitting...'; st.className='form-status'; st.style.display='block'; st.textContent='⏳ Sending to database...';
+  try {
+    const res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ venue_name:name, amenity_type:type, address, latitude:String(geocodedLat), longitude:String(geocodedLon) }) });
+    if (res.status === 200) {
+      st.className='form-status success'; st.textContent='✅ Venue submitted! It will appear on the map within 30 minutes.'; btn.textContent='✅ Submitted!';
       showToast(`✅ ${name} added!`,'success');
-      document.getElementById('f-name').value='';document.getElementById('f-address').value='';document.getElementById('f-type').value='';resetGeocode();
-    }else{const errorText=await res.text();throw new Error(`Status ${res.status}: ${errorText}`);}
-  }catch(err){st.className='form-status error';st.textContent='❌ Submission failed. Error: '+err.message;btn.disabled=false;btn.textContent='Submit Venue ☀️';showToast('Submission failed: '+err.message,'error');}
+      document.getElementById('f-name').value=''; document.getElementById('f-address').value=''; document.getElementById('f-type').value=''; resetGeocode();
+    } else { const e=await res.text(); throw new Error(`Status ${res.status}: ${e}`); }
+  } catch(err) { st.className='form-status error'; st.textContent='❌ Submission failed. Error: '+err.message; btn.disabled=false; btn.textContent='Submit Venue ☀️'; showToast('Submission failed: '+err.message,'error'); }
 }
-function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),3000);}
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function showError(){
-  document.getElementById('loading-state').style.display='none';document.getElementById('list-content').style.display='block';
+
+// ── Toast + Helpers ───────────────────────────────────────────────────────────
+function showToast(msg, type='info') { const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; setTimeout(()=>t.classList.remove('show'),3000); }
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function showError() {
+  document.getElementById('loading-state').style.display='none'; document.getElementById('list-content').style.display='block';
   document.getElementById('list-content').innerHTML=`<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load data</div><div class="empty-sub">Check your internet connection and try refreshing.</div></div>`;
 }
 </script>
