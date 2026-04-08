@@ -249,7 +249,37 @@
 
 <!-- GPS Overlay -->
 <div class="gps-overlay" id="gps-overlay">
-  <div class="gps-overlay-icon">☀️</div>
+  <div class="gps-overlay-icon" style="padding:0;overflow:hidden;">
+  <svg width="80" height="80" viewBox="0 0 180 180">
+    <defs>
+      <linearGradient id="bgCov" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFF8E6"/>
+        <stop offset="100%" stop-color="#FAF6EE"/>
+      </linearGradient>
+      <clipPath id="roundCov"><rect x="0" y="0" width="180" height="180" rx="40"/></clipPath>
+    </defs>
+    <rect width="180" height="180" rx="40" fill="url(#bgCov)"/>
+    <g clip-path="url(#roundCov)">
+      <path d="M90,22 C64,22 43,43 43,69 C43,95 90,158 90,158 C90,158 137,95 137,69 C137,43 116,22 90,22 Z" fill="#E8A020"/>
+      <path d="M90,22 C64,22 43,43 43,69 C43,95 90,158 90,158 C90,158 137,95 137,69 C137,43 116,22 90,22 Z" fill="none" stroke="#C47B0A" stroke-width="3"/>
+      <circle cx="90" cy="68" r="26" fill="#3A6EA8"/>
+      <circle cx="90" cy="68" r="13" fill="#FFE082"/>
+      <g stroke="#FFE082" stroke-width="2.5" stroke-linecap="round">
+        <line x1="90"  y1="46" x2="90"  y2="40"/>
+        <line x1="104" y1="52" x2="108" y2="47"/>
+        <line x1="111" y1="67" x2="117" y2="67"/>
+        <line x1="104" y1="83" x2="108" y2="88"/>
+        <line x1="90"  y1="89" x2="90"  y2="95"/>
+        <line x1="76"  y1="83" x2="72"  y2="88"/>
+        <line x1="69"  y1="67" x2="63"  y2="67"/>
+        <line x1="76"  y1="52" x2="72"  y2="47"/>
+      </g>
+      <path d="M68,38 Q63,55 65,70 Q70,45 90,38 Q80,32 68,38Z" fill="white" opacity="0.12"/>
+      <ellipse cx="90" cy="158" rx="12" ry="4" fill="#C47B0A" opacity="0.25"/>
+    </g>
+    <rect width="180" height="180" rx="40" fill="none" stroke="#E8DEC8" stroke-width="1.5"/>
+  </svg>
+</div>
   <div class="gps-overlay-title">Find your sunny terrace</div>
   <div class="gps-overlay-sub">SunSpot BCN needs your location to show the nearest sunny terraces in Barcelona right now.</div>
   <button class="gps-btn" onclick="requestGPS()">📍 Use My Location</button>
