@@ -37,6 +37,8 @@
       --green-bg:    #E8F5E9;
       --red:         #C62828;
       --red-bg:      #FFEBEE;
+      --plan-purple: #7B5EA7;
+      --plan-light:  #F3EEFF;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body {
@@ -105,6 +107,7 @@
       cursor: pointer; border-bottom: 2.5px solid transparent; transition: all 0.2s;
     }
     .tab.active { color: var(--amber-deep); border-bottom-color: var(--amber); font-weight: 600; }
+    .tab.plan-tab.active { color: var(--plan-purple); border-bottom-color: var(--plan-purple); }
 
     /* ── Filter bar ── */
     .filter-bar {
@@ -119,15 +122,8 @@
       font-size: 12px; font-weight: 500; color: var(--text-mid);
       cursor: pointer; transition: all 0.18s; white-space: nowrap;
     }
-    .filter-chip.active {
-      background: var(--amber); border-color: var(--amber);
-      color: white; box-shadow: 0 2px 8px rgba(232,160,32,0.3);
-    }
-    /* Shadow filter chip gets blue styling when active */
-    .filter-chip.shadow-chip-active {
-      background: var(--shadow-blue); border-color: var(--shadow-blue);
-      color: white; box-shadow: 0 2px 8px rgba(58,110,168,0.3);
-    }
+    .filter-chip.active { background: var(--amber); border-color: var(--amber); color: white; box-shadow: 0 2px 8px rgba(232,160,32,0.3); }
+    .filter-chip.shadow-chip-active { background: var(--shadow-blue); border-color: var(--shadow-blue); color: white; box-shadow: 0 2px 8px rgba(58,110,168,0.3); }
 
     /* ── Distance slider ── */
     .distance-row {
@@ -143,14 +139,13 @@
       background: var(--amber); box-shadow: 0 2px 6px rgba(232,160,32,0.4); cursor: pointer;
     }
 
-    /* ── Map filter bar (floating over map) ── */
+    /* ── Map filter bar ── */
     .map-filter-bar {
-    position: absolute; top: 10px; left: 0; right: 0;
-    display: flex; gap: 7px; padding: 0 12px 0 52px;
-    overflow-x: auto; scrollbar-width: none;
-    z-index: 500; pointer-events: none; 
+      position: absolute; top: 10px; left: 0; right: 0;
+      display: flex; gap: 7px; padding: 0 12px;
+      overflow-x: auto; scrollbar-width: none;
+      z-index: 500; pointer-events: none;
     }
-        }
     .map-filter-bar::-webkit-scrollbar { display: none; }
     .map-filter-bar .filter-chip { pointer-events: all; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 
@@ -180,6 +175,10 @@
     #list-view { width: 100%; height: 100%; overflow-y: auto; display: none; padding: 12px 16px 80px; scrollbar-width: none; }
     #list-view::-webkit-scrollbar { display: none; }
     #list-view.active { display: block; }
+
+    #plan-view { width: 100%; height: 100%; overflow-y: auto; display: none; padding: 16px 16px 80px; scrollbar-width: none; }
+    #plan-view::-webkit-scrollbar { display: none; }
+    #plan-view.active { display: block; }
 
     #add-view { width: 100%; height: 100%; overflow-y: auto; display: none; padding: 16px 16px 80px; scrollbar-width: none; }
     #add-view::-webkit-scrollbar { display: none; }
@@ -220,6 +219,115 @@
     .shadow-chip .summary-count { color: var(--shadow-blue); }
     .summary-label { font-size: 10.5px; font-weight: 500; color: var(--text-mid); }
 
+    /* ── Plan tab styles ── */
+    .plan-header { margin-bottom: 16px; }
+    .plan-title {
+      font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900;
+      color: var(--text-dark); margin-bottom: 6px;
+    }
+    .plan-subtitle { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+
+    .plan-picker-card {
+      background: var(--card-bg); border-radius: var(--radius);
+      border: 1.5px solid var(--border); padding: 20px;
+      box-shadow: var(--shadow-sm); margin-bottom: 16px;
+    }
+
+    .plan-section-label {
+      font-size: 11px; font-weight: 700; color: var(--plan-purple);
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px;
+    }
+
+    /* Date picker — horizontal scroll of day chips */
+    .date-scroll {
+      display: flex; gap: 8px; overflow-x: auto;
+      scrollbar-width: none; padding-bottom: 2px; margin-bottom: 18px;
+    }
+    .date-scroll::-webkit-scrollbar { display: none; }
+    .date-chip {
+      flex-shrink: 0; display: flex; flex-direction: column;
+      align-items: center; padding: 10px 14px; border-radius: 14px;
+      border: 1.5px solid var(--border); background: var(--cream-dark);
+      cursor: pointer; transition: all 0.18s; min-width: 56px;
+    }
+    .date-chip.active {
+      background: var(--plan-purple); border-color: var(--plan-purple);
+      box-shadow: 0 2px 10px rgba(123,94,167,0.3);
+    }
+    .date-chip-day {
+      font-size: 10px; font-weight: 600; color: var(--text-light);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;
+    }
+    .date-chip-num {
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900;
+      color: var(--text-dark); line-height: 1;
+    }
+    .date-chip-month {
+      font-size: 10px; color: var(--text-light); margin-top: 2px;
+    }
+    .date-chip.active .date-chip-day,
+    .date-chip.active .date-chip-num,
+    .date-chip.active .date-chip-month { color: white; }
+
+    /* Time picker — horizontal scroll of hour chips */
+    .time-scroll {
+      display: flex; gap: 7px; overflow-x: auto;
+      scrollbar-width: none; padding-bottom: 2px;
+    }
+    .time-scroll::-webkit-scrollbar { display: none; }
+    .time-chip {
+      flex-shrink: 0; padding: 7px 12px; border-radius: 20px;
+      border: 1.5px solid var(--border); background: var(--cream-dark);
+      font-size: 12px; font-weight: 600; color: var(--text-mid);
+      cursor: pointer; transition: all 0.18s; white-space: nowrap;
+    }
+    .time-chip.active {
+      background: var(--plan-purple); border-color: var(--plan-purple);
+      color: white; box-shadow: 0 2px 8px rgba(123,94,167,0.3);
+    }
+    .time-chip.no-sun {
+      opacity: 0.4; cursor: default;
+    }
+
+    /* Plan results */
+    .plan-results-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .plan-results-title {
+      font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700;
+      color: var(--text-dark);
+    }
+    .plan-results-meta {
+      font-size: 11px; color: var(--text-light);
+    }
+
+    .plan-weather-bar {
+      background: var(--plan-light); border: 1.5px solid rgba(123,94,167,0.2);
+      border-radius: var(--radius-sm); padding: 10px 14px;
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 14px; font-size: 12px; color: var(--plan-purple); font-weight: 500;
+    }
+
+    .plan-loading {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 40px 20px; gap: 12px; text-align: center;
+    }
+    .plan-loading-spinner {
+      width: 36px; height: 36px; border: 3px solid var(--plan-light);
+      border-top-color: var(--plan-purple);
+      border-radius: 50%; animation: spin 0.9s linear infinite;
+    }
+    .plan-loading-text { font-size: 13px; color: var(--plan-purple); font-weight: 500; }
+
+    .plan-empty {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 40px 20px; gap: 10px; text-align: center;
+    }
+    .plan-empty-icon { font-size: 36px; }
+    .plan-empty-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--text-dark); }
+    .plan-empty-sub { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+
     /* ── Add venue form ── */
     .add-header { margin-bottom: 16px; }
     .add-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--text-dark); margin-bottom: 6px; }
@@ -244,32 +352,18 @@
       font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 10px;
     }
     .gps-autofill-btn:active { transform: scale(0.98); }
-    .geocode-confirm {
-      background: var(--sunny-bg); border: 1.5px solid var(--amber);
-      border-radius: var(--radius-sm); padding: 14px; margin-top: 10px; display: none;
-    }
+    .geocode-confirm { background: var(--sunny-bg); border: 1.5px solid var(--amber); border-radius: var(--radius-sm); padding: 14px; margin-top: 10px; display: none; }
     .geocode-confirm.visible { display: block; }
     .geocode-confirm-title { font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
     .geocode-confirm-address { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; line-height: 1.4; }
     .geocode-confirm-btns { display: flex; gap: 8px; }
     .geocode-yes { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: none; background: var(--amber); color: white; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
     .geocode-no  { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--cream); color: var(--text-mid); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .submit-btn {
-      width: 100%; padding: 15px; border-radius: var(--radius); border: none;
-      background: linear-gradient(135deg, var(--amber-light), var(--amber));
-      color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px;
-      display: none;
-    }
+    .submit-btn { width: 100%; padding: 15px; border-radius: var(--radius); border: none; background: linear-gradient(135deg, var(--amber-light), var(--amber)); color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px; display: none; }
     .submit-btn.visible { display: block; }
     .submit-btn:active { transform: scale(0.98); }
     .submit-btn:disabled { background: var(--border); color: var(--text-light); box-shadow: none; cursor: not-allowed; }
-    .find-btn {
-      width: 100%; padding: 15px; border-radius: var(--radius); border: none;
-      background: linear-gradient(135deg, var(--amber-light), var(--amber));
-      color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px;
-    }
+    .find-btn { width: 100%; padding: 15px; border-radius: var(--radius); border: none; background: linear-gradient(135deg, var(--amber-light), var(--amber)); color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 16px rgba(232,160,32,0.35); margin-top: 4px; }
     .find-btn:active { transform: scale(0.98); }
     .find-btn:disabled { background: var(--border); color: var(--text-light); box-shadow: none; cursor: not-allowed; }
     .form-status { padding: 12px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; margin-top: 12px; display: none; line-height: 1.4; }
@@ -278,12 +372,7 @@
     .info-box { background: var(--shadow-bg); border: 1.5px solid #C5D8F0; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: var(--shadow-blue); line-height: 1.5; margin-top: 12px; }
 
     /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; color: white;
-      z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-      white-space: nowrap; max-width: calc(100vw - 40px); text-align: center;
-    }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; color: white; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; white-space: nowrap; max-width: calc(100vw - 40px); text-align: center; }
     .toast.success { background: var(--green); }
     .toast.error   { background: var(--red); }
     .toast.info    { background: var(--shadow-blue); }
@@ -298,11 +387,7 @@
     .empty-sub { font-size: 13px; color: var(--text-light); line-height: 1.5; }
 
     /* ── GPS overlay ── */
-    .gps-overlay {
-      position: fixed; inset: 0; background: rgba(250,246,238,0.97);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 40px; text-align: center; z-index: 99999; gap: 16px; pointer-events: all;
-    }
+    .gps-overlay { position: fixed; inset: 0; background: rgba(250,246,238,0.97); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 99999; gap: 16px; pointer-events: all; }
     .gps-overlay.hidden { display: none; }
     .gps-overlay-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--amber-light), var(--amber)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 38px; box-shadow: 0 8px 32px rgba(232,160,32,0.35); margin-bottom: 8px; }
     .gps-overlay-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--text-dark); line-height: 1.2; }
@@ -366,6 +451,7 @@
 <div class="tab-bar">
   <div class="tab active" id="tab-list" onclick="switchTab('list')">📋 List</div>
   <div class="tab"        id="tab-map"  onclick="switchTab('map')">🗺️ Map</div>
+  <div class="tab plan-tab" id="tab-plan" onclick="switchTab('plan')">🔮 Plan</div>
   <div class="tab"        id="tab-add"  onclick="switchTab('add')">➕ Add</div>
 </div>
 
@@ -412,6 +498,26 @@
       <div class="filter-chip"        data-mfilter="restaurant" onclick="setMapFilter('restaurant')">🍽️ Restaurant</div>
     </div>
     <div class="locate-btn" id="locate-btn" onclick="flyToUser()" title="Back to my location">📍</div>
+  </div>
+
+  <!-- Plan view -->
+  <div id="plan-view">
+    <div class="plan-header">
+      <div class="plan-title">🔮 Plan Ahead</div>
+      <div class="plan-subtitle">Pick a day and time to see which terraces near you will be sunny — up to 7 days ahead.</div>
+    </div>
+
+    <div class="plan-picker-card">
+      <div class="plan-section-label">📅 Select a day</div>
+      <div class="date-scroll" id="date-scroll"></div>
+
+      <div class="plan-section-label">🕐 Select a time</div>
+      <div class="time-scroll" id="time-scroll">
+        <div class="time-chip no-sun">Loading...</div>
+      </div>
+    </div>
+
+    <div id="plan-results"></div>
   </div>
 
   <!-- Add venue view -->
@@ -472,6 +578,7 @@
 const GITHUB_USER = "AdrianaC4";
 const GITHUB_REPO = "sunspot-bcn";
 const DATA_URL    = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/venue_sun_results.csv`;
+const FORECAST_BASE = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let userLat         = 41.3851;
@@ -492,9 +599,16 @@ let geocodedLon     = null;
 let geocodedAddress = "";
 let isDrifted       = false;
 
+// Plan tab state
+let planSelectedDate = null;
+let planSelectedHour = null;
+let planDates        = [];
+let planCache        = {};  // cache loaded forecast CSVs by date string
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   setTimeout(() => { initMap(); }, 100);
+  buildDatePicker();
   if (navigator.permissions) {
     navigator.permissions.query({ name: 'geolocation' }).then(r => {
       if (r.state === 'granted') {
@@ -565,7 +679,6 @@ function loadData() {
   });
 }
 
-// ── Process data ──────────────────────────────────────────────────────────────
 function processData(rows) {
   allVenues = rows
     .filter(r => r.latitude && r.longitude && r.is_sunny_now !== '')
@@ -585,18 +698,12 @@ function processData(rows) {
     }))
     .filter(v => !isNaN(v.lat) && !isNaN(v.lon));
 
-  // Update status bar
   if (allVenues.length > 0) {
     const v     = allVenues[0];
     const parts = [];
-    if (v.temperature !== null && !isNaN(v.temperature)) {
-      parts.push(`🌡️ ${v.temperature.toFixed(1)}°C`);
-    }
-    if (!isNaN(v.cloud)) {
-      parts.push(`☁️ ${v.cloud.toFixed(0)}%`);
-    }
+    if (v.temperature !== null && !isNaN(v.temperature)) parts.push(`🌡️ ${v.temperature.toFixed(1)}°C`);
+    if (!isNaN(v.cloud)) parts.push(`☁️ ${v.cloud.toFixed(0)}%`);
     document.getElementById('sun-info').textContent = parts.length > 0 ? parts.join('  ') : '—';
-
     if (v.updated) {
       const d = new Date(v.updated);
       if (!isNaN(d.getTime())) {
@@ -635,12 +742,7 @@ function setListFilter(f) {
   document.querySelectorAll('#list-filter-section .filter-chip').forEach(c => {
     c.classList.remove('active', 'shadow-chip-active');
     if (c.dataset.filter === f) {
-      // Shadow filter gets blue active style, others get amber
-      if (f === 'shadow') {
-        c.classList.add('shadow-chip-active');
-      } else {
-        c.classList.add('active');
-      }
+      c.classList.add(f === 'shadow' ? 'shadow-chip-active' : 'active');
     }
   });
   applyListFilters();
@@ -654,9 +756,8 @@ function applyListFilters() {
       if (listFilter === 'all')    return true;
       if (listFilter === 'sunny')  return v.sunny;
       if (listFilter === 'shadow') return !v.sunny;
-      return v.type === listFilter; // bar, cafe, pub, restaurant
+      return v.type === listFilter;
     })
-    // ── Sort by distance only (no sunny-first grouping) ──
     .sort((a, b) => a.distance - b.distance);
   renderList();
 }
@@ -667,11 +768,7 @@ function setMapFilter(f) {
   document.querySelectorAll('#map-filter-bar .filter-chip').forEach(c => {
     c.classList.remove('active', 'shadow-chip-active');
     if (c.dataset.mfilter === f) {
-      if (f === 'shadow') {
-        c.classList.add('shadow-chip-active');
-      } else {
-        c.classList.add('active');
-      }
+      c.classList.add(f === 'shadow' ? 'shadow-chip-active' : 'active');
     }
   });
   applyMapFilters();
@@ -699,42 +796,29 @@ function renderList() {
   const sh = listFiltered.filter(v => !v.sunny).length;
   let html = `
     <div class="summary-bar">
-      <div class="summary-chip sunny-chip">
-        <span class="summary-count">${sc}</span>
-        <span class="summary-label">☀️ Sunny now</span>
-      </div>
-      <div class="summary-chip shadow-chip">
-        <span class="summary-count">${sh}</span>
-        <span class="summary-label">🌑 In shadow</span>
-      </div>
+      <div class="summary-chip sunny-chip"><span class="summary-count">${sc}</span><span class="summary-label">☀️ Sunny now</span></div>
+      <div class="summary-chip shadow-chip"><span class="summary-count">${sh}</span><span class="summary-label">🌑 In shadow</span></div>
     </div>`;
   if (!listFiltered.length) {
-    html += `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <div class="empty-title">No venues found</div>
-        <div class="empty-sub">Try increasing the distance or changing the filter.</div>
-      </div>`;
+    html += `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No venues found</div><div class="empty-sub">Try increasing the distance or changing the filter.</div></div>`;
   } else {
     listFiltered.forEach(v => {
-      const d = v.distance < 1
-        ? `${(v.distance * 1000).toFixed(0)}m`
-        : `${v.distance.toFixed(2)}km`;
+      const d = v.distance < 1 ? `${(v.distance*1000).toFixed(0)}m` : `${v.distance.toFixed(2)}km`;
       const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
       html += `
         <a class="venue-card" href="${m}" target="_blank" rel="noopener">
-          <div class="venue-status-icon ${v.sunny ? 'sunny' : 'shadow'}">${v.sunny ? '☀️' : '🌑'}</div>
+          <div class="venue-status-icon ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️':'🌑'}</div>
           <div class="venue-info">
             <div class="venue-name">${escHtml(v.name)}</div>
             <div class="venue-meta">
-              <span class="venue-type-badge">${escHtml(v.type || 'venue')}</span>
-              ${v.terrace ? `<span class="venue-terrace">· ${escHtml(v.terrace)}</span>` : ''}
+              <span class="venue-type-badge">${escHtml(v.type||'venue')}</span>
+              ${v.terrace?`<span class="venue-terrace">· ${escHtml(v.terrace)}</span>`:''}
             </div>
-            ${v.address ? `<div class="venue-address">📍 ${escHtml(v.address)}</div>` : ''}
+            ${v.address?`<div class="venue-address">📍 ${escHtml(v.address)}</div>`:''}
           </div>
           <div class="venue-right">
             <span class="venue-distance">${d}</span>
-            <span class="venue-sun-badge ${v.sunny ? 'sunny' : 'shadow'}">${v.sunny ? 'Sunny' : 'Shadow'}</span>
+            <span class="venue-sun-badge ${v.sunny?'sunny':'shadow'}">${v.sunny?'Sunny':'Shadow'}</span>
             <span class="maps-link">Maps ↗</span>
           </div>
         </a>`;
@@ -750,21 +834,14 @@ function initMap() {
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors', maxZoom: 19
   }).addTo(map);
-  map.on('moveend zoomend', () => {
-    applyMapFilters();
-    checkDrift();
-  });
+  map.on('moveend zoomend', () => { applyMapFilters(); checkDrift(); });
 }
 
 function updateUserMarker() {
   if (!map) return;
   if (userMarker) map.removeLayer(userMarker);
   userMarker = L.marker([userLat, userLon], {
-    icon: L.divIcon({
-      className: '',
-      html: '<div class="marker-user"></div>',
-      iconSize: [16, 16], iconAnchor: [8, 8]
-    }),
+    icon: L.divIcon({ className:'', html:'<div class="marker-user"></div>', iconSize:[16,16], iconAnchor:[8,8] }),
     zIndexOffset: 1000
   }).addTo(map);
 }
@@ -777,27 +854,22 @@ function renderMap() {
   mapFiltered.forEach(v => {
     const icon = L.divIcon({
       className: '',
-      html: `<div class="custom-marker ${v.sunny ? 'marker-sunny' : 'marker-shadow'}">${v.sunny ? '☀️' : '🌑'}</div>`,
-      iconSize: [28, 28], iconAnchor: [14, 14]
+      html: `<div class="custom-marker ${v.sunny?'marker-sunny':'marker-shadow'}">${v.sunny?'☀️':'🌑'}</div>`,
+      iconSize: [28,28], iconAnchor: [14,14]
     });
-    const d = v.distance < 1
-      ? `${(v.distance * 1000).toFixed(0)}m away`
-      : `${v.distance.toFixed(2)}km away`;
+    const d = v.distance<1?`${(v.distance*1000).toFixed(0)}m away`:`${v.distance.toFixed(2)}km away`;
     const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
     venueMarkers.push(
-      L.marker([v.lat, v.lon], { icon }).addTo(map).bindPopup(`
+      L.marker([v.lat,v.lon],{icon}).addTo(map).bindPopup(`
         <div class="popup-name">${escHtml(v.name)}</div>
-        <div class="popup-type">${escHtml(v.type || 'venue')} · ${d}</div>
-        <span class="popup-status ${v.sunny ? 'sunny' : 'shadow'}">
-          ${v.sunny ? '☀️ Sunny now' : '🌑 In shadow'}
-        </span>
+        <div class="popup-type">${escHtml(v.type||'venue')} · ${d}</div>
+        <span class="popup-status ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️ Sunny now':'🌑 In shadow'}</span>
         <a class="popup-maps" href="${m}" target="_blank">Open in Google Maps ↗</a>
       `)
     );
   });
 }
 
-// ── Back to location ──────────────────────────────────────────────────────────
 function flyToUser() {
   if (!map) return;
   map.flyTo([userLat, userLon], 16, { animate: true, duration: 0.8 });
@@ -810,23 +882,18 @@ function checkDrift() {
   const centre = map.getCenter();
   const dist   = haversine(userLat, userLon, centre.lat, centre.lng);
   const btn    = document.getElementById('locate-btn');
-  if (dist > 0.3 && !isDrifted) {
-    isDrifted = true;
-    btn.classList.add('drifted');
-  } else if (dist <= 0.3 && isDrifted) {
-    isDrifted = false;
-    btn.classList.remove('drifted');
-  }
+  if (dist > 0.3 && !isDrifted)       { isDrifted = true;  btn.classList.add('drifted'); }
+  else if (dist <= 0.3 && isDrifted)  { isDrifted = false; btn.classList.remove('drifted'); }
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
   currentTab = tab;
-  ['list', 'map', 'add'].forEach(t => {
-    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
-    document.getElementById(`${t}-view`).classList.toggle('active', t === tab);
+  ['list','map','plan','add'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
+    document.getElementById(`${t}-view`).classList.toggle('active', t===tab);
   });
-  document.getElementById('list-filter-section').style.display = tab === 'list' ? '' : 'none';
+  document.getElementById('list-filter-section').style.display = tab==='list' ? '' : 'none';
 
   if (tab === 'map') {
     setTimeout(() => {
@@ -834,10 +901,252 @@ function switchTab(tab) {
       map.invalidateSize();
       updateUserMarker();
       applyMapFilters();
-      if (userLocated) {
-        map.setView([userLat, userLon], 16);
-      }
+      if (userLocated) { map.setView([userLat, userLon], 16); }
     }, 50);
+  }
+
+  if (tab === 'plan') {
+    // Auto-load results if a date and hour are already selected
+    if (planSelectedDate && planSelectedHour !== null) {
+      loadPlanResults();
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// PLAN TAB
+// ════════════════════════════════════════════════════════════════════════════
+
+function buildDatePicker() {
+  const container = document.getElementById('date-scroll');
+  container.innerHTML = '';
+  planDates = [];
+
+  const today     = new Date();
+  const dayNames  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  for (let i = 0; i < 7; i++) {
+    const d       = new Date(today);
+    d.setDate(today.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0]; // "2026-04-08"
+    planDates.push(dateStr);
+
+    const chip = document.createElement('div');
+    chip.className  = 'date-chip' + (i === 0 ? ' active' : '');
+    chip.dataset.date = dateStr;
+    chip.innerHTML  = `
+      <span class="date-chip-day">${i === 0 ? 'Today' : dayNames[d.getDay()]}</span>
+      <span class="date-chip-num">${d.getDate()}</span>
+      <span class="date-chip-month">${monthNames[d.getMonth()]}</span>
+    `;
+    chip.onclick = () => selectDate(dateStr);
+    container.appendChild(chip);
+  }
+
+  // Auto-select today
+  selectDate(planDates[0]);
+}
+
+function selectDate(dateStr) {
+  planSelectedDate = dateStr;
+  planSelectedHour = null;
+
+  // Update date chip active state
+  document.querySelectorAll('.date-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.date === dateStr);
+  });
+
+  // Build time picker for this date
+  buildTimePicker(dateStr);
+}
+
+function buildTimePicker(dateStr) {
+  const container = document.getElementById('time-scroll');
+  container.innerHTML = '<div class="time-chip no-sun">Loading hours...</div>';
+
+  // Load the forecast CSV to find available daylight hours
+  loadForecastDay(dateStr).then(rows => {
+    if (!rows || rows.length === 0) {
+      container.innerHTML = '<div class="time-chip no-sun">No forecast available</div>';
+      return;
+    }
+
+    // Get unique hours from the data
+    const hours = [...new Set(rows.map(r => r.hour))].sort();
+    container.innerHTML = '';
+
+    hours.forEach((h, idx) => {
+      const timeLabel = h.split('T')[1] || h; // "14:00"
+      const chip = document.createElement('div');
+      chip.className    = 'time-chip';
+      chip.dataset.hour = h;
+      chip.textContent  = timeLabel;
+      chip.onclick      = () => selectHour(h);
+      container.appendChild(chip);
+
+      // Auto-select the first available hour
+      if (idx === 0 && planSelectedHour === null) {
+        selectHour(h);
+      }
+    });
+  }).catch(() => {
+    container.innerHTML = '<div class="time-chip no-sun">Could not load forecast</div>';
+  });
+}
+
+function selectHour(hourStr) {
+  planSelectedHour = hourStr;
+
+  document.querySelectorAll('.time-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.hour === hourStr);
+  });
+
+  loadPlanResults();
+}
+
+async function loadForecastDay(dateStr) {
+  // Return cached version if available
+  if (planCache[dateStr]) return planCache[dateStr];
+
+  const url = `${FORECAST_BASE}forecast_${dateStr}.csv?t=${Date.now()}`;
+
+  return new Promise((resolve, reject) => {
+    Papa.parse(url, {
+      download: true, header: true, skipEmptyLines: true,
+      complete: r => {
+        planCache[dateStr] = r.data;
+        resolve(r.data);
+      },
+      error: reject
+    });
+  });
+}
+
+async function loadPlanResults() {
+  if (!planSelectedDate || planSelectedHour === null) return;
+
+  const resultsEl = document.getElementById('plan-results');
+  resultsEl.innerHTML = `
+    <div class="plan-loading">
+      <div class="plan-loading-spinner"></div>
+      <div class="plan-loading-text">Loading forecast...</div>
+    </div>`;
+
+  try {
+    const rows = await loadForecastDay(planSelectedDate);
+    if (!rows || rows.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="plan-empty">
+          <div class="plan-empty-icon">📭</div>
+          <div class="plan-empty-title">No forecast available</div>
+          <div class="plan-empty-sub">Forecast data for this day hasn't been generated yet. Try again later.</div>
+        </div>`;
+      return;
+    }
+
+    // Filter to selected hour
+    const hourRows = rows.filter(r => r.hour === planSelectedHour);
+    if (hourRows.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="plan-empty">
+          <div class="plan-empty-icon">🌙</div>
+          <div class="plan-empty-title">No sun at this time</div>
+          <div class="plan-empty-sub">The sun is below the horizon at this hour. Try a different time.</div>
+        </div>`;
+      return;
+    }
+
+    // Enrich with distance from user
+    const venues = hourRows
+      .filter(r => r.latitude && r.longitude)
+      .map(r => ({
+        id:          r.venue_id || '',
+        name:        r.venue_name || 'Unnamed venue',
+        type:        (r.amenity_type || '').toLowerCase().trim(),
+        terrace:     r.terrace_status || '',
+        address:     r.address || '',
+        lat:         parseFloat(r.latitude),
+        lon:         parseFloat(r.longitude),
+        sunny:       parseInt(r.is_sunny) === 1,
+        elevation:   parseFloat(r.sun_elevation) || 0,
+        cloud:       parseFloat(r.cloud_cover) || 0,
+        temperature: parseFloat(String(r.temperature_c || '').replace(',', '.')) || null,
+        distance:    haversine(userLat, userLon, parseFloat(r.latitude), parseFloat(r.longitude))
+      }))
+      .filter(v => !isNaN(v.lat) && !isNaN(v.lon) && v.distance <= maxDistanceKm)
+      .sort((a, b) => a.distance - b.distance);
+
+    const sunnyCount  = venues.filter(v => v.sunny).length;
+    const shadowCount = venues.filter(v => !v.sunny).length;
+
+    // Get weather info from first row
+    const firstRow   = hourRows[0];
+    const temp       = parseFloat(String(firstRow.temperature_c || '').replace(',', '.'));
+    const cloud      = parseFloat(firstRow.cloud_cover || 0);
+    const timeLabel  = planSelectedHour.split('T')[1] || planSelectedHour;
+    const dateLabel  = new Date(planSelectedDate).toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+
+    let html = `
+      <div class="plan-results-header">
+        <div class="plan-results-title">${dateLabel}</div>
+        <div class="plan-results-meta">at ${timeLabel}</div>
+      </div>
+      <div class="plan-weather-bar">
+        ${!isNaN(temp) ? `🌡️ ${temp.toFixed(1)}°C` : ''}
+        &nbsp;&nbsp;☁️ ${cloud.toFixed(0)}% cloud
+      </div>
+      <div class="summary-bar">
+        <div class="summary-chip sunny-chip">
+          <span class="summary-count">${sunnyCount}</span>
+          <span class="summary-label">☀️ Sunny</span>
+        </div>
+        <div class="summary-chip shadow-chip">
+          <span class="summary-count">${shadowCount}</span>
+          <span class="summary-label">🌑 Shadow</span>
+        </div>
+      </div>`;
+
+    if (venues.length === 0) {
+      html += `
+        <div class="plan-empty">
+          <div class="plan-empty-icon">🔍</div>
+          <div class="plan-empty-title">No venues in range</div>
+          <div class="plan-empty-sub">Try increasing the distance slider on the List tab.</div>
+        </div>`;
+    } else {
+      venues.forEach(v => {
+        const d = v.distance < 1 ? `${(v.distance*1000).toFixed(0)}m` : `${v.distance.toFixed(2)}km`;
+        const m = `https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lon}`;
+        html += `
+          <a class="venue-card" href="${m}" target="_blank" rel="noopener">
+            <div class="venue-status-icon ${v.sunny?'sunny':'shadow'}">${v.sunny?'☀️':'🌑'}</div>
+            <div class="venue-info">
+              <div class="venue-name">${escHtml(v.name)}</div>
+              <div class="venue-meta">
+                <span class="venue-type-badge">${escHtml(v.type||'venue')}</span>
+                ${v.terrace?`<span class="venue-terrace">· ${escHtml(v.terrace)}</span>`:''}
+              </div>
+              ${v.address?`<div class="venue-address">📍 ${escHtml(v.address)}</div>`:''}
+            </div>
+            <div class="venue-right">
+              <span class="venue-distance">${d}</span>
+              <span class="venue-sun-badge ${v.sunny?'sunny':'shadow'}">${v.sunny?'Sunny':'Shadow'}</span>
+              <span class="maps-link">Maps ↗</span>
+            </div>
+          </a>`;
+      });
+    }
+
+    resultsEl.innerHTML = html;
+
+  } catch (err) {
+    resultsEl.innerHTML = `
+      <div class="plan-empty">
+        <div class="plan-empty-icon">⚠️</div>
+        <div class="plan-empty-title">Could not load forecast</div>
+        <div class="plan-empty-sub">Check your connection and try again.</div>
+      </div>`;
   }
 }
 
@@ -847,8 +1156,7 @@ async function findAddress() {
   if (!address) { showToast('Please enter an address first', 'error'); return; }
 
   const btn = document.getElementById('find-btn');
-  btn.disabled = true;
-  btn.textContent = '🔍 Searching...';
+  btn.disabled = true; btn.textContent = '🔍 Searching...';
 
   try {
     const query    = encodeURIComponent(address + ', Barcelona');
@@ -860,8 +1168,7 @@ async function findAddress() {
 
     if (!results || results.length === 0) {
       showToast('Address not found. Try adding more details.', 'error');
-      btn.disabled = false;
-      btn.textContent = '🔍 Find location';
+      btn.disabled = false; btn.textContent = '🔍 Find location';
       return;
     }
 
@@ -872,10 +1179,8 @@ async function findAddress() {
 
     if (geocodedLat < 41.0 || geocodedLat > 41.6 || geocodedLon < 1.8 || geocodedLon > 2.5) {
       showToast('Location found but it seems outside Barcelona. Try again.', 'error');
-      btn.disabled = false;
-      btn.textContent = '🔍 Find location';
-      geocodedLat = null;
-      geocodedLon = null;
+      btn.disabled = false; btn.textContent = '🔍 Find location';
+      geocodedLat = null; geocodedLon = null;
       return;
     }
 
@@ -885,8 +1190,7 @@ async function findAddress() {
 
   } catch {
     showToast('Could not search address. Check your connection.', 'error');
-    btn.disabled = false;
-    btn.textContent = '🔍 Find location';
+    btn.disabled = false; btn.textContent = '🔍 Find location';
   }
 }
 
@@ -898,15 +1202,11 @@ function confirmGeocode() {
 }
 
 function resetGeocode() {
-  geocodedLat = null;
-  geocodedLon = null;
-  geocodedAddress = '';
+  geocodedLat = null; geocodedLon = null; geocodedAddress = '';
   document.getElementById('geocode-confirm').classList.remove('visible');
   document.getElementById('submit-btn').classList.remove('visible');
   const btn = document.getElementById('find-btn');
-  btn.style.display = 'block';
-  btn.disabled = false;
-  btn.textContent = '🔍 Find location';
+  btn.style.display = 'block'; btn.disabled = false; btn.textContent = '🔍 Find location';
   document.getElementById('form-status').className = 'form-status';
 }
 
@@ -940,46 +1240,37 @@ async function submitVenue() {
 
   const btn = document.getElementById('submit-btn');
   const st  = document.getElementById('form-status');
-  btn.disabled     = true;
-  btn.textContent  = '⏳ Submitting...';
-  st.className     = 'form-status';
-  st.style.display = 'block';
-  st.textContent   = '⏳ Sending to database...';
+  btn.disabled = true; btn.textContent = '⏳ Submitting...';
+  st.className = 'form-status'; st.style.display = 'block';
+  st.textContent = '⏳ Sending to database...';
 
   try {
-    const res = await fetch(
-      'https://sunspot-add-venue.cavallaro-adri.workers.dev',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          venue_name:   name,
-          amenity_type: type,
-          address:      address,
-          latitude:     String(geocodedLat),
-          longitude:    String(geocodedLon)
-        })
-      }
-    );
+    const res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        venue_name: name, amenity_type: type, address,
+        latitude: String(geocodedLat), longitude: String(geocodedLon)
+      })
+    });
 
     if (res.status === 200) {
-      st.className    = 'form-status success';
-      st.textContent  = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
+      st.className = 'form-status success';
+      st.textContent = '✅ Venue submitted! It will appear on the map within 30 minutes after the next automatic update.';
       btn.textContent = '✅ Submitted!';
       showToast(`✅ ${name} added!`, 'success');
-      document.getElementById('f-name').value    = '';
+      document.getElementById('f-name').value = '';
       document.getElementById('f-address').value = '';
-      document.getElementById('f-type').value    = '';
+      document.getElementById('f-type').value = '';
       resetGeocode();
     } else {
       const errorText = await res.text();
       throw new Error(`Status ${res.status}: ${errorText}`);
     }
   } catch (err) {
-    st.className    = 'form-status error';
-    st.textContent  = '❌ Submission failed. Error: ' + err.message;
-    btn.disabled    = false;
-    btn.textContent = 'Submit Venue ☀️';
+    st.className = 'form-status error';
+    st.textContent = '❌ Submission failed. Error: ' + err.message;
+    btn.disabled = false; btn.textContent = 'Submit Venue ☀️';
     showToast('Submission failed: ' + err.message, 'error');
   }
 }
@@ -987,18 +1278,13 @@ async function submitVenue() {
 // ── Toast ─────────────────────────────────────────────────────────────────────
 function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = `toast ${type} show`;
+  t.textContent = msg; t.className = `toast ${type} show`;
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function escHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function showError() {
