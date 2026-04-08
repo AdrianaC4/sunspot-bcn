@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Adriana Cavallaro. All rights reserved.
+# SunSpot BCN — https://adrianac4.github.io/sunspot-bcn/
+
 import pandas as pd
 import geopandas as gpd
 from shapely import wkt
