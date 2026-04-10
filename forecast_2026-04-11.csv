@@ -569,6 +569,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T08:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,6.6,85.25,0,14.2
 2026-04-11T08:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,6.6,85.25,0,14.2
 2026-04-11T08:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,6.6,85.25,0,14.2
+2026-04-11T08:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,6.6,85.25,0,14.2
 2026-04-11T09:00,relation/18317100,,,,,41.42,2.1188352,1,17.84,95.21,32,15.7
 2026-04-11T09:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,17.84,95.21,32,15.7
 2026-04-11T09:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,17.84,95.21,32,15.7
@@ -1139,6 +1140,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T09:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,17.84,95.21,32,15.7
 2026-04-11T09:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,17.84,95.21,32,15.7
 2026-04-11T09:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,17.84,95.21,32,15.7
+2026-04-11T09:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,17.84,95.21,32,15.7
 2026-04-11T10:00,relation/18317100,,,,,41.42,2.1188352,1,28.89,106.06,70,18.8
 2026-04-11T10:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,28.89,106.06,70,18.8
 2026-04-11T10:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,28.89,106.06,70,18.8
@@ -1709,6 +1711,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T10:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,28.89,106.06,70,18.8
 2026-04-11T10:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,28.89,106.06,70,18.8
 2026-04-11T10:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,28.89,106.06,70,18.8
+2026-04-11T10:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,28.89,106.06,70,18.8
 2026-04-11T11:00,relation/18317100,,,,,41.42,2.1188352,1,39.28,118.92,98,21.5
 2026-04-11T11:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,39.28,118.92,98,21.5
 2026-04-11T11:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,39.28,118.92,98,21.5
@@ -2279,6 +2282,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T11:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,39.28,118.92,98,21.5
 2026-04-11T11:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,39.28,118.92,98,21.5
 2026-04-11T11:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,39.28,118.92,98,21.5
+2026-04-11T11:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,39.28,118.92,98,21.5
 2026-04-11T12:00,relation/18317100,,,,,41.42,2.1188352,1,48.26,135.4,100,23.4
 2026-04-11T12:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,48.26,135.4,100,23.4
 2026-04-11T12:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,48.26,135.4,100,23.4
@@ -2849,6 +2853,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T12:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,48.26,135.4,100,23.4
 2026-04-11T12:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,48.26,135.4,100,23.4
 2026-04-11T12:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,48.26,135.4,100,23.4
+2026-04-11T12:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,1,48.26,135.4,100,23.4
 2026-04-11T13:00,relation/18317100,,,,,41.42,2.1188352,1,54.55,157.12,100,23.8
 2026-04-11T13:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,54.55,157.12,100,23.8
 2026-04-11T13:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,54.55,157.12,100,23.8
@@ -3419,6 +3424,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T13:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,54.55,157.12,100,23.8
 2026-04-11T13:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,54.55,157.12,100,23.8
 2026-04-11T13:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,54.55,157.12,100,23.8
+2026-04-11T13:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,54.55,157.12,100,23.8
 2026-04-11T14:00,relation/18317100,,,,,41.42,2.1188352,1,56.49,183.31,100,23.5
 2026-04-11T14:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,56.49,183.31,100,23.5
 2026-04-11T14:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,56.49,183.31,100,23.5
@@ -3989,6 +3995,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T14:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,56.49,183.31,100,23.5
 2026-04-11T14:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,56.49,183.31,100,23.5
 2026-04-11T14:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,56.49,183.31,100,23.5
+2026-04-11T14:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,56.49,183.31,100,23.5
 2026-04-11T15:00,relation/18317100,,,,,41.42,2.1188352,0,53.35,208.74,100,23.1
 2026-04-11T15:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,53.35,208.74,100,23.1
 2026-04-11T15:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,53.35,208.74,100,23.1
@@ -4559,6 +4566,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T15:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,53.35,208.74,100,23.1
 2026-04-11T15:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,53.35,208.74,100,23.1
 2026-04-11T15:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,53.35,208.74,100,23.1
+2026-04-11T15:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,53.35,208.74,100,23.1
 2026-04-11T16:00,relation/18317100,,,,,41.42,2.1188352,0,46.25,229.08,89,22.4
 2026-04-11T16:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,46.25,229.08,89,22.4
 2026-04-11T16:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,46.25,229.08,89,22.4
@@ -5129,6 +5137,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T16:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,46.25,229.08,89,22.4
 2026-04-11T16:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,46.25,229.08,89,22.4
 2026-04-11T16:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,46.25,229.08,89,22.4
+2026-04-11T16:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,46.25,229.08,89,22.4
 2026-04-11T17:00,relation/18317100,,,,,41.42,2.1188352,0,36.82,244.5,93,21.4
 2026-04-11T17:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,36.82,244.5,93,21.4
 2026-04-11T17:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,36.82,244.5,93,21.4
@@ -5699,6 +5708,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T17:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,36.82,244.5,93,21.4
 2026-04-11T17:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,36.82,244.5,93,21.4
 2026-04-11T17:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,36.82,244.5,93,21.4
+2026-04-11T17:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,36.82,244.5,93,21.4
 2026-04-11T18:00,relation/18317100,,,,,41.42,2.1188352,0,26.21,256.75,100,20.4
 2026-04-11T18:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,26.21,256.75,100,20.4
 2026-04-11T18:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,26.21,256.75,100,20.4
@@ -6269,6 +6279,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T18:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,26.21,256.75,100,20.4
 2026-04-11T18:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,26.21,256.75,100,20.4
 2026-04-11T18:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,26.21,256.75,100,20.4
+2026-04-11T18:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,26.21,256.75,100,20.4
 2026-04-11T19:00,relation/18317100,,,,,41.42,2.1188352,0,15.08,267.28,99,19.5
 2026-04-11T19:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,15.08,267.28,99,19.5
 2026-04-11T19:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,15.08,267.28,99,19.5
@@ -6839,6 +6850,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T19:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,15.08,267.28,99,19.5
 2026-04-11T19:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,15.08,267.28,99,19.5
 2026-04-11T19:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,15.08,267.28,99,19.5
+2026-04-11T19:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,15.08,267.28,99,19.5
 2026-04-11T20:00,relation/18317100,,,,,41.42,2.1188352,0,3.85,277.16,100,18.5
 2026-04-11T20:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,3.85,277.16,100,18.5
 2026-04-11T20:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,3.85,277.16,100,18.5
@@ -7409,3 +7421,4 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-04-11T20:00,manual/afa465e8,Test Bar Terrace,bar,yes,"Carrer de Test, Barcelona",41.39,2.17,0,3.85,277.16,100,18.5
 2026-04-11T20:00,manual/a14db3d2,Test,bar,yes,Test,41.39,2.17,0,3.85,277.16,100,18.5
 2026-04-11T20:00,manual/3bc12750,Bar Viejo Cafe,bar,yes,Carrer independencia 306,41.4093808,2.1815687,0,3.85,277.16,100,18.5
+2026-04-11T20:00,manual/0e14e1cd,Papa Nico,restaurant,yes,"Carrer Provença 576, Barcelona",41.4095513,2.1816393,0,3.85,277.16,100,18.5
