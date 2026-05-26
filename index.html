@@ -920,7 +920,53 @@ async function loadPlanResults() {
 }
 
 // ── Add venue ─────────────────────────────────────────────────────────────────
-async function findAddress() {
+// ── Resolve Google Maps link via Cloudflare Worker ────────────────
+async function resolveMapsLink() {
+  const input = document.getElementById('f-maps-link').value.trim();
+  if (!input) { showToast('Please paste a Google Maps link first', 'error'); return; }
+
+  const btn = document.getElementById('maps-link-btn');
+  btn.disabled = true; btn.textContent = '⏳';
+
+  try {
+    const res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev/resolve-maps-link', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ maps_url: input })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      showToast(data.error || 'Could not resolve link', 'error');
+      btn.disabled = false; btn.textContent = '📍 Go';
+      return;
+    }
+
+    // Auto-fill coordinates
+    geocodedLat     = data.latitude;
+    geocodedLon     = data.longitude;
+    geocodedAddress = `From Google Maps link (${geocodedLat.toFixed(5)}, ${geocodedLon.toFixed(5)})`;
+
+    // Auto-fill venue name if extracted and field is empty
+    const nameField = document.getElementById('f-name');
+    if (data.venue_name && !nameField.value.trim()) {
+      nameField.value = data.venue_name;
+    }
+
+    // Show confirmation card
+    document.getElementById('geocode-found-address').textContent = geocodedAddress;
+    document.getElementById('geocode-confirm').classList.add('visible');
+    document.getElementById('find-btn').style.display = 'none';
+    showToast('✅ Location found!', 'success');
+
+  } catch (err) {
+    showToast('Could not resolve link. Check your connection.', 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = '📍 Go';
+  }
+}
+  async function findAddress() {
   const address = document.getElementById('f-address').value.trim();
   if (!address) { showToast('Please enter an address first','error'); return; }
   const btn = document.getElementById('find-btn');
