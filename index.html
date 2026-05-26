@@ -978,10 +978,6 @@ async function resolveMapsLink() {
     if (!results || results.length === 0) { showToast('Address not found. Try adding more details.','error'); btn.disabled=false; btn.textContent='🔍 Find location'; return; }
     const result = results[0];
     geocodedLat = parseFloat(result.lat); geocodedLon = parseFloat(result.lon); geocodedAddress = result.display_name;
-    if (geocodedLat < 41.0 || geocodedLat > 41.6 || geocodedLon < 1.8 || geocodedLon > 2.5) {
-      showToast('Location found but it seems outside Barcelona. Try again.','error');
-      btn.disabled=false; btn.textContent='🔍 Find location'; geocodedLat=null; geocodedLon=null; return;
-    }
     document.getElementById('geocode-found-address').textContent = geocodedAddress;
     document.getElementById('geocode-confirm').classList.add('visible');
     btn.style.display = 'none';
