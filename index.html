@@ -449,11 +449,40 @@
           <option value="restaurant">🍽️ Restaurant</option>
         </select>
       </div>
+     <!-- Google Maps link option -->
       <div class="form-group">
-        <label class="form-label" for="f-address">Address <span>*</span></label>
-        <input class="form-input" id="f-address" type="text" placeholder="e.g. Carrer de Verdi 32, Barcelona" autocomplete="off" oninput="resetGeocode()"/>
-        <div style="font-size:11px;color:var(--text-light);margin-top:5px;">💡 Include the street number and "Barcelona" for best results.</div>
+        <label class="form-label">Paste a Google Maps link</label>
+        <div style="display:flex;gap:8px;">
+          <input class="form-input" id="f-maps-link" type="url"
+            placeholder="https://maps.app.goo.gl/..."
+            autocomplete="off" style="flex:1;"/>
+          <button class="find-btn" onclick="resolveMapsLink()"
+            id="maps-link-btn"
+            style="margin-top:0;width:auto;padding:11px 16px;font-size:13px;">
+            📍 Go
+          </button>
+        </div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:5px;">
+          💡 Open the venue in Google Maps, tap Share → Copy link, then paste it here.
+        </div>
       </div>
+
+      <!-- Divider -->
+      <div style="display:flex;align-items:center;gap:10px;margin:4px 0;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:11px;color:var(--text-light);font-weight:600;">OR</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="f-address">Type the address manually</label>
+        <input class="form-input" id="f-address" type="text"
+          placeholder="e.g. Carrer de Verdi 32, Barcelona"
+          autocomplete="off" oninput="resetGeocode()"/>
+        <div style="font-size:11px;color:var(--text-light);margin-top:5px;">
+          💡 Include the street number and "Barcelona" for best results.
+        </div>
+  
       <div class="form-group">
         <label class="form-label">Or use your current location</label>
         <button class="gps-autofill-btn" onclick="autofillGPS()">📍 Use my current location</button>
