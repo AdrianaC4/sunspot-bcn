@@ -950,6 +950,11 @@ async function resolveMapsLink() {
       return;
     }
 
+if (!data.latitude || !data.longitude) {
+      showToast('Could not find coordinates for this link. Try the address field instead.', 'error');
+      btn.disabled = false; btn.textContent = '📍 Go';
+      return;
+    }
     geocodedLat     = data.latitude;
     geocodedLon     = data.longitude;
     geocodedAddress = `From Google Maps link (${geocodedLat.toFixed(5)}, ${geocodedLon.toFixed(5)})`;
