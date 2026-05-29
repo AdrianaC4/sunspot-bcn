@@ -569,6 +569,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T07:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,5.96,65.21,96,18.6
 2026-06-04T07:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,5.96,65.21,96,18.6
 2026-06-04T07:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,5.96,65.21,96,18.6
+2026-06-04T07:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,5.96,65.21,96,18.6
 2026-06-04T08:00,relation/18317100,,,,,41.42,2.1188352,1,16.51,74.39,98,19.3
 2026-06-04T08:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,16.51,74.39,98,19.3
 2026-06-04T08:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,16.51,74.39,98,19.3
@@ -1139,6 +1140,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T08:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,16.51,74.39,98,19.3
 2026-06-04T08:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,16.51,74.39,98,19.3
 2026-06-04T08:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,16.51,74.39,98,19.3
+2026-06-04T08:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,16.51,74.39,98,19.3
 2026-06-04T09:00,relation/18317100,,,,,41.42,2.1188352,1,27.54,83.46,97,20.8
 2026-06-04T09:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,27.54,83.46,97,20.8
 2026-06-04T09:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,27.54,83.46,97,20.8
@@ -1709,6 +1711,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T09:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,27.54,83.46,97,20.8
 2026-06-04T09:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,27.54,83.46,97,20.8
 2026-06-04T09:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,27.54,83.46,97,20.8
+2026-06-04T09:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,27.54,83.46,97,20.8
 2026-06-04T10:00,relation/18317100,,,,,41.42,2.1188352,1,38.78,93.2,97,22.7
 2026-06-04T10:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,38.78,93.2,97,22.7
 2026-06-04T10:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,38.78,93.2,97,22.7
@@ -2279,6 +2282,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T10:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,38.78,93.2,97,22.7
 2026-06-04T10:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,38.78,93.2,97,22.7
 2026-06-04T10:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,38.78,93.2,97,22.7
+2026-06-04T10:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,38.78,93.2,97,22.7
 2026-06-04T11:00,relation/18317100,,,,,41.42,2.1188352,1,49.88,104.87,96,24.1
 2026-06-04T11:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,49.88,104.87,96,24.1
 2026-06-04T11:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,49.88,104.87,96,24.1
@@ -2849,6 +2853,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T11:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,49.88,104.87,96,24.1
 2026-06-04T11:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,49.88,104.87,96,24.1
 2026-06-04T11:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,49.88,104.87,96,24.1
+2026-06-04T11:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,49.88,104.87,96,24.1
 2026-06-04T12:00,relation/18317100,,,,,41.42,2.1188352,1,60.25,121.14,92,24.6
 2026-06-04T12:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,60.25,121.14,92,24.6
 2026-06-04T12:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,60.25,121.14,92,24.6
@@ -3419,6 +3424,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T12:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,60.25,121.14,92,24.6
 2026-06-04T12:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,60.25,121.14,92,24.6
 2026-06-04T12:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,60.25,121.14,92,24.6
+2026-06-04T12:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,60.25,121.14,92,24.6
 2026-06-04T13:00,relation/18317100,,,,,41.42,2.1188352,1,68.38,147.53,88,24.6
 2026-06-04T13:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,68.38,147.53,88,24.6
 2026-06-04T13:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,68.38,147.53,88,24.6
@@ -3989,6 +3995,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T13:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,68.38,147.53,88,24.6
 2026-06-04T13:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,1,68.38,147.53,88,24.6
 2026-06-04T13:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,1,68.38,147.53,88,24.6
+2026-06-04T13:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,68.38,147.53,88,24.6
 2026-06-04T14:00,relation/18317100,,,,,41.42,2.1188352,1,70.91,187.49,84,24.5
 2026-06-04T14:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,70.91,187.49,84,24.5
 2026-06-04T14:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,70.91,187.49,84,24.5
@@ -4559,6 +4566,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T14:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,70.91,187.49,84,24.5
 2026-06-04T14:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,1,70.91,187.49,84,24.5
 2026-06-04T14:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,1,70.91,187.49,84,24.5
+2026-06-04T14:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,70.91,187.49,84,24.5
 2026-06-04T15:00,relation/18317100,,,,,41.42,2.1188352,1,65.94,223.41,89,24.6
 2026-06-04T15:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,65.94,223.41,89,24.6
 2026-06-04T15:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,65.94,223.41,89,24.6
@@ -5129,6 +5137,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T15:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,1,65.94,223.41,89,24.6
 2026-06-04T15:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,1,65.94,223.41,89,24.6
 2026-06-04T15:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,1,65.94,223.41,89,24.6
+2026-06-04T15:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,65.94,223.41,89,24.6
 2026-06-04T16:00,relation/18317100,,,,,41.42,2.1188352,0,56.74,245.39,94,24.5
 2026-06-04T16:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,56.74,245.39,94,24.5
 2026-06-04T16:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,56.74,245.39,94,24.5
@@ -5699,6 +5708,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T16:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,56.74,245.39,94,24.5
 2026-06-04T16:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,1,56.74,245.39,94,24.5
 2026-06-04T16:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,1,56.74,245.39,94,24.5
+2026-06-04T16:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,56.74,245.39,94,24.5
 2026-06-04T17:00,relation/18317100,,,,,41.42,2.1188352,0,46.01,259.59,99,24.4
 2026-06-04T17:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,46.01,259.59,99,24.4
 2026-06-04T17:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,46.01,259.59,99,24.4
@@ -6269,6 +6279,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T17:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,46.01,259.59,99,24.4
 2026-06-04T17:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,46.01,259.59,99,24.4
 2026-06-04T17:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,46.01,259.59,99,24.4
+2026-06-04T17:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,46.01,259.59,99,24.4
 2026-06-04T18:00,relation/18317100,,,,,41.42,2.1188352,0,34.81,270.38,95,24.3
 2026-06-04T18:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,1,34.81,270.38,95,24.3
 2026-06-04T18:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,34.81,270.38,95,24.3
@@ -6839,6 +6850,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T18:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,34.81,270.38,95,24.3
 2026-06-04T18:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,34.81,270.38,95,24.3
 2026-06-04T18:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,34.81,270.38,95,24.3
+2026-06-04T18:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,34.81,270.38,95,24.3
 2026-06-04T19:00,relation/18317100,,,,,41.42,2.1188352,0,23.61,279.77,91,24.0
 2026-06-04T19:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,23.61,279.77,91,24.0
 2026-06-04T19:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,23.61,279.77,91,24.0
@@ -7409,6 +7421,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T19:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,23.61,279.77,91,24.0
 2026-06-04T19:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,23.61,279.77,91,24.0
 2026-06-04T19:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,23.61,279.77,91,24.0
+2026-06-04T19:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,1,23.61,279.77,91,24.0
 2026-06-04T20:00,relation/18317100,,,,,41.42,2.1188352,0,12.72,288.8,87,23.7
 2026-06-04T20:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,12.72,288.8,87,23.7
 2026-06-04T20:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,12.72,288.8,87,23.7
@@ -7979,6 +7992,7 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T20:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,12.72,288.8,87,23.7
 2026-06-04T20:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,12.72,288.8,87,23.7
 2026-06-04T20:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,12.72,288.8,87,23.7
+2026-06-04T20:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,12.72,288.8,87,23.7
 2026-06-04T21:00,relation/18317100,,,,,41.42,2.1188352,0,2.4,298.15,67,23.1
 2026-06-04T21:00,node/208984374,Central Rambla,,,,41.3782716,2.1761732,0,2.4,298.15,67,23.1
 2026-06-04T21:00,way/217583616,Can Fisher,,,,41.3946034,2.2062292,1,2.4,298.15,67,23.1
@@ -8549,3 +8563,4 @@ hour,venue_id,venue_name,amenity_type,terrace_status,address,latitude,longitude,
 2026-06-04T21:00,manual/488492e9,Bar Viejo Cafe,Bar,yes,"Carrer de la Independència, 306, Sant Martí, 08026 Barcelona",41.4116,2.1794,0,2.4,298.15,67,23.1
 2026-06-04T21:00,manual/c52f6190,New 88 Bar-Cafeteria,bar,yes,,41.4094505,2.1789589,0,2.4,298.15,67,23.1
 2026-06-04T21:00,manual/5d2ea7ea,Restaurant Papá Nico,bar,yes,,41.4094505,2.1789589,0,2.4,298.15,67,23.1
+2026-06-04T21:00,manual/c980e39e,Restaurant El Clot,restaurant,yes,,41.4087697,2.1875592,0,2.4,298.15,67,23.1
