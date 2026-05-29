@@ -935,12 +935,13 @@ async function resolveMapsLink() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ maps_url: input })
     });
-  } catch(fetchErr) {
+} catch(fetchErr) {
     showToast('Fetch failed: ' + fetchErr.name + ' — ' + fetchErr.message, 'error');
     btn.disabled = false; btn.textContent = '📍 Go';
     return;
   }
 
+  try {
     const data = await res.json();
 
     if (!res.ok || data.error) {
@@ -949,23 +950,22 @@ async function resolveMapsLink() {
       return;
     }
 
-    // Auto-fill coordinates
     geocodedLat     = data.latitude;
     geocodedLon     = data.longitude;
     geocodedAddress = `From Google Maps link (${geocodedLat.toFixed(5)}, ${geocodedLon.toFixed(5)})`;
 
-    // Auto-fill venue name if extracted and field is empty
     const nameField = document.getElementById('f-name');
     if (data.venue_name && !nameField.value.trim()) {
       nameField.value = data.venue_name;
     }
 
-    // Show confirmation card
     document.getElementById('geocode-found-address').textContent = geocodedAddress;
     document.getElementById('geocode-confirm').classList.add('visible');
     document.getElementById('find-btn').style.display = 'none';
     showToast('✅ Location found!', 'success');
 
+  } catch (err) {
+    showToast('Parse failed: ' + err.name + ' — ' + err.message, 'error');
   } finally {
     btn.disabled = false; btn.textContent = '📍 Go';
   }
