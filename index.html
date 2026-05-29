@@ -656,7 +656,7 @@ function setMapFilter(f) {
   applyMapFilters();
 }
 function applyMapFilters() {
-  const bounds = map ? map.getBounds() : null;
+  const bounds = map ? map.getBounds().pad(0.2) : null;
   mapFiltered = allVenues
     .map(v => ({ ...v, distance: haversine(userLat,userLon,v.lat,v.lon) }))
     .filter(v => bounds ? bounds.contains([v.lat,v.lon]) : true)
