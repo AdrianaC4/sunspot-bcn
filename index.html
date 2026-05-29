@@ -928,23 +928,18 @@ async function resolveMapsLink() {
   const btn = document.getElementById('maps-link-btn');
   btn.disabled = true; btn.textContent = '⏳';
 
+  let res;
   try {
-let res;
-    try {
-      res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev/resolve-maps-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ maps_url: input })
-      });
-    } catch(fetchErr) {
-      showToast('Fetch failed: ' + fetchErr.name + ' — ' + fetchErr.message, 'error');
-      btn.disabled = false; btn.textContent = '📍 Go';
-      return;
-    }
+    res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev/resolve-maps-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ maps_url: input })
     });
+  } catch(fetchErr) {
+    showToast('Fetch failed: ' + fetchErr.name + ' — ' + fetchErr.message, 'error');
+    btn.disabled = false; btn.textContent = '📍 Go';
+    return;
+  }
 
     const data = await res.json();
 
@@ -971,8 +966,6 @@ let res;
     document.getElementById('find-btn').style.display = 'none';
     showToast('✅ Location found!', 'success');
 
-  } catch (err) {
-    showToast('Could not resolve link. Check your connection.', 'error');
   } finally {
     btn.disabled = false; btn.textContent = '📍 Go';
   }
