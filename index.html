@@ -929,7 +929,18 @@ async function resolveMapsLink() {
   btn.disabled = true; btn.textContent = '⏳';
 
   try {
-    const res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev/resolve-maps-link', {
+let res;
+    try {
+      res = await fetch('https://sunspot-add-venue.cavallaro-adri.workers.dev/resolve-maps-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ maps_url: input })
+      });
+    } catch(fetchErr) {
+      showToast('Fetch failed: ' + fetchErr.name + ' — ' + fetchErr.message, 'error');
+      btn.disabled = false; btn.textContent = '📍 Go';
+      return;
+    }
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ maps_url: input })
